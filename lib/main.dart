@@ -1,4 +1,4 @@
-import 'package:auto_infirmary_user/view/onboarding/onboardingOne.dart';
+import 'package:quickcare_user/view/onboarding/onboardingOne.dart';
 import 'package:flutter/material.dart';
 
 void main() {
