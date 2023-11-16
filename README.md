@@ -3,8 +3,6 @@
 ### Folder Structure
 > Architecture Followed : **MVC (Model-View-Controller)**
 
-### ⚠️ The folder structure should be as defined only. No commit will be accepted if it is not according to the standardized folder structure.
-
 ```bash
 ├── ...
 ├── models
