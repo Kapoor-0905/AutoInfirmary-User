@@ -1,4 +1,4 @@
-package com.example.auto_infirmary_user
+package com.open.uquickcare
 
 import io.flutter.embedding.android.FlutterActivity
 
