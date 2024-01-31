@@ -1,4 +1,6 @@
-import 'package:quickcare_user/view/onboarding/onboardingOne.dart';
+import 'package:quickcare_user/routeNames.dart';
+import 'package:quickcare_user/routes.dart';
+import 'package:quickcare_user/utils/colors.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -12,14 +14,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'QuickCare',
       theme: ThemeData(
-       
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+        scaffoldBackgroundColor: backgroundColor,
+        fontFamily: 'Nunito',
       ),
-      home:OnboardingOne(),
+      initialRoute: RouteNames.splash,
+      routes: routes,
     );
   }
 }
-

@@ -72,7 +72,16 @@ flutter:
         - asset: fonts/Koulen-Regular.ttf
     - family: Nunito
       fonts:
-        - asset: fonts/Nunito-VariableFont_wght.ttf
+        - asset: fonts/Nunito-Regular.ttf
+    - family: NunitoMedium
+      fonts:
+        - asset: fonts/Nunito-Medium.ttf
+    - family: NunitoBold
+      fonts:
+        - asset: fonts/Nunito-Bold.ttf
+    - family: NunitoBlack
+      fonts:
+        - asset: fonts/Nunito-Black.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic`
   #   - family: Trajan Pro
