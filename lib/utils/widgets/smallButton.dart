@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:quickcare_user/utils/styles.dart';
 
-class BigButton extends StatelessWidget {
+class SmallButton extends StatelessWidget {
   final String text;
+  final double? height;
   final VoidCallback onPressed;
-  const BigButton({super.key, required this.text, required this.onPressed});
+  const SmallButton(
+      {super.key, required this.text, required this.onPressed, this.height});
 
   @override
   Widget build(BuildContext context) {
@@ -13,11 +15,11 @@ class BigButton extends StatelessWidget {
       child: Container(
         color: Colors.white,
         child: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+          height: height,
+          margin: const EdgeInsets.symmetric(horizontal: 28, vertical: 10),
           alignment: Alignment.center,
-          padding: const EdgeInsets.symmetric(vertical: 20),
+          padding: const EdgeInsets.symmetric(vertical: 12),
           decoration: buttonDecoration,
-          height: 60,
           width: double.infinity,
           child: Text(
             text,

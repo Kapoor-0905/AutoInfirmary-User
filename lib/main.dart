@@ -14,12 +14,27 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      // darkTheme: ThemeData(
+      //   primaryColor: primaryColorDark,
+      //   appBarTheme: const AppBarTheme(
+      //     iconTheme: IconThemeData(color: accentColor),
+      //     backgroundColor: backgroundColorDark,
+      //   ),
+      // ),
+      // themeMode: ThemeMode.dark,
       title: 'QuickCare',
       theme: ThemeData(
+        primaryColor: primaryColor,
+        appBarTheme: const AppBarTheme(
+          iconTheme: IconThemeData(color: primaryColor),
+          backgroundColor: backgroundColor,
+        ),
+        useMaterial3: true,
         scaffoldBackgroundColor: backgroundColor,
         fontFamily: 'Nunito',
       ),
-      initialRoute: RouteNames.splash,
+      initialRoute: RouteNames.login,
       routes: routes,
     );
   }

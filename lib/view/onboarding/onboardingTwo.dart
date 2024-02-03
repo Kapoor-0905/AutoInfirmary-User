@@ -4,8 +4,8 @@ import 'package:quickcare_user/utils/colors.dart';
 import 'package:quickcare_user/utils/styles.dart';
 import 'package:quickcare_user/utils/widgets/bigButton.dart';
 
-class OnboardingOne extends StatelessWidget {
-  const OnboardingOne({super.key});
+class OnboardingTwo extends StatelessWidget {
+  const OnboardingTwo({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -28,13 +28,15 @@ class OnboardingOne extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const Text(
-              'Book appointments',
+              'First come first serve',
               style: heading,
             ),
             SizedBox(
-              height: size.height * 0.4,
-              child: Image.asset('assets/images/bookappointment.png'),
-            ),
+                height: size.height * 0.4,
+                child: Image.asset(
+                  'assets/images/livetraffic.png',
+                  scale: 1.7,
+                )),
             const SizedBox(height: 40),
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.0),
@@ -42,11 +44,11 @@ class OnboardingOne extends StatelessWidget {
                 textAlign: TextAlign.center,
                 TextSpan(
                     text:
-                        'Book your appointment with the doctor before 24 hours. Get yourself checked.',
+                        'Booked your slot !! Arrive early and get accessed first.',
                     style: normalText,
                     children: [
                       TextSpan(
-                        text: '\n\nCancel Anytime...!!',
+                        text: '\n\nSchedule your booking accordingly...!',
                         style: normalTextBold,
                       )
                     ]),
@@ -56,6 +58,11 @@ class OnboardingOne extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                CircleAvatar(
+                  radius: 8,
+                  backgroundColor: primaryColor.withOpacity(0.6),
+                ),
+                const SizedBox(width: 2),
                 const CircleAvatar(
                   radius: 8,
                   backgroundColor: primaryColor,
@@ -65,11 +72,6 @@ class OnboardingOne extends StatelessWidget {
                   radius: 8,
                   backgroundColor: primaryColor.withOpacity(0.6),
                 ),
-                const SizedBox(width: 2),
-                CircleAvatar(
-                  radius: 8,
-                  backgroundColor: primaryColor.withOpacity(0.4),
-                ),
               ],
             )
           ],
@@ -78,7 +80,7 @@ class OnboardingOne extends StatelessWidget {
       bottomSheet: BigButton(
           text: 'Next',
           onPressed: () {
-            Navigator.pushNamed(context, RouteNames.onboardingtwo);
+            Navigator.pushNamed(context, RouteNames.onboardingthree);
           }),
     );
   }

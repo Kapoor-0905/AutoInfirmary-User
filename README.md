@@ -1,6 +1,7 @@
 # QuickCare (User)
 
 ### Folder Structure
+
 > Architecture Followed : **MVC (Model-View-Controller)**
 
 ```bash
@@ -45,7 +46,7 @@
 ⎪   ⎪   └── ...
 ⎪   ├── onboarding
 ⎪   ⎪   ├── onboardingPage1.dart
-⎪   ⎪   ├── onboardingPage2.dart   
+⎪   ⎪   ├── onboardingPage2.dart
 ⎪   ⎪   ├── onboardingPage3.dart
 ⎪   ⎪   └── ...
 ⎪   ├── profile
@@ -73,7 +74,6 @@
 ⎪   ⎪   ├── widgets.dart
 ⎪   ⎪   └── ...
 ⎪   └── ...
-├── main.dart                                 
+├── main.dart
 └── ...
 ```
-
