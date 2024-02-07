@@ -1,5 +1,16 @@
-import { Severity, modelOptions, prop } from "@typegoose/typegoose";
+import { DocumentType, Severity, getModelForClass, modelOptions, pre, prop } from "@typegoose/typegoose";
 import { nanoid } from "nanoid";
+import bcrypt from "bcrypt";
+
+@pre<User>("save", async function () {
+    if (!this.isModified('password')) {
+        return;
+    }
+    const hash = await bcrypt.hash(this.password, 10);
+    this.password = hash;
+    return;
+})
+
 
 @modelOptions({
     schemaOptions: {
@@ -56,4 +67,17 @@ export class User {
     @prop({ required: true, _id: false, type: () => Address })
     address: Address;
     static findOrCreate: any;
+
+    async validatePassword(this: DocumentType<User>, candidatePassword: string) {
+        try {
+            return await bcrypt.compare(candidatePassword, this.password);
+        } catch (e) {
+            console.error(e, "Could not validate password.")
+            return false;
+        }
+    }
 }
+
+const UserModel = getModelForClass(User)
+
+export default UserModel;
