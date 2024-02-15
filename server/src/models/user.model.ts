@@ -1,6 +1,5 @@
-// import { Severity, modelOptions, prop } from "@typegoose/typegoose";
-// import mongoose from "mongoose";
-// import { nanoid } from "nanoid";
+import { Severity, modelOptions, prop } from "@typegoose/typegoose";
+import { nanoid } from "nanoid";
 
 import mongoose, { InferSchemaType, Schema } from "mongoose";
 
