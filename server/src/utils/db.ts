@@ -1,14 +1,11 @@
-import mongoose from "mongoose";
+import { PrismaClient } from "@prisma/client";
 
-const { MONGO_URI } = process.env;
+const prisma = new PrismaClient();
 
-export const connectWithRetry = () => {
-    mongoose.connect(MONGO_URI).then(() => {
-        console.log('MongoDB is connected')
-    }).catch(err => {
-        console.log('MongoDB connection unsuccessful, retry after 5 seconds.')
-        setTimeout(connectWithRetry, 5000)
-    })
+export const connect = async () => {
+    await prisma.$connect()
 }
 
+connect();
 
+export default prisma;
