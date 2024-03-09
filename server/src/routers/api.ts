@@ -8,4 +8,12 @@ export default (router: express.Router) => {
             message: "Healthcheck endpoint"
         });
     });
+
+    router.get('/', (req: Request, res: Response) => {
+        logger.info('Hello, from express');
+        res.send({
+            message: "Hello, from express"
+        });
+    });
 }
+
