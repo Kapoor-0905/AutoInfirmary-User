@@ -10,7 +10,7 @@ export default (router: express.Router) => {
     });
 
     router.get('/', (req: Request, res: Response) => {
-        logger.info('Hello, from express');
+        logger.info('route working!');
         res.send({
             message: "Hello, from express"
         });
