@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: backgroundColor,
         fontFamily: 'Nunito',
       ),
-      initialRoute: RouteNames.login,
+      initialRoute: RouteNames.splash,
       routes: routes,
     );
   }

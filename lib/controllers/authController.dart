@@ -28,7 +28,7 @@ class AuthController {
     }
   }
 
-  void login({required String email, required String password}) async {
+  Future login({required String email, required String password}) async {
     try {
       http.Response response = await http.post(
         Uri.parse('$uri/auth/login'),
@@ -42,7 +42,8 @@ class AuthController {
           'Content-Type': 'application/json; charset=UTF-8',
         },
       );
-      print(response.body);
+      return response.body;
+      // print(response.body);s
       // SF.saveSessionToken(response.body);
     } catch (e) {}
   }

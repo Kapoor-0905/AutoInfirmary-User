@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:quickcare_user/controllers/sharedPreferenceController.dart';
 import 'package:quickcare_user/utils/animations.dart';
 import 'package:quickcare_user/utils/styles.dart';
+import 'package:quickcare_user/view/home/home.dart';
+import 'package:quickcare_user/view/login/login.dart';
 import 'package:quickcare_user/view/onboarding/onboardingOne.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -14,9 +17,21 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 3), () {
-      // Navigator.pushReplacementNamed(context, RouteNames.onboardingone);
-      Navigator.of(context).pushReplacement(createRoute(const OnboardingOne()));
+    Future.delayed(const Duration(seconds: 3), () async {
+      String? token = await SF.getSessionToken();
+
+      switch (token?.isEmpty) {
+        case null:
+          Navigator.of(context)
+              .pushReplacement(createRoute(const OnboardingOne()));
+          break;
+        case true:
+          Navigator.of(context).pushReplacement(createRoute(const Login()));
+          break;
+        case false:
+          Navigator.of(context).pushReplacement(createRoute(const Home()));
+          break;
+      }
     });
   }
 

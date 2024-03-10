@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:quickcare_user/controllers/authController.dart';
+import 'package:quickcare_user/controllers/sharedPreferenceController.dart';
 import 'package:quickcare_user/routeNames.dart';
 import 'package:quickcare_user/utils/animations.dart';
 import 'package:quickcare_user/utils/colors.dart';
@@ -85,7 +88,16 @@ class _LoginState extends State<Login> {
                     SmallButton(
                         text: 'Login',
                         onPressed: () {
-                          auth.login(email: email, password: password);
+                          auth
+                              .login(email: email, password: password)
+                              .then((value) {
+                            // print(value.runtimeType);
+                            Map<String, dynamic> jsonData = jsonDecode(value);
+                            print(jsonData['auth']['sessionToken']);
+                            SF.saveSessionToken(
+                                jsonData['auth']['sessionToken']);
+                            Navigator.pushNamed(context, RouteNames.home);
+                          });
                           // Navigator.of(context)
                           //     .pushReplacement(createRoute(const Home()));
                         }),

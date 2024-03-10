@@ -100,13 +100,11 @@ class _DetailsState extends State<Details> {
                         text: 'Create Account',
                         onPressed: () async {
                           User user = User(
-                              userName:
-                                  '${firstName.toLowerCase()}_${lastName.toLowerCase()}',
                               password: widget.args['password']!,
                               firstName: firstName,
                               lastName: lastName,
                               email: widget.args['email']!,
-                              phoneNumber: phoneNumber,
+                              phoneNum: phoneNumber,
                               uniqueOrgCode: uniqueOrgCode,
                               address: address);
                           print(user.toMap());
