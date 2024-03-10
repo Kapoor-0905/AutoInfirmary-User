@@ -59,8 +59,8 @@ export const login = async (req: express.Request, res: express.Response) => {
 
 export const register = async (req: express.Request, res: express.Response) => {
     try {
-        const { email, password, firstName, lastName, username, street, city, state, zip, country } = req.body;
-        if (!email || !password || !firstName || !lastName || !username || !street || !city || !state || !zip || !country) {
+        const { email, password, firstName, lastName } = req.body;
+        if (!email || !password || !firstName || !lastName) {
             logger.info('Missing required fields');
             res.status(400).json({
                 message: "Missing required fields"
@@ -88,7 +88,6 @@ export const register = async (req: express.Request, res: express.Response) => {
                 email: email,
                 firstName: firstName,
                 lastName: lastName,
-                username: username,
                 auth: {
                     set: {
                         salt,
@@ -96,23 +95,26 @@ export const register = async (req: express.Request, res: express.Response) => {
                         sessionToken: random()
                     }
                 },
-                address: {
-                    set: {
-                        street: req.body.street,
-                        city: req.body.city,
-                        state: req.body.state,
-                        zip: req.body.zip,
-                        country: req.body.country
-                    }
-                },
+                address: req.body.address,
                 uniqueOrgCode: req.body.uniqueOrgCode
             }
         });
 
         if (user) {
             logger.info('user created');
-            res.status(200).send({
+            const token = await prisma.user.findFirst({
+                select: {
+                    id : true,
+                    auth: {
+                        select: {
+                            sessionToken: true
+                        }
+                    }
+                }    
+            })
+            res.status(200).send({ 
                 message: "user created seccessfully",
+                token
             }).end();
         } else {
             logger.info('user not created');

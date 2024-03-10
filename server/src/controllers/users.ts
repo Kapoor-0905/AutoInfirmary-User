@@ -8,7 +8,6 @@ export const getAllUsers = async (req: express.Request, res: express.Response) =
             select: {
                 id: true,
                 email: true,
-                username: true,
                 firstName: true,
                 lastName: true,
                 address: true
@@ -57,7 +56,7 @@ export const deleteUser = async (req: express.Request, res: express.Response) =>
 export const updateUser = async (req: express.Request, res: express.Response) => {
     try {
         const { id } = req.params;
-        const { email, password, firstName, lastName, username, street, city, state, zip, country } = req.body;
+        const { email, password, firstName, lastName, address } = req.body;
         const updatedUser = await prisma.user.update({
             where: {
                 id: id
@@ -71,16 +70,8 @@ export const updateUser = async (req: express.Request, res: express.Response) =>
                 },
                 firstName: firstName,
                 lastName: lastName,
-                username: username,
-                address: {
-                    update: {
-                        street: street,
-                        city: city,
-                        state: state,
-                        zip: zip,
-                        country: country
-                    }
-                }
+                address: address               
+            
             }
         });
 
