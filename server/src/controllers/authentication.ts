@@ -95,6 +95,7 @@ export const register = async (req: express.Request, res: express.Response) => {
                         sessionToken: random()
                     }
                 },
+                phoneNum: req.body.phoneNum,
                 address: req.body.address,
                 uniqueOrgCode: req.body.uniqueOrgCode
             }

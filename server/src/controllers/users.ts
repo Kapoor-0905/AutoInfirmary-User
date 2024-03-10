@@ -2,6 +2,29 @@ import express from 'express';
 import logger from '../utils/logger';
 import prisma from '../utils/db';
 
+export const getSingleUser = async (req: express.Request, res: express.Response) => {
+    try {
+        const { id } = req.params;
+        const user = await prisma.user.findFirst({
+            where: {
+                id: id
+            }
+        })
+        if (user) {
+            logger.info('User found!');
+            res.status(200).json(user).end();
+        } else {
+            logger.info('user not found');
+            res.send({
+                message: "user not found"
+            })
+        }
+    } catch (error) {
+        logger.info(error);
+        return res.sendStatus(400);
+    }
+}
+
 export const getAllUsers = async (req: express.Request, res: express.Response) => {
     try {
         const users = await prisma.user.findMany({
@@ -10,7 +33,8 @@ export const getAllUsers = async (req: express.Request, res: express.Response) =
                 email: true,
                 firstName: true,
                 lastName: true,
-                address: true
+                address: true,
+                uniqueOrgCode: true
             }
         });
 
@@ -56,7 +80,7 @@ export const deleteUser = async (req: express.Request, res: express.Response) =>
 export const updateUser = async (req: express.Request, res: express.Response) => {
     try {
         const { id } = req.params;
-        const { email, password, firstName, lastName, address } = req.body;
+        const { email, password, firstName, lastName, address, phoneNum } = req.body;
         const updatedUser = await prisma.user.update({
             where: {
                 id: id
@@ -70,8 +94,9 @@ export const updateUser = async (req: express.Request, res: express.Response) =>
                 },
                 firstName: firstName,
                 lastName: lastName,
-                address: address               
-            
+                address: address,
+                phoneNum: phoneNum,
+                uniqueOrgCode: req.body.uniqueOrgCode
             }
         });
 
