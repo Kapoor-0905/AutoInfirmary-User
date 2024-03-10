@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:quickcare_user/controllers/authController.dart';
 import 'package:quickcare_user/routeNames.dart';
 import 'package:quickcare_user/utils/animations.dart';
 import 'package:quickcare_user/utils/colors.dart';
@@ -16,7 +17,10 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  AuthController auth = AuthController();
   bool _obscureText = true;
+  String email = '';
+  String password = "";
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -45,12 +49,20 @@ class _LoginState extends State<Login> {
                   children: [
                     CustomTextField(
                       hintText: 'Email Address',
-                      onChanged: (p0) {},
+                      onChanged: (p0) {
+                        setState(() {
+                          email = p0;
+                        });
+                      },
                       keyboardType: TextInputType.emailAddress,
                     ),
                     CustomTextField(
                       hintText: 'Password',
-                      onChanged: (p0) {},
+                      onChanged: (p0) {
+                        setState(() {
+                          password = p0;
+                        });
+                      },
                       obscureText: _obscureText,
                       keyboardType: TextInputType.visiblePassword,
                       suffixIcon: GestureDetector(
@@ -73,8 +85,9 @@ class _LoginState extends State<Login> {
                     SmallButton(
                         text: 'Login',
                         onPressed: () {
-                          Navigator.of(context)
-                              .pushReplacement(createRoute(const Home()));
+                          auth.login(email: email, password: password);
+                          // Navigator.of(context)
+                          //     .pushReplacement(createRoute(const Home()));
                         }),
                     const SizedBox(height: 15),
                     const Row(

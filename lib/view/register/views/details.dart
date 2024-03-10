@@ -1,17 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:quickcare_user/controllers/authController.dart';
+import 'package:quickcare_user/models/user.dart';
 import 'package:quickcare_user/utils/colors.dart';
 import 'package:quickcare_user/utils/styles.dart';
+import 'package:quickcare_user/utils/widgets.dart';
 import 'package:quickcare_user/utils/widgets/customTextField.dart';
 import 'package:quickcare_user/utils/widgets/smallButton.dart';
 
 class Details extends StatefulWidget {
-  const Details({super.key});
+  final Map<String, String> args;
+  const Details({super.key, required this.args});
 
   @override
   State<Details> createState() => _DetailsState();
 }
 
 class _DetailsState extends State<Details> {
+  AuthController auth = AuthController();
+  String firstName = '';
+  String lastName = '';
+  String phoneNumber = '';
+  String uniqueOrgCode = '';
+  String address = '';
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -49,27 +59,67 @@ class _DetailsState extends State<Details> {
                   children: [
                     CustomTextField(
                       hintText: 'Full Name',
-                      onChanged: (p0) {},
+                      onChanged: (p0) {
+                        setState(() {
+                          firstName = p0.split(" ").first;
+                          lastName = p0.split(" ").last;
+                        });
+                      },
                       keyboardType: TextInputType.name,
                     ),
                     CustomTextField(
                       hintText: 'Phone Number',
-                      onChanged: (p0) {},
+                      onChanged: (p0) {
+                        setState(() {
+                          phoneNumber = p0;
+                        });
+                      },
                       keyboardType: TextInputType.phone,
                     ),
                     CustomTextField(
                       hintText: 'Unique Organization Code',
-                      onChanged: (p0) {},
+                      onChanged: (p0) {
+                        setState(() {
+                          uniqueOrgCode = p0;
+                        });
+                      },
                       keyboardType: TextInputType.text,
                       textCapitalization: TextCapitalization.characters,
                     ),
                     CustomTextField(
                       hintText: 'Address',
-                      onChanged: (p0) {},
+                      onChanged: (p0) {
+                        setState(() {
+                          address = p0;
+                        });
+                      },
                       keyboardType: TextInputType.streetAddress,
                     ),
                     const SizedBox(height: 20),
-                    SmallButton(text: 'Create Account', onPressed: () {}),
+                    SmallButton(
+                        text: 'Create Account',
+                        onPressed: () async {
+                          User user = User(
+                              userName:
+                                  '${firstName.toLowerCase()}_${lastName.toLowerCase()}',
+                              password: widget.args['password']!,
+                              firstName: firstName,
+                              lastName: lastName,
+                              email: widget.args['email']!,
+                              phoneNumber: phoneNumber,
+                              uniqueOrgCode: uniqueOrgCode,
+                              address: address);
+                          print(user.toMap());
+                          auth.createUser(
+                              user: user,
+                              onSuccess: () {
+                                successToast(
+                                    message: 'User created successfully');
+                              },
+                              onFailed: (value) {
+                                errorToast(message: value);
+                              });
+                        }),
                     const SizedBox(height: 15),
                   ],
                 ),

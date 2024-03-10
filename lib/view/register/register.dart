@@ -1,8 +1,11 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:quickcare_user/controllers/authController.dart';
+import 'package:quickcare_user/models/user.dart';
 import 'package:quickcare_user/routeNames.dart';
 import 'package:quickcare_user/utils/colors.dart';
 import 'package:quickcare_user/utils/styles.dart';
+import 'package:quickcare_user/utils/widgets.dart';
 import 'package:quickcare_user/utils/widgets/customTextField.dart';
 import 'package:quickcare_user/utils/widgets/smallButton.dart';
 
@@ -16,6 +19,11 @@ class Register extends StatefulWidget {
 class _RegisterState extends State<Register> {
   bool _obscureText = true;
   bool _obscureTextConfirm = true;
+  final AuthController _auth = AuthController();
+  String email = "";
+  String password = "";
+  String confirmPassword = "";
+
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -43,12 +51,20 @@ class _RegisterState extends State<Register> {
                   children: [
                     CustomTextField(
                       hintText: 'Email Address',
-                      onChanged: (p0) {},
+                      onChanged: (p0) {
+                        setState(() {
+                          email = p0;
+                        });
+                      },
                       keyboardType: TextInputType.emailAddress,
                     ),
                     CustomTextField(
                       hintText: 'Password',
-                      onChanged: (p0) {},
+                      onChanged: (p0) {
+                        setState(() {
+                          password = p0;
+                        });
+                      },
                       obscureText: _obscureText,
                       keyboardType: TextInputType.visiblePassword,
                       suffixIcon: GestureDetector(
@@ -69,7 +85,11 @@ class _RegisterState extends State<Register> {
                     ),
                     CustomTextField(
                       hintText: 'Confirm Password',
-                      onChanged: (p0) {},
+                      onChanged: (p0) {
+                        setState(() {
+                          confirmPassword = p0;
+                        });
+                      },
                       obscureText: _obscureTextConfirm,
                       keyboardType: TextInputType.visiblePassword,
                       suffixIcon: GestureDetector(
@@ -92,7 +112,21 @@ class _RegisterState extends State<Register> {
                     SmallButton(
                         text: 'Next',
                         onPressed: () {
-                          Navigator.pushNamed(context, RouteNames.details);
+                          email.isEmpty ||
+                                  password.isEmpty ||
+                                  confirmPassword.isEmpty
+                              ? errorToast(message: 'Please fill all fields')
+                              : password != confirmPassword
+                                  ? errorToast(
+                                      message: 'Passwords do not match')
+                                  : Navigator.pushNamed(
+                                      context,
+                                      RouteNames.details,
+                                      arguments: {
+                                        'email': email,
+                                        'password': password
+                                      },
+                                    );
                         }),
                     const SizedBox(height: 12),
                     const Row(

@@ -21,7 +21,9 @@ final Map<String, WidgetBuilder> routes = {
   RouteNames.onboardingthree: (context) => const OnboardingThree(),
   RouteNames.login: (context) => const Login(),
   RouteNames.register: (context) => const Register(),
-  RouteNames.details: (context) => const Details(),
+  RouteNames.details: (context) => Details(
+        args: ModalRoute.of(context)!.settings.arguments as Map<String, String>,
+      ),
   RouteNames.home: (context) => const Home(),
   RouteNames.bookAppointment: (context) => const BookAppointment(),
   RouteNames.emergencyBooking: (context) => const EmergencyBooking(),
