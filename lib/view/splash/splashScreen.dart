@@ -17,22 +17,33 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 3), () async {
-      String? token = await SF.getSessionToken();
+    Future.delayed(
+      const Duration(seconds: 3),
+      () async {
+        String? token = await SF.getSessionToken();
 
-      switch (token?.isEmpty) {
-        case null:
-          Navigator.of(context)
-              .pushReplacement(createRoute(const OnboardingOne()));
-          break;
-        case true:
-          Navigator.of(context).pushReplacement(createRoute(const Login()));
-          break;
-        case false:
-          Navigator.of(context).pushReplacement(createRoute(const Home()));
-          break;
-      }
-    });
+        switch (token?.isEmpty) {
+          case null:
+            mounted
+                ? Navigator.of(context)
+                    .pushReplacement(createRoute(const OnboardingOne()))
+                : null;
+            break;
+          case true:
+            mounted
+                ? Navigator.of(context)
+                    .pushReplacement(createRoute(const Login()))
+                : null;
+            break;
+          case false:
+            mounted
+                ? Navigator.of(context)
+                    .pushReplacement(createRoute(const Home()))
+                : null;
+            break;
+        }
+      },
+    );
   }
 
   @override

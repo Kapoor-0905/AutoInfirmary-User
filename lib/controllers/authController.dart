@@ -9,9 +9,8 @@ import 'package:http/http.dart' as http;
 class AuthController {
   static String uri = 'http://localhost:3000';
 
-  void createUser({
+  Future createUser({
     required User user,
-    required VoidCallback onSuccess,
     required Function(String) onFailed,
   }) async {
     try {
@@ -22,7 +21,8 @@ class AuthController {
         },
         body: user.toJson(),
       );
-      onSuccess;
+
+      return response.body;
     } catch (e) {
       onFailed(e.toString());
     }

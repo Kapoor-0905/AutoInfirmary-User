@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:quickcare_user/controllers/authController.dart';
+import 'package:quickcare_user/controllers/sharedPreferenceController.dart';
 import 'package:quickcare_user/models/user.dart';
 import 'package:quickcare_user/utils/colors.dart';
 import 'package:quickcare_user/utils/styles.dart';
@@ -108,15 +111,18 @@ class _DetailsState extends State<Details> {
                               uniqueOrgCode: uniqueOrgCode,
                               address: address);
                           print(user.toMap());
-                          auth.createUser(
-                              user: user,
-                              onSuccess: () {
-                                successToast(
-                                    message: 'User created successfully');
-                              },
-                              onFailed: (value) {
-                                errorToast(message: value);
-                              });
+                          auth
+                              .createUser(
+                                  user: user,
+                                  onFailed: (value) {
+                                    errorToast(message: value);
+                                  })
+                              .then((value) {
+                            Map<String, dynamic> jsonData = jsonDecode(value);
+                            SF.saveSessionToken(
+                                jsonData['auth']['sessionToken']);
+                            SF.saveUserId(jsonData['auth']['id']);
+                          });
                         }),
                     const SizedBox(height: 15),
                   ],

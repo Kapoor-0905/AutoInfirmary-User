@@ -10,4 +10,14 @@ class SF {
     SharedPreferences sf = await SharedPreferences.getInstance();
     return sf.getString('session');
   }
+
+  static Future<bool> saveUserId(String id) async {
+    SharedPreferences sf = await SharedPreferences.getInstance();
+    return await sf.setString('userId', id);
+  }
+
+  static Future<String?> getUserId() async {
+    SharedPreferences sf = await SharedPreferences.getInstance();
+    return sf.getString('userId');
+  }
 }

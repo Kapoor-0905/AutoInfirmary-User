@@ -93,9 +93,10 @@ class _LoginState extends State<Login> {
                               .then((value) {
                             // print(value.runtimeType);
                             Map<String, dynamic> jsonData = jsonDecode(value);
-                            print(jsonData['auth']['sessionToken']);
+
                             SF.saveSessionToken(
                                 jsonData['auth']['sessionToken']);
+                            SF.saveUserId(jsonData['auth']['id']);
                             Navigator.pushNamed(context, RouteNames.home);
                           });
                           // Navigator.of(context)
