@@ -21,7 +21,9 @@ export const getSingleUser = async (req: express.Request, res: express.Response)
         }
     } catch (error) {
         logger.info(error);
-        return res.sendStatus(400);
+        return res.json({
+            message: "something went wrong!"
+        }).sendStatus(400);
     }
 }
 
@@ -49,7 +51,9 @@ export const getAllUsers = async (req: express.Request, res: express.Response) =
         }
     } catch (error) {
         logger.info(error);
-        return res.sendStatus(400);
+        return res.json({
+            message: "something went wrong!"
+        }).sendStatus(400);
     }
 };
 
@@ -73,7 +77,9 @@ export const deleteUser = async (req: express.Request, res: express.Response) =>
         }
     } catch (error) {
         logger.info(error);
-        return res.sendStatus(400);
+        return res.json({
+            message: "something went wrong!"
+        }).sendStatus(400);
     }
 }
 
@@ -111,6 +117,8 @@ export const updateUser = async (req: express.Request, res: express.Response) =>
         }
     } catch (error) {
         logger.info(error);
-        return res.sendStatus(400);
+        return res.json({
+            message: "something went wrong!"
+        }).sendStatus(400);
     }
 }
