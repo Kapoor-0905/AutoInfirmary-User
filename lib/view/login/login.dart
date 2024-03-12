@@ -91,13 +91,14 @@ class _LoginState extends State<Login> {
                           auth
                               .login(email: email, password: password)
                               .then((value) {
-                            // print(value.runtimeType);
+
                             Map<String, dynamic> jsonData = jsonDecode(value);
 
                             SF.saveSessionToken(
                                 jsonData['auth']['sessionToken']);
-                            SF.saveUserId(jsonData['auth']['id']);
-                            Navigator.pushNamed(context, RouteNames.home);
+                            SF.saveUserId(jsonData['id']);
+                            Navigator.pushReplacementNamed(
+                                context, RouteNames.home);
                           });
                           // Navigator.of(context)
                           //     .pushReplacement(createRoute(const Home()));

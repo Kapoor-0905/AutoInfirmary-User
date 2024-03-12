@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:quickcare_user/controllers/sharedPreferenceController.dart';
+import 'package:quickcare_user/controllers/userController.dart';
 import 'package:quickcare_user/routeNames.dart';
 import 'package:quickcare_user/utils/colors.dart';
 import 'package:quickcare_user/utils/styles.dart';
@@ -12,6 +14,24 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  UserController _userController = UserController();
+  String? userId = '';
+  Map<String, dynamic> userData = {};
+  fetchUserData() async {
+    userId = await SF.getUserId();
+    print(userId);
+    await _userController.getUserDetails(userId: userId!).then((value) {
+      print(value);
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    fetchUserData();
+  }
+
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;

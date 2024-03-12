@@ -21,7 +21,7 @@ class AuthController {
         },
         body: user.toJson(),
       );
-
+      print(response.body);
       return response.body;
     } catch (e) {
       onFailed(e.toString());

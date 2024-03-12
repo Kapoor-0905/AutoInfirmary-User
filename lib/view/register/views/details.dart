@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:quickcare_user/controllers/authController.dart';
 import 'package:quickcare_user/controllers/sharedPreferenceController.dart';
 import 'package:quickcare_user/models/user.dart';
+import 'package:quickcare_user/routeNames.dart';
 import 'package:quickcare_user/utils/colors.dart';
 import 'package:quickcare_user/utils/styles.dart';
 import 'package:quickcare_user/utils/widgets.dart';
@@ -110,7 +111,7 @@ class _DetailsState extends State<Details> {
                               phoneNum: phoneNumber,
                               uniqueOrgCode: uniqueOrgCode,
                               address: address);
-                          print(user.toMap());
+                          // print(user.toMap());
                           auth
                               .createUser(
                                   user: user,
@@ -120,8 +121,10 @@ class _DetailsState extends State<Details> {
                               .then((value) {
                             Map<String, dynamic> jsonData = jsonDecode(value);
                             SF.saveSessionToken(
-                                jsonData['auth']['sessionToken']);
-                            SF.saveUserId(jsonData['auth']['id']);
+                                jsonData['token']?['auth']?['sessionToken']);
+                            SF.saveUserId(jsonData['token']?['id']);
+                            Navigator.pushReplacementNamed(
+                                context, RouteNames.home);
                           });
                         }),
                     const SizedBox(height: 15),

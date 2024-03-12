@@ -13,9 +13,9 @@ class BigButton extends StatelessWidget {
       child: Container(
         color: Colors.white,
         child: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+          margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
           alignment: Alignment.center,
-          padding: const EdgeInsets.symmetric(vertical: 20),
+          padding: const EdgeInsets.symmetric(vertical: 10),
           decoration: buttonDecoration,
           height: 60,
           width: double.infinity,
