@@ -1,7 +1,5 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:quickcare_user/controllers/authController.dart';
-import 'package:quickcare_user/models/user.dart';
 import 'package:quickcare_user/routeNames.dart';
 import 'package:quickcare_user/utils/colors.dart';
 import 'package:quickcare_user/utils/styles.dart';
@@ -19,7 +17,6 @@ class Register extends StatefulWidget {
 class _RegisterState extends State<Register> {
   bool _obscureText = true;
   bool _obscureTextConfirm = true;
-  final AuthController _auth = AuthController();
   String email = "";
   String password = "";
   String confirmPassword = "";
@@ -34,8 +31,8 @@ class _RegisterState extends State<Register> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(height: 20),
-              Text(
+              const SizedBox(height: 20),
+              const Text(
                 'Create Account',
                 style: heading,
               ),

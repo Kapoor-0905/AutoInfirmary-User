@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:quickcare_user/controllers/sharedPreferenceController.dart';
 import 'package:quickcare_user/controllers/userController.dart';
@@ -19,15 +21,15 @@ class _HomeState extends State<Home> {
   Map<String, dynamic> userData = {};
   fetchUserData() async {
     userId = await SF.getUserId();
-    print(userId);
     await _userController.getUserDetails(userId: userId!).then((value) {
-      print(value);
+      setState(() {
+        userData = jsonDecode(value);
+      });
     });
   }
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     fetchUserData();
   }
@@ -68,8 +70,8 @@ class _HomeState extends State<Home> {
                     ),
                   ],
                 ),
-                const Text(
-                  'Hi Ashutosh',
+                 Text(
+                  'Hi ${userData['firstName']}',
                   style: bigTextWhite,
                 ),
                 const SizedBox(height: 15),
@@ -115,8 +117,8 @@ class _HomeState extends State<Home> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
-                      'UPES, Dehradun',
+                     Text(
+                      '${userData['uniqueOrgCode']}',
                       style: smallTextWhite,
                     ),
                     Text.rich(

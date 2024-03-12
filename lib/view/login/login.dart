@@ -1,17 +1,13 @@
-import 'dart:convert';
-
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:quickcare_user/controllers/authController.dart';
 import 'package:quickcare_user/controllers/sharedPreferenceController.dart';
 import 'package:quickcare_user/routeNames.dart';
-import 'package:quickcare_user/utils/animations.dart';
 import 'package:quickcare_user/utils/colors.dart';
 import 'package:quickcare_user/utils/styles.dart';
 import 'package:quickcare_user/utils/widgets.dart';
 import 'package:quickcare_user/utils/widgets/customTextField.dart';
 import 'package:quickcare_user/utils/widgets/smallButton.dart';
-import 'package:quickcare_user/view/home/home.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -36,7 +32,7 @@ class _LoginState extends State<Login> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               const Text(
                 'Login',
                 style: heading,
@@ -102,14 +98,7 @@ class _LoginState extends State<Login> {
                                     Navigator.pushReplacementNamed(
                                         context, RouteNames.home),
                                   };
-                            // SF.saveSessionToken(
-                            //     jsonData['auth']['sessionToken']);
-                            // SF.saveUserId(jsonData['id']);
-                            // Navigator.pushReplacementNamed(
-                            //     context, RouteNames.home);
                           });
-                          // Navigator.of(context)
-                          //     .pushReplacement(createRoute(const Home()));
                         }),
                     const SizedBox(height: 15),
                     const Row(

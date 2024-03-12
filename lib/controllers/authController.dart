@@ -1,8 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:quickcare_user/controllers/sharedPreferenceController.dart';
 import 'package:quickcare_user/models/user.dart';
 import 'package:http/http.dart' as http;
 
@@ -21,7 +18,6 @@ class AuthController {
         },
         body: user.toJson(),
       );
-      // print(response.body);
       return response.body;
     } catch (e) {
       onFailed(e.toString());

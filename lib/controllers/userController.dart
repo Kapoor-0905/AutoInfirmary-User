@@ -7,9 +7,8 @@ class UserController {
   Future getUserDetails({required String userId}) async {
     try {
       String? token = await SF.getJwtToken();
-      print(token);
       http.Response response =
-          await http.get(Uri.parse('$uri/users/:$userId'), headers: {
+          await http.get(Uri.parse('$uri/users/$userId'), headers: {
         'Authorization': 'Bearer $token',
         'Content-Type': 'application/json; charset=UTF-8',
       });
