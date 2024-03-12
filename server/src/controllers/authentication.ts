@@ -1,7 +1,9 @@
 import express from 'express';
-import { authentication, random } from '../helpers';
+import { authentication, random, hashedPassword, createJWT, comparePassword } from '../helpers';
 import prisma from '../utils/db';
 import logger from '../utils/logger';
+
+const bcryptSalt = process.env.BCRYPT_SALT as string;
 
 export const login = async (req: express.Request, res: express.Response) => {
     try {
@@ -21,18 +23,21 @@ export const login = async (req: express.Request, res: express.Response) => {
         });
 
         if (!user) {
-            return res.send(403);
+            return res.json({
+                message: "User not found"
+            }).send(403);
         }
 
-        const expectedHash = authentication(user.auth.salt, password);
+        const match = await comparePassword(password, user.auth.password);
 
-        if (user.auth.password != expectedHash) {
-            return res.sendStatus(403);
+        if (!match) {
+            return res.json({
+                message: "password do not match!"
+            }).sendStatus(403).end();
         }
 
         const salt = random();
         user.auth.sessionToken = authentication(salt, user.id.toString());
-
         await prisma.user.update({
             where: {
                 id: user.id
@@ -46,9 +51,12 @@ export const login = async (req: express.Request, res: express.Response) => {
             }
         });
 
+        const token = await createJWT(user.email);
         res.cookie('sessionToken', user.auth.sessionToken, { domain: 'localhost', path: '/', httpOnly: true, secure: true, sameSite: 'none' });
-
-        res.status(200).json(user).end();
+        res.status(200).json({
+            user,
+            token
+        }).end();
     } catch (error) {
         logger.info(error);
         return res.status(400).json({
@@ -91,7 +99,7 @@ export const register = async (req: express.Request, res: express.Response) => {
                 auth: {
                     set: {
                         salt,
-                        password: authentication(salt, password),
+                        password: await hashedPassword(password),
                         sessionToken: random()
                     }
                 },
@@ -103,19 +111,22 @@ export const register = async (req: express.Request, res: express.Response) => {
 
         if (user) {
             logger.info('user created');
-            const token = await prisma.user.findFirst({
+            const token = await createJWT(user.email);
+            logger.info(token);
+            const sessionToken = await prisma.user.findFirst({
                 select: {
-                    id : true,
+                    id: true,
                     auth: {
                         select: {
                             sessionToken: true
                         }
                     }
-                }    
+                }
             })
-            res.status(200).send({ 
+            res.status(200).send({
                 message: "user created seccessfully",
-                token
+                token,
+                sessionToken
             }).end();
         } else {
             logger.info('user not created');
