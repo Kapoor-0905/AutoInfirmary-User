@@ -21,7 +21,7 @@ class AuthController {
         },
         body: user.toJson(),
       );
-      print(response.body);
+      // print(response.body);
       return response.body;
     } catch (e) {
       onFailed(e.toString());
@@ -42,8 +42,17 @@ class AuthController {
           'Content-Type': 'application/json; charset=UTF-8',
         },
       );
-      return response.body;
-      // print(response.body);s
+      final Map<String, dynamic> responseBody = jsonDecode(response.body);
+
+      if (response.statusCode == 200) {
+        return responseBody;
+      } else if (response.statusCode == 403) {
+        if (responseBody['message'] == "User not found") {
+          return {'error': "User not found"};
+        } else if (responseBody['message'] == "Password does not match!") {
+          return {'error': "Wrong Password!"};
+        }
+      }
       // SF.saveSessionToken(response.body);
     } catch (e) {}
   }

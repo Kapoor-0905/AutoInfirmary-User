@@ -120,9 +120,12 @@ class _DetailsState extends State<Details> {
                                   })
                               .then((value) {
                             Map<String, dynamic> jsonData = jsonDecode(value);
-                            SF.saveSessionToken(
-                                jsonData['token']?['auth']?['sessionToken']);
-                            SF.saveUserId(jsonData['token']?['id']);
+                            print('From register: $jsonData');
+                            SF.saveSessionToken(jsonData['sessionToken']['auth']
+                                ['sessionToken']);
+                            SF.saveUserId(jsonData['sessionToken']['id']);
+                            SF.saveJwtToken(jsonData['token']);
+                            successToast(message: jsonData['message']);
                             Navigator.pushReplacementNamed(
                                 context, RouteNames.home);
                           });

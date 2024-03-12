@@ -1,16 +1,1 @@
-{
-  "auth": {
-    "password": "c004951591bc9a81a68f85eb5f0483d86e69e271c2a34bd1a3fddd167a9a93fe",
-    "salt": "dq0mWJWNhdDExWAVd/lfjVo99pkp5O9pT99oJVGhcWwL5QtsBbKQCo6OghtK3i6tmY16X5mKKP5cgQ4symwwl6uGZPwnr0ZtFxm1zqKUzgXqBKXPpRR6VWqz8hMYoOxKFSmElR150730VvO715/weYlMIYJB48WMEZZLnF+mIhc=",
-    "sessionToken": "da13d9dd0d6baca0ffdd748e3f0decbb73d97fc32457f518f5d2358ca82a08cb"
-  },
-  "id": "65ed3f2ab2deb2dd884b1acd",
-  "email": "ashutoshkapoor8965@gmail.com",
-  "firstName": "Ashutosh",
-  "lastName": "Kapoor",
-  "address": "my home",
-  "phoneNum": null,
-  "uniqueOrgCode": "OPEN",
-  "createdAt": "2024-03-10T05:03:38.903Z",
-  "updatedAt": "2024-03-10T05:05:48.158Z"
-}
+{user: {auth: {password: $2b$10$H9IJYyI868OeLvmJIbu9lOr50ksVAvGU/ZfaWxsD7XRBXpozfc7je, salt: 2dNR7GFhNVGXxXpwXmoQ6x0Mq7xNN04RmZkLo7GnORNdN6AIvGa4ByxeePcTua5CKJWmS4LwtxY5emPT74wsnDR+gFaOiVsuehHRX80qb00pvv3ngGcLIKyRyy0J3UQcQgfQJI1YFCKe63zZLT198mbH21rEK0xmQpqjP8mU2ng=, sessionToken: 962d425fbc5b0293bbadaacd9d59bfaed93a83377cfa5d5698f624021f216885}, id: 65ef3ee7e3182e704b7b4ff8, email: deepanshu69@gmail.com, firstName: Deepanshu, lastName: Rawat, address: 123, phoneNum: 131231212312, uniqueOrgCode: 12345, createdAt: 2024-03-11T17:27:03.136Z, updatedAt: 2024-03-12T03:20:13.379Z}, token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRlZXBhbnNodTY5QGdtYWlsLmNvbSIsImlhdCI6MTcxMDIxNDA5MH0.I2Cghd9LHphFvNzO1kKs2eBJqceJq7wx8iS-g8H2MM0}

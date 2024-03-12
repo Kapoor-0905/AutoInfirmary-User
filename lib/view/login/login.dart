@@ -8,6 +8,7 @@ import 'package:quickcare_user/routeNames.dart';
 import 'package:quickcare_user/utils/animations.dart';
 import 'package:quickcare_user/utils/colors.dart';
 import 'package:quickcare_user/utils/styles.dart';
+import 'package:quickcare_user/utils/widgets.dart';
 import 'package:quickcare_user/utils/widgets/customTextField.dart';
 import 'package:quickcare_user/utils/widgets/smallButton.dart';
 import 'package:quickcare_user/view/home/home.dart';
@@ -91,14 +92,21 @@ class _LoginState extends State<Login> {
                           auth
                               .login(email: email, password: password)
                               .then((value) {
-
-                            Map<String, dynamic> jsonData = jsonDecode(value);
-
-                            SF.saveSessionToken(
-                                jsonData['auth']['sessionToken']);
-                            SF.saveUserId(jsonData['id']);
-                            Navigator.pushReplacementNamed(
-                                context, RouteNames.home);
+                            value.length == 1
+                                ? errorToast(message: value['error'])
+                                : {
+                                    SF.saveSessionToken(
+                                        value['user']['auth']['sessionToken']),
+                                    SF.saveUserId(value['user']['id']),
+                                    SF.saveJwtToken(value['token']),
+                                    Navigator.pushReplacementNamed(
+                                        context, RouteNames.home),
+                                  };
+                            // SF.saveSessionToken(
+                            //     jsonData['auth']['sessionToken']);
+                            // SF.saveUserId(jsonData['id']);
+                            // Navigator.pushReplacementNamed(
+                            //     context, RouteNames.home);
                           });
                           // Navigator.of(context)
                           //     .pushReplacement(createRoute(const Home()));

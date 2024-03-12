@@ -23,17 +23,19 @@ export const login = async (req: express.Request, res: express.Response) => {
         });
 
         if (!user) {
-            return res.json({
+            res.status(403).json({
                 message: "User not found"
-            }).send(403);
+            }).end();
+            return;
         }
 
         const match = await comparePassword(password, user.auth.password);
 
         if (!match) {
-            return res.json({
-                message: "password do not match!"
-            }).sendStatus(403).end();
+            res.status(403).json({
+                message: "Password does not match!"
+            }).end();
+            return;
         }
 
         const salt = random();

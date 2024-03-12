@@ -20,4 +20,14 @@ class SF {
     SharedPreferences sf = await SharedPreferences.getInstance();
     return sf.getString('userId');
   }
+
+  static Future<bool> saveJwtToken(String jwt) async {
+    SharedPreferences sf = await SharedPreferences.getInstance();
+    return await sf.setString('jwt', jwt);
+  }
+
+  static Future<String?> getJwtToken() async {
+    SharedPreferences sf = await SharedPreferences.getInstance();
+    return sf.getString('jwt');
+  }
 }
