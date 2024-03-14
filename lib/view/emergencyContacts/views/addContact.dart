@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:quickcare_user/utils/colors.dart';
 import 'package:quickcare_user/utils/styles.dart';
 import 'package:quickcare_user/utils/widgets/customTextField.dart';
 import 'package:quickcare_user/utils/widgets/iconBox.dart';
 import 'package:quickcare_user/utils/widgets/smallButton.dart';
+import 'package:quickcare_user/view/emergencyContacts/components/phoneContactPanel.dart';
 
 class AddContact extends StatefulWidget {
   const AddContact({super.key});
@@ -13,6 +15,27 @@ class AddContact extends StatefulWidget {
 }
 
 class _AddContactState extends State<AddContact> {
+  List<Contact> phonecontacts = [];
+
+  importContact() async {
+    await FlutterContacts.requestPermission();
+    List<Contact> contacts =
+        await FlutterContacts.getContacts(withProperties: true);
+
+    setState(() {
+      phonecontacts = contacts;
+    });
+  }
+
+  Map<String, dynamic> importedContact = {};
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    importContact();
+  }
+
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -165,7 +188,20 @@ class _AddContactState extends State<AddContact> {
       ),
       floatingActionButton: FloatingActionButton(
           shape: const CircleBorder(),
-          onPressed: () {},
+          onPressed: () {
+            showModalBottomSheet(
+                context: context,
+                builder: (context) {
+                  return PhoneContactPanel(contacts: phonecontacts);
+                }).then((value) {
+              print(value);
+              setState(() {
+                if (value != null) {
+                  importedContact = value;
+                }
+              });
+            });
+          },
           backgroundColor: primaryColor,
           child: SizedBox(
               width: 22, child: Image.asset('assets/icons/import.png'))),

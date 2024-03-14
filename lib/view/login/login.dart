@@ -88,6 +88,7 @@ class _LoginState extends State<Login> {
                           auth
                               .login(email: email, password: password)
                               .then((value) {
+                            print(value);
                             value.length == 1
                                 ? errorToast(message: value['error'])
                                 : {

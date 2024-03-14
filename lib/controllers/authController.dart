@@ -4,7 +4,7 @@ import 'package:quickcare_user/models/user.dart';
 import 'package:http/http.dart' as http;
 
 class AuthController {
-  static String uri = 'http://localhost:3000';
+  static String uri = 'http://192.168.216.15:3000';
 
   Future createUser({
     required User user,
@@ -26,6 +26,7 @@ class AuthController {
 
   Future login({required String email, required String password}) async {
     try {
+      print('yaha tak aaya');
       http.Response response = await http.post(
         Uri.parse('$uri/auth/login'),
         body: jsonEncode(
@@ -38,8 +39,9 @@ class AuthController {
           'Content-Type': 'application/json; charset=UTF-8',
         },
       );
-      final Map<String, dynamic> responseBody = jsonDecode(response.body);
 
+      final Map<String, dynamic> responseBody = jsonDecode(response.body);
+      print('Response code : ${response.statusCode}');
       if (response.statusCode == 200) {
         return responseBody;
       } else if (response.statusCode == 403) {
@@ -50,6 +52,9 @@ class AuthController {
         }
       }
       // SF.saveSessionToken(response.body);
-    } catch (e) {}
+    } catch (e) {
+      print('error aaya');
+      print(e.toString());
+    }
   }
 }
