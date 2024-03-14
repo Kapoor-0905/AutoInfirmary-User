@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:quickcare_user/controllers/emergencyContactController.dart';
@@ -51,7 +53,19 @@ class _AddContactState extends State<AddContact> {
         email: emailController.text,
         relationship: relationshipController.text);
     await ecController.createEmergencyContact(contact: contact).then((value) {
-      print(value);
+      if (value['statuscode'] == 200) {
+        nameController.clear();
+        phoneController.clear();
+        emailController.clear();
+        relationshipController.clear();
+        successToast(message: 'Contact added successfully');
+      } else if (value['statuscode'] == 400) {
+        String body = value['body'];
+        Map<String, dynamic> de = jsonDecode(body);
+        errorToast(message: de['message']);
+      } else {
+        errorToast(message: 'Something went wrong');
+      }
     });
   }
 
@@ -135,6 +149,8 @@ class _AddContactState extends State<AddContact> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   CustomTextField(
+                                    textCapitalization:
+                                        TextCapitalization.words,
                                     controller: nameController,
                                     hintText: 'Full Name',
                                     onChanged: (p0) {
@@ -159,6 +175,7 @@ class _AddContactState extends State<AddContact> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   CustomTextField(
+                                    keyboardType: TextInputType.phone,
                                     controller: phoneController,
                                     hintText: 'Phone Number',
                                     onChanged: (p0) {
@@ -183,6 +200,7 @@ class _AddContactState extends State<AddContact> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   CustomTextField(
+                                    keyboardType: TextInputType.emailAddress,
                                     controller: emailController,
                                     hintText: 'Email Address',
                                     onChanged: (p0) {
@@ -207,6 +225,8 @@ class _AddContactState extends State<AddContact> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   CustomTextField(
+                                    textCapitalization:
+                                        TextCapitalization.words,
                                     controller: relationshipController,
                                     hintText: 'Relationship',
                                     onChanged: (p0) {
@@ -259,6 +279,7 @@ class _AddContactState extends State<AddContact> {
                 nameController.text = importedContact['name'];
                 phoneController.text = importedContact['phone'];
                 emailController.text = importedContact['email'];
+                relationshipController.clear();
               }
             });
           });

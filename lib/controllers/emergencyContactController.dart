@@ -18,6 +18,23 @@ class EmergencyContactController {
         },
         body: contact.toJson(),
       );
+      return {'body': response.body, 'statuscode': response.statusCode};
+    } catch (e) {
+      errorToast(message: e.toString());
+    }
+  }
+
+  Future getAllContacts() async {
+    try {
+      String? token = await SF.getJwtToken();
+      // String? id = await SF.getUserId();
+      http.Response response = await http.get(
+        Uri.parse('$uri/contacts'),
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer $token',
+        },
+      );
       return response.body;
     } catch (e) {
       errorToast(message: e.toString());

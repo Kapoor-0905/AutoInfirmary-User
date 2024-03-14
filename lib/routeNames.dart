@@ -11,5 +11,6 @@ class RouteNames {
   static const String emergencyBooking = '/emergencyBooking';
   static const String emergencyContacts = '/emergencyContacts';
   static const String addContact = '/addContact';
+  static const String contactPage = '/contactPage';
   static const String profile = '/profile';
 }

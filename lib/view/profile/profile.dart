@@ -17,6 +17,7 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  // TODO: profile photo routes and api
   bool isLoading = false;
   UserController _userController = UserController();
   String? userId = '';

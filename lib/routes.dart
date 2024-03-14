@@ -4,6 +4,7 @@ import 'package:quickcare_user/view/bookAppointment/bookAppointment.dart';
 import 'package:quickcare_user/view/emergencyBooking/emergencyBooking.dart';
 import 'package:quickcare_user/view/emergencyContacts/emergencyContacts.dart';
 import 'package:quickcare_user/view/emergencyContacts/views/addContact.dart';
+import 'package:quickcare_user/view/emergencyContacts/views/contactPage.dart';
 import 'package:quickcare_user/view/home/home.dart';
 import 'package:quickcare_user/view/login/login.dart';
 import 'package:quickcare_user/view/onboarding/onboardingOne.dart';
@@ -29,5 +30,9 @@ final Map<String, WidgetBuilder> routes = {
   RouteNames.emergencyBooking: (context) => const EmergencyBooking(),
   RouteNames.emergencyContacts: (context) => const EmergencyContacts(),
   RouteNames.addContact: (context) => const AddContact(),
+  RouteNames.contactPage: (context) => ContactPage(
+        args:
+            ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>,
+      ),
   RouteNames.profile: (context) => const Profile(),
 };

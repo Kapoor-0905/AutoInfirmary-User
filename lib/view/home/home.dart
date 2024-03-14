@@ -16,13 +16,13 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  UserController _userController = UserController();
+  UserController userController = UserController();
   String? userId = '';
   Map<String, dynamic> userData = {};
   fetchUserData() async {
     userId = await SF.getUserId();
-    print(userId);
-    await _userController.getUserDetails(userId: userId!).then((value) {
+
+    await userController.getUserDetails(userId: userId!).then((value) {
       setState(() {
         userData = jsonDecode(value);
       });
@@ -205,6 +205,11 @@ class _HomeState extends State<Home> {
                     ),
                   ],
                 ),
+                TextButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, RouteNames.contactPage);
+                    },
+                    child: Text('Click'))
               ],
             ),
           )
