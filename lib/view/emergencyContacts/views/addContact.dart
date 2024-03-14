@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
+import 'package:quickcare_user/controllers/emergencyContactController.dart';
+import 'package:quickcare_user/controllers/sharedPreferenceController.dart';
+import 'package:quickcare_user/models/emergencyContact.dart';
 import 'package:quickcare_user/utils/colors.dart';
 import 'package:quickcare_user/utils/styles.dart';
+import 'package:quickcare_user/utils/widgets.dart';
 import 'package:quickcare_user/utils/widgets/customTextField.dart';
 import 'package:quickcare_user/utils/widgets/iconBox.dart';
 import 'package:quickcare_user/utils/widgets/smallButton.dart';
@@ -15,24 +19,49 @@ class AddContact extends StatefulWidget {
 }
 
 class _AddContactState extends State<AddContact> {
+  Map<String, dynamic> importedContact = {};
   List<Contact> phonecontacts = [];
+  String userId = "";
+  late TextEditingController nameController;
+  late TextEditingController phoneController;
+  late TextEditingController emailController;
+  late TextEditingController relationshipController;
+  final EmergencyContactController ecController = EmergencyContactController();
 
   importContact() async {
     await FlutterContacts.requestPermission();
     List<Contact> contacts =
         await FlutterContacts.getContacts(withProperties: true);
-
     setState(() {
       phonecontacts = contacts;
     });
+
+    String? temp = await SF.getUserId();
+    setState(() {
+      userId = temp!;
+    });
+    print(userId);
   }
 
-  Map<String, dynamic> importedContact = {};
+  saveContact() async {
+    EmergencyContact contact = EmergencyContact(
+        userId: userId,
+        name: nameController.text,
+        phoneNum: phoneController.text,
+        email: emailController.text,
+        relationship: relationshipController.text);
+    await ecController.createEmergencyContact(contact: contact).then((value) {
+      print(value);
+    });
+  }
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    nameController = TextEditingController();
+    phoneController = TextEditingController();
+    emailController = TextEditingController();
+    relationshipController = TextEditingController();
     importContact();
   }
 
@@ -106,8 +135,13 @@ class _AddContactState extends State<AddContact> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   CustomTextField(
+                                    controller: nameController,
                                     hintText: 'Full Name',
-                                    onChanged: (p0) {},
+                                    onChanged: (p0) {
+                                      setState(() {
+                                        nameController.text = p0;
+                                      });
+                                    },
                                   ),
                                 ],
                               ),
@@ -125,8 +159,13 @@ class _AddContactState extends State<AddContact> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   CustomTextField(
+                                    controller: phoneController,
                                     hintText: 'Phone Number',
-                                    onChanged: (p0) {},
+                                    onChanged: (p0) {
+                                      setState(() {
+                                        phoneController.text = p0;
+                                      });
+                                    },
                                   ),
                                 ],
                               ),
@@ -144,8 +183,13 @@ class _AddContactState extends State<AddContact> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   CustomTextField(
+                                    controller: emailController,
                                     hintText: 'Email Address',
-                                    onChanged: (p0) {},
+                                    onChanged: (p0) {
+                                      setState(() {
+                                        emailController.text = p0;
+                                      });
+                                    },
                                   ),
                                 ],
                               ),
@@ -163,8 +207,13 @@ class _AddContactState extends State<AddContact> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   CustomTextField(
+                                    controller: relationshipController,
                                     hintText: 'Relationship',
-                                    onChanged: (p0) {},
+                                    onChanged: (p0) {
+                                      setState(() {
+                                        relationshipController.text = p0;
+                                      });
+                                    },
                                   ),
                                 ],
                               ),
@@ -176,7 +225,17 @@ class _AddContactState extends State<AddContact> {
                           ],
                         ),
                         const SizedBox(height: 50),
-                        SmallButton(text: 'Save', onPressed: () {})
+                        SmallButton(
+                            text: 'Save',
+                            onPressed: () {
+                              nameController.text.isEmpty ||
+                                      phoneController.text.isEmpty ||
+                                      emailController.text.isEmpty ||
+                                      relationshipController.text.isEmpty
+                                  ? errorToast(
+                                      message: 'Please flll all fields')
+                                  : saveContact();
+                            })
                       ],
                     ),
                   )
@@ -187,24 +246,29 @@ class _AddContactState extends State<AddContact> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-          shape: const CircleBorder(),
-          onPressed: () {
-            showModalBottomSheet(
-                context: context,
-                builder: (context) {
-                  return PhoneContactPanel(contacts: phonecontacts);
-                }).then((value) {
-              print(value);
-              setState(() {
-                if (value != null) {
-                  importedContact = value;
-                }
-              });
+        shape: const CircleBorder(),
+        onPressed: () {
+          showModalBottomSheet(
+              context: context,
+              builder: (context) {
+                return PhoneContactPanel(contacts: phonecontacts);
+              }).then((value) {
+            setState(() {
+              if (value != null) {
+                importedContact = value;
+                nameController.text = importedContact['name'];
+                phoneController.text = importedContact['phone'];
+                emailController.text = importedContact['email'];
+              }
             });
-          },
-          backgroundColor: primaryColor,
-          child: SizedBox(
-              width: 22, child: Image.asset('assets/icons/import.png'))),
+          });
+        },
+        backgroundColor: primaryColor,
+        child: SizedBox(
+          width: 22,
+          child: Image.asset('assets/icons/import.png'),
+        ),
+      ),
     );
   }
 }

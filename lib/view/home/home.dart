@@ -21,6 +21,7 @@ class _HomeState extends State<Home> {
   Map<String, dynamic> userData = {};
   fetchUserData() async {
     userId = await SF.getUserId();
+    print(userId);
     await _userController.getUserDetails(userId: userId!).then((value) {
       setState(() {
         userData = jsonDecode(value);
@@ -70,7 +71,7 @@ class _HomeState extends State<Home> {
                     ),
                   ],
                 ),
-                 Text(
+                Text(
                   'Hi ${userData['firstName']}',
                   style: bigTextWhite,
                 ),
@@ -117,7 +118,7 @@ class _HomeState extends State<Home> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                     Text(
+                    Text(
                       '${userData['uniqueOrgCode']}',
                       style: smallTextWhite,
                     ),

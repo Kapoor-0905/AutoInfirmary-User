@@ -1,0 +1,26 @@
+import 'package:http/http.dart' as http;
+import 'package:quickcare_user/controllers/sharedPreferenceController.dart';
+import 'package:quickcare_user/models/emergencyContact.dart';
+import 'package:quickcare_user/utils/widgets.dart';
+
+class EmergencyContactController {
+  static String uri = 'http://localhost:3000';
+
+  Future createEmergencyContact({required EmergencyContact contact}) async {
+    try {
+      String? token = await SF.getJwtToken();
+
+      http.Response response = await http.post(
+        Uri.parse('$uri/contacts'),
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer $token',
+        },
+        body: contact.toJson(),
+      );
+      return response.body;
+    } catch (e) {
+      errorToast(message: e.toString());
+    }
+  }
+}

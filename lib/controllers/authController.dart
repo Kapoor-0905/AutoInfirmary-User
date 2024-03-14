@@ -4,7 +4,7 @@ import 'package:quickcare_user/models/user.dart';
 import 'package:http/http.dart' as http;
 
 class AuthController {
-  static String uri = 'http://192.168.216.15:3000';
+  static String uri = 'http://localhost:3000';
 
   Future createUser({
     required User user,

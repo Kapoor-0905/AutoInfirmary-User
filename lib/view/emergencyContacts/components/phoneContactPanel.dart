@@ -17,14 +17,13 @@ class _PhoneContactPanelState extends State<PhoneContactPanel> {
   String selectedEmail = "";
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    print(widget.contacts);
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: EdgeInsets.all(20),
       child: SingleChildScrollView(
         child: Column(
           children: List.generate(widget.contacts.length, (index) {
@@ -47,14 +46,20 @@ class _PhoneContactPanelState extends State<PhoneContactPanel> {
               },
               child: Container(
                 margin: EdgeInsets.symmetric(vertical: 5),
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 8),
                 decoration: BoxDecoration(
-                  color: accentColor.withOpacity(0.2),
-                  borderRadius: BorderRadius.circular(10),
+                  color: accentColor.withOpacity(0.5),
+                  borderRadius: BorderRadius.circular(15),
+                  
                 ),
                 child: Row(
                   children: [
-                    CircleAvatar(),
+                    CircleAvatar(
+                        backgroundColor: primaryColor.withOpacity(0.2),
+                        child: widget.contacts[index].photo == null
+                            ? Image.asset('assets/icons/person.png',
+                                color: primaryColor, scale: 10.5)
+                            : Image.memory(widget.contacts[index].photo!)),
                     SizedBox(width: 10),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

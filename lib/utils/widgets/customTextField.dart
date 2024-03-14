@@ -8,6 +8,7 @@ class CustomTextField extends StatelessWidget {
   final Function(String) onChanged;
   final Widget? suffixIcon;
   final bool? obscureText;
+  final TextEditingController? controller;
   final TextCapitalization? textCapitalization;
   final List<TextInputFormatter>? inputFormatters;
   final TextInputType? keyboardType;
@@ -15,6 +16,7 @@ class CustomTextField extends StatelessWidget {
     super.key,
     required this.hintText,
     required this.onChanged,
+    this.controller,
     this.keyboardType,
     this.suffixIcon,
     this.obscureText,
@@ -29,6 +31,7 @@ class CustomTextField extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(15, 3, 0, 3),
       decoration: containerDecoration,
       child: TextField(
+        controller: controller,
         textCapitalization: textCapitalization ?? TextCapitalization.none,
         inputFormatters: inputFormatters,
         onTapOutside: (p0) {

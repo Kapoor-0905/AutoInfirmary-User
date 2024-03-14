@@ -26,6 +26,7 @@ class MyApp extends StatelessWidget {
       title: 'QuickCare',
       theme: ThemeData(
         primaryColor: primaryColor,
+        
         appBarTheme: const AppBarTheme(
           iconTheme: IconThemeData(color: primaryColor),
           backgroundColor: backgroundColor,
