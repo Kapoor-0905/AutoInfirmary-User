@@ -26,7 +26,7 @@ model User {
   updatedAt           DateTime             @updatedAt
   AppointmentBookings AppointmentBooking[]
   EmergencyBookings   EmergencyBooking[]
-  EmergencyContact    EmergencyContact[]
+  EmergencyContacts   EmergencyContact[]
 }
 
 type Authentication {
@@ -43,7 +43,7 @@ type Feedback {
 
 model AppointmentBooking {
   id             String   @id @default(auto()) @map("_id") @db.ObjectId
-  user           User     @relation(fields: [userId], references: [id])
+  belongsTo      User     @relation(fields: [userId], references: [id])
   userId         String   @db.ObjectId
   department     String
   location       String
@@ -54,11 +54,13 @@ model AppointmentBooking {
   cancelled      Boolean  @default(false)
   createdAt      DateTime @default(now()) @map("created_at")
   updatedAt      DateTime @updatedAt
+
+  @@unique([id, userId])
 }
 
 model EmergencyBooking {
   id                  String   @id @default(auto()) @map("_id") @db.ObjectId
-  user                User     @relation(fields: [userId], references: [id])
+  belongsTo           User     @relation(fields: [userId], references: [id])
   userId              String   @db.ObjectId
   department          String
   location            String
@@ -71,16 +73,20 @@ model EmergencyBooking {
   feedback            Feedback
   createdAt           DateTime @default(now()) @map("created_at")
   updatedAt           DateTime @updatedAt
+
+  @@unique([id, userId])
 }
 
 model EmergencyContact {
   id           String   @id @default(auto()) @map("_id") @db.ObjectId
-  user         User     @relation(fields: [userId], references: [id])
+  belongsTo    User     @relation(fields: [userId], references: [id])
   userId       String   @db.ObjectId
   name         String
   phoneNum     String
-  email        String
+  email        String   @unique
   relationship String
   createdAt    DateTime @default(now()) @map("created_at")
   updatedAt    DateTime @updatedAt
+
+  @@unique([id, userId])
 }
