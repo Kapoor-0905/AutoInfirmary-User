@@ -1,23 +1,32 @@
 # QuickCare (User)
 
-### Folder Structure
+### Folder Structure (Frontend)
 
 > Architecture Followed : **MVC (Model-View-Controller)**
 
 ```bash
 .
+├── controllers
+│   ├── authController.dart
+│   ├── sharedPreferenceController.dart
+│   └── userController.dart
+├── demo.json
 ├── main.dart
+├── models
+│   └── user.dart
 ├── routeNames.dart
 ├── routes.dart
 ├── utils
 │   ├── animations.dart
 │   ├── colors.dart
+│   ├── functions.dart
 │   ├── styles.dart
-│   └── widgets
-│       ├── bigButton.dart
-│       ├── customTextField.dart
-│       ├── iconBox.dart
-│       └── smallButton.dart
+│   ├── widgets
+│   │   ├── bigButton.dart
+│   │   ├── customTextField.dart
+│   │   ├── iconBox.dart
+│   │   └── smallButton.dart
+│   └── widgets.dart
 └── view
     ├── bookAppointment
     │   └── bookAppointment.dart
@@ -25,7 +34,8 @@
     │   └── emergencyBooking.dart
     ├── emergencyContacts
     │   ├── components
-    │   │   └── contactTile.dart
+    │   │   ├── contactTile.dart
+    │   │   └── phoneContactPanel.dart
     │   ├── emergencyContacts.dart
     │   └── views
     │       └── addContact.dart
@@ -47,4 +57,33 @@
     │       └── details.dart
     └── splash
         └── splashScreen.dart
+```
+
+### Folder Structure (Backend)
+
+> Architecture Followed : **NodeJS**
+
+```bash
+config
+└── index.ts
+prisma
+└── schema.prisma
+src
+├── controllers
+│   ├── authentication.ts
+│   ├── emergencyContacts.ts
+│   └── users.ts
+├── helpers
+│   └── index.ts
+├── index.ts
+├── middleware
+│   └── index.ts
+├── routers
+│   ├── api.ts
+│   ├── authentication.ts
+│   ├── index.ts
+│   └── users.ts
+└── utils
+    ├── db.ts
+    └── logger.ts
 ```
