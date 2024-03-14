@@ -4,11 +4,20 @@ import prisma from '../utils/db';
 
 export const getAllEmergencyContacts = async (req: express.Request, res: express.Response) => {
     try {
-        const userID = req.user as { id: string }
+        // For Postman testing
+        // const userID = req.user as { id: string }
+
+        // For application: Flutter
+        const userID = req.body.userId
+
         const emergencyContacts = await prisma.emergencyContact.findMany({
             where: {
-                userId: userID.id
-            } 
+                // For Postman testing
+                // userId: userID.id
+
+                // For flutter application
+                userId: userID
+            }
         })
         if (emergencyContacts) {
             logger.info('Emergency Contacts found');
@@ -30,11 +39,20 @@ export const getAllEmergencyContacts = async (req: express.Request, res: express
 export const getSingleEmergencyContact = async (req: express.Request, res: express.Response) => {
     try {
         const { id } = req.params;
-        const userID = req.user as { id: string }
+        // For Postman testing
+        // const userID = req.user as { id: string }
+
+        // For application: Flutter
+        const userID = req.body.userId
+
         const emergencyContact = await prisma.emergencyContact.findFirst({
             where: {
                 id: id,
-                userId: userID.id
+                // For Postman testing
+                // userId: userID.id
+
+                // For flutter application
+                userId: userID
             }
         })
 
@@ -82,7 +100,11 @@ export const createEmergencyContact = async (req: express.Request, res: express.
             return;
         }
 
-        const userID = req.user as { id: string }
+        // For Postman testing
+        // const userID = req.user as { id: string }
+
+        // For application: Flutter
+        const userID = req.body.userId
 
         const newEmergencyContact = await prisma.emergencyContact.create({
             data: {
@@ -90,7 +112,11 @@ export const createEmergencyContact = async (req: express.Request, res: express.
                 phoneNum: phoneNum,
                 email: email,
                 relationship: relationship,
-                userId: userID.id
+                // For Postman testing
+                // userId: userID.id
+
+                // For flutter application
+                userId: userID
             }
         });
 
@@ -115,12 +141,19 @@ export const updateEmergencyContact = async (req: express.Request, res: express.
     try {
         const { id } = req.params;
         const { name, phoneNum, email, relationship } = req.body;
-        const userID = req.user as { id: string }
+        // For Postman testing
+        // const userID = req.user as { id: string }
+
+        // For application: Flutter
+        const userID = req.body.userId
         const updatedEmergencyContact = await prisma.emergencyContact.update({
             where: {
                 id_userId: {
                     id: id,
-                    userId: userID.id
+                    // For Postman testing
+                    // userId: userID.id
+                    // For flutter application
+                    userId: userID
                 }
             },
             data: {
@@ -151,12 +184,21 @@ export const updateEmergencyContact = async (req: express.Request, res: express.
 export const deleteEmergencyContact = async (req: express.Request, res: express.Response) => {
     try {
         const { id } = req.params;
-        const userID = req.user as { id: string }
+        // For Postman testing
+        // const userID = req.user as { id: string }
+
+        // For application: Flutter
+        const userID = req.body.userId
+
         const deletedEmergencyContact = await prisma.emergencyContact.delete({
             where: {
                 id_userId: {
                     id: id,
-                    userId: userID.id
+                    // For Postman testing
+                    // userId: userID.id
+
+                    // For flutter application
+                    userId: userID
                 }
             }
         });
