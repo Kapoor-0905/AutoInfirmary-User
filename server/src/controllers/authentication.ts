@@ -53,7 +53,7 @@ export const login = async (req: express.Request, res: express.Response) => {
             }
         });
 
-        const token = await createJWT(user.email);
+        const token = await createJWT(user);
         res.cookie('sessionToken', user.auth.sessionToken, { domain: 'localhost', path: '/', httpOnly: true, secure: true, sameSite: 'none' });
         res.status(200).json({
             user,
@@ -113,7 +113,7 @@ export const register = async (req: express.Request, res: express.Response) => {
 
         if (user) {
             logger.info('user created');
-            const token = await createJWT(user.email);
+            const token = await createJWT(user);
             logger.info(token);
             const sessionToken = await prisma.user.findFirst({
                 select: {

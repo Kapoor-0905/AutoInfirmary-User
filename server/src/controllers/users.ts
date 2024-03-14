@@ -2,30 +2,30 @@ import express from 'express';
 import logger from '../utils/logger';
 import prisma from '../utils/db';
 
-export const getSingleUser = async (req: express.Request, res: express.Response) => {
-    try {
-        const { id } = req.params;
-        const user = await prisma.user.findFirst({
-            where: {
-                id: id
-            }
-        })
-        if (user) {
-            logger.info('User found!');
-            res.status(200).json(user).end();
-        } else {
-            logger.info('user not found');
-            res.send({
-                message: "user not found"
-            })
-        }
-    } catch (error) {
-        logger.info(error);
-        return res.json({
-            message: "something went wrong!"
-        }).sendStatus(400);
-    }
-}
+// export const getSingleUser = async (req: express.Request, res: express.Response) => {
+//     try {
+//         const { id } = req.params;
+//         const user = await prisma.user.findUnique({
+//             where: {
+//                 id: id
+//             }
+//         })
+//         if (user) {
+//             logger.info('User found!');
+//             res.status(200).json(user).end();
+//         } else {
+//             logger.info('user not found');
+//             res.send({
+//                 message: "user not found"
+//             })
+//         }
+//     } catch (error) {
+//         logger.info(error);
+//         return res.json({
+//             message: "something went wrong!"
+//         }).status(400);
+//     }
+// }
 
 export const getAllUsers = async (req: express.Request, res: express.Response) => {
     try {
@@ -40,6 +40,8 @@ export const getAllUsers = async (req: express.Request, res: express.Response) =
             }
         });
 
+        console.log(req.user as { id : string});
+
         if (users) {
             logger.info('Users found');
             res.status(200).json(users).end();
@@ -53,9 +55,35 @@ export const getAllUsers = async (req: express.Request, res: express.Response) =
         logger.info(error);
         return res.json({
             message: "something went wrong!"
-        }).sendStatus(400);
+        }).status(400);
     }
 };
+
+export const getSingleUser = async (req : express.Request , res : express.Response) => {
+    try {
+        const { id } = req.params;
+        const user = await prisma.user.findUnique({
+            where: {
+                id: id
+            }
+        });
+
+        if (user) {
+            logger.info('User found!');
+            res.status(200).json(user).end();
+        } else {
+            logger.info('user not found');
+            res.send({
+                message: "user not found"
+            })
+        }
+    } catch (error) {
+        logger.info(error);
+        return res.json({
+            message: "something went wrong!"
+        }).status(400);
+    }
+}
 
 export const deleteUser = async (req: express.Request, res: express.Response) => {
     try {
@@ -79,7 +107,7 @@ export const deleteUser = async (req: express.Request, res: express.Response) =>
         logger.info(error);
         return res.json({
             message: "something went wrong!"
-        }).sendStatus(400);
+        }).status(400);
     }
 }
 
@@ -119,6 +147,6 @@ export const updateUser = async (req: express.Request, res: express.Response) =>
         logger.info(error);
         return res.json({
             message: "something went wrong!"
-        }).sendStatus(400);
+        }).status(400);
     }
 }

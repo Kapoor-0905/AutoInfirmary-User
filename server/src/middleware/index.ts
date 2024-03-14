@@ -17,13 +17,13 @@ export const isOwner = async (
         if (!currentUserId) {
             return res.json({
                 message: "not authorized!"
-            }).sendStatus(403);
+            }).status(403);
         }
 
         if (currentUserId.toString() !== id) {
             return res.json({
                 message: "not authorized!"
-            }).sendStatus(403);
+            }).status(403);
         }
 
         next();
@@ -31,7 +31,7 @@ export const isOwner = async (
         logger.info(error);
         return res.json({
             message: "something went wrong!"
-        }).sendStatus(400);
+        }).status(400);
     }
 }
 
@@ -46,7 +46,7 @@ export const isAuthenticated = async (
         if (!jwtToken && !sessionToken) {
             return res.json({
                 message: 'not authorized!'
-            }).sendStatus(403).end();
+            }).status(403).end();
             return;
         }
 
@@ -55,7 +55,7 @@ export const isAuthenticated = async (
         if (!token) {
             res.json({
                 message: 'not a valid token!'
-            }).sendStatus(403).end();
+            }).status(403).end();
             return;
         }
 
@@ -72,20 +72,20 @@ export const isAuthenticated = async (
         if (!existingUser) {
             return res.json({
                 message: "user not found!"
-            }).sendStatus(403);
+            }).status(403);
         }
 
         merge(req, {
             identity: existingUser
         })
 
-        const user = jwt.verify(token, jwtSecret)
+        const user = jwt.verify(token, jwtSecret) as { id: string, email: string }; // Add type annotation for 'id'
         req.user = user;
         return next();
     } catch (error) {
         logger.info(error);
         return res.json({
             message: "something went wrong!"
-        }).sendStatus(400);
+        }).status(400);
     }
-}    
+}

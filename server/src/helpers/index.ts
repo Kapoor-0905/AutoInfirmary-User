@@ -2,13 +2,15 @@ import crypto from 'crypto';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import config from '../../config';
+import { User } from '@prisma/client';
 
 const jwtSecret = config.jwtSecret;
 const salt = Number(config.bcryptSalt as string);
 
-export const createJWT = async (email: string) => {
+export const createJWT = async (user: User) => {
     const token = jwt.sign({
-        email
+        email: user.email,
+        id: user.id,
     }, jwtSecret)
     return token
 }
@@ -30,5 +32,4 @@ export const comparePassword = async (password: String, hash: String) => {
     const match = await bcrypt.compare(password.toString(), hash.toString())
     return match
 }
-
 
