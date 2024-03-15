@@ -2,21 +2,21 @@ import express from 'express';
 import logger from '../utils/logger';
 import prisma from '../utils/db';
 
-export const getAllEmergencyContacts = async (req: express.Request, res: express.Response) => {
+export const getAllUserEmergencyContacts = async (req: express.Request, res: express.Response) => {
     try {
         // For Postman testing
-        const userID = req.user as { id: string }
+        // const userID = req.user as { id: string }
 
         // For application: Flutter
-        // const userID = req.body.userId
+        const { userId } = req.params;
 
         const user = await prisma.user.findUnique({
             where: {
                 // For Postman testing
-                id: userID.id
+                // id: userID.id
 
                 // For flutter application
-                // id: userID
+                id: userId
             }, include: {
                 EmergencyContacts: true
             }
@@ -28,44 +28,6 @@ export const getAllEmergencyContacts = async (req: express.Request, res: express
             logger.info('Emergency Contacts not found');
             res.send({
                 message: "Emergency Contacts not found"
-            })
-        }
-    } catch (error) {
-        logger.info(error);
-        return res.json({
-            message: "something went wrong!"
-        }).status(400);
-    }
-}
-
-export const getSingleEmergencyContact = async (req: express.Request, res: express.Response) => {
-    try {
-        const { id } = req.params;
-        // For Postman testing
-        // const userID = req.user as { id: string }
-
-        // For application: Flutter
-        const userID = req.body.userId
-
-        const emergencyContact = await prisma.emergencyContact.findFirst({
-            where: {
-                id: id,
-                // For Postman testing
-                // userId: userID.id
-
-                // For flutter application
-                userId: userID
-            }
-        })
-
-
-        if (emergencyContact) {
-            logger.info('Emergency Contact found!');
-            res.status(200).json(emergencyContact).end();
-        } else {
-            logger.info('Emergency Contact not found');
-            res.send({
-                message: "Emergency Contact not found"
             })
         }
     } catch (error) {

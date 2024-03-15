@@ -1,6 +1,7 @@
 import express from 'express';
 import prisma from '../utils/db';
 import logger from '../utils/logger';
+import { P } from 'pino';
 
 export const createAppointmentBooking = async (req : express.Request, res: express.Response) => {
     try {
@@ -65,12 +66,24 @@ export const createAppointmentBooking = async (req : express.Request, res: expre
     }
 }
 
-export const getAppointmentBookings = async (req: express.Request, res: express.Response) => {
+export const getUserAppointmentBookings = async (req: express.Request, res: express.Response) => {
     try {
-        const appointmentBookings = await prisma.appointmentBooking.findMany();
-        if (appointmentBookings) {
+        // For Postman testing
+        // const userID = req.user as { id: string }
+
+        // For application: Flutter
+        const { userId } = req.params;
+
+        const user = await prisma.user.findUnique({
+            where: {
+                id: userId
+            }, include: {
+                AppointmentBookings: true
+            }
+        })
+        if (user.AppointmentBookings) {
             logger.info('Appointment bookings found');
-            res.status(200).json(appointmentBookings).end();
+            res.status(200).json(user.AppointmentBookings).end();
         } else {
             logger.info('No appointment bookings found');
             res.send({
@@ -85,21 +98,16 @@ export const getAppointmentBookings = async (req: express.Request, res: express.
     }
 }
 
-export const getAppointmentBooking = async (req: express.Request, res: express.Response) => {
+export const getAppointmentBookings = async (req: express.Request, res: express.Response) => {
     try {
-        const { id } = req.params;
-        const appointmentBooking = await prisma.appointmentBooking.findUnique({
-            where: {
-                id: id
-            }
-        });
+        const appointmentBooking = await prisma.appointmentBooking.findMany();
         if (appointmentBooking) {
-            logger.info('Appointment booking found');
+            logger.info('Appointment bookings found');
             res.status(200).json(appointmentBooking).end();
         } else {
-            logger.info('No appointment booking found');
+            logger.info('No appointment bookings found');
             res.send({
-                message: "No appointment booking found"
+                message: "No appointment bookings found"
             })
         }
     } catch (error) {
