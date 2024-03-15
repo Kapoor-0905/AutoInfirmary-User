@@ -5,23 +5,25 @@ import prisma from '../utils/db';
 export const getAllEmergencyContacts = async (req: express.Request, res: express.Response) => {
     try {
         // For Postman testing
-        // const userID = req.user as { id: string }
+        const userID = req.user as { id: string }
 
         // For application: Flutter
-        const userID = req.body.userId
+        // const userID = req.body.userId
 
-        const emergencyContacts = await prisma.emergencyContact.findMany({
+        const user = await prisma.user.findUnique({
             where: {
                 // For Postman testing
-                // userId: userID.id
+                id: userID.id
 
                 // For flutter application
-                userId: userID
+                // id: userID
+            }, include: {
+                EmergencyContacts: true
             }
         })
-        if (emergencyContacts) {
+        if (user.EmergencyContacts) {
             logger.info('Emergency Contacts found');
-            res.status(200).json(emergencyContacts).end();
+            res.status(200).json(user.EmergencyContacts).end();
         } else {
             logger.info('Emergency Contacts not found');
             res.send({
