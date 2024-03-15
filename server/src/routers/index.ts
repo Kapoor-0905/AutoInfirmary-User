@@ -4,6 +4,7 @@ import authentication from './authentication';
 import api from './api';
 import users from './users';
 import emergencyContact from './emergencyContact';
+import appointmentBooking from './appointmentBooking';
 
 const router = express.Router();
 
@@ -12,5 +13,6 @@ export default (): express.Router => {
     api(router);
     users(router);
     emergencyContact(router);
+    appointmentBooking(router);
     return router;
 }
