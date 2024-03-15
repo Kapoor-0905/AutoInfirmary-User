@@ -6,6 +6,7 @@ import 'package:quickcare_user/controllers/userController.dart';
 import 'package:quickcare_user/routeNames.dart';
 import 'package:quickcare_user/utils/colors.dart';
 import 'package:quickcare_user/utils/styles.dart';
+import 'package:quickcare_user/view/bookAppointment/views/selectTime.dart';
 import 'package:quickcare_user/view/home/components/menuTile.dart';
 
 class Home extends StatefulWidget {
@@ -207,7 +208,10 @@ class _HomeState extends State<Home> {
                 ),
                 TextButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, RouteNames.contactPage);
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return SelectTime();
+                      }));
                     },
                     child: Text('Click'))
               ],
