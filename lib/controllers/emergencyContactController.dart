@@ -27,9 +27,9 @@ class EmergencyContactController {
   Future getAllContacts() async {
     try {
       String? token = await SF.getJwtToken();
-      // String? id = await SF.getUserId();
+      String? id = await SF.getUserId();
       http.Response response = await http.get(
-        Uri.parse('$uri/contacts'),
+        Uri.parse('$uri/allcontacts/$id'),
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
           'Authorization': 'Bearer $token',

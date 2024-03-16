@@ -12,5 +12,6 @@ class RouteNames {
   static const String emergencyContacts = '/emergencyContacts';
   static const String addContact = '/addContact';
   static const String contactPage = '/contactPage';
+  static const String selectTime = '/selectTime';
   static const String profile = '/profile';
 }

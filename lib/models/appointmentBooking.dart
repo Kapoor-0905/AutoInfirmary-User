@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
 class AppointmentBooking {
@@ -7,6 +8,7 @@ class AppointmentBooking {
   String location;
   String issueFacing;
   String bookingDate;
+  String userId;
 
   AppointmentBooking({
     required this.fullName,
@@ -15,6 +17,7 @@ class AppointmentBooking {
     required this.location,
     required this.issueFacing,
     required this.bookingDate,
+    required this.userId,
   });
 
   Map<String, dynamic> toMap() {
@@ -25,6 +28,7 @@ class AppointmentBooking {
       'location': location,
       'issueFacing': issueFacing,
       'bookingDate': bookingDate,
+      'userId': userId,
     };
   }
 
@@ -36,6 +40,7 @@ class AppointmentBooking {
       location: map['location'] as String,
       issueFacing: map['issueFacing'] as String,
       bookingDate: map['bookingDate'] as String,
+      userId: map['userId'] as String,
     );
   }
 

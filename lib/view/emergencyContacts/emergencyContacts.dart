@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:quickcare_user/controllers/emergencyContactController.dart';
-import 'package:quickcare_user/controllers/sharedPreferenceController.dart';
 import 'package:quickcare_user/routeNames.dart';
 import 'package:quickcare_user/utils/colors.dart';
 import 'package:quickcare_user/utils/styles.dart';
@@ -20,24 +19,9 @@ class _EmergencyContactsState extends State<EmergencyContacts> {
   List contacts = [];
 
   getContacts() async {
-    String? id = await SF.getUserId();
     await ecController.getAllContacts().then((value) {
-      List<dynamic> decodedValue = jsonDecode(value);
-
-      List<Map<String, dynamic>?> entries = decodedValue.map((item) {
-        if (item is Map<String, dynamic>) {
-          return item;
-        } else {
-          return null;
-        }
-      }).toList();
-
-      // Filter the entries based on the userId
-      List<Map<String, dynamic>?> userEntries =
-          entries.where((entry) => entry!['userId'] == id).toList();
-
       setState(() {
-        contacts = userEntries;
+        contacts = jsonDecode(value);
       });
     });
     // print(contacts);
@@ -45,7 +29,6 @@ class _EmergencyContactsState extends State<EmergencyContacts> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getContacts();
   }
@@ -109,22 +92,22 @@ class _EmergencyContactsState extends State<EmergencyContacts> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20.0),
                     child: Column(
-                        children: List.generate(contacts.length, (index) {
-                      return GestureDetector(
-                        onTap: () {
-                          Navigator.pushNamed(context, RouteNames.contactPage,
-                              arguments: contacts[index]);
+                      children: List.generate(
+                        contacts.length,
+                        (index) {
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.pushNamed(
+                                  context, RouteNames.contactPage,
+                                  arguments: contacts[index]);
+                            },
+                            child: ContactTile(
+                                name: contacts[index]['name'],
+                                phoneNumber: contacts[index]['phoneNum']),
+                          );
                         },
-                        child: ContactTile(
-                            name: contacts[index]['name'],
-                            phoneNumber: contacts[index]['phoneNum']),
-                      );
-                    })
-                        // [
-                        //   ContactTile(
-                        //       name: 'Ashutosh', phoneNumber: '+91 1234567890'),
-                        // ],
-                        ),
+                      ),
+                    ),
                   )
                 ],
               ),

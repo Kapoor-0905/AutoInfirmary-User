@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:quickcare_user/routeNames.dart';
 import 'package:quickcare_user/view/bookAppointment/bookAppointment.dart';
+import 'package:quickcare_user/view/bookAppointment/views/selectTime.dart';
 import 'package:quickcare_user/view/emergencyBooking/emergencyBooking.dart';
 import 'package:quickcare_user/view/emergencyContacts/emergencyContacts.dart';
 import 'package:quickcare_user/view/emergencyContacts/views/addContact.dart';
@@ -33,6 +34,9 @@ final Map<String, WidgetBuilder> routes = {
   RouteNames.contactPage: (context) => ContactPage(
         args:
             ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>,
+      ),
+  RouteNames.selectTime: (context) => SelectTime(
+        args: ModalRoute.of(context)!.settings.arguments as List,
       ),
   RouteNames.profile: (context) => const Profile(),
 };

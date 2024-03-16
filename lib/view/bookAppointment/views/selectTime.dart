@@ -8,7 +8,8 @@ import 'package:quickcare_user/utils/colors.dart';
 import 'package:quickcare_user/utils/styles.dart';
 
 class SelectTime extends StatefulWidget {
-  const SelectTime({super.key});
+  final List args;
+  const SelectTime({super.key, required this.args});
 
   @override
   State<SelectTime> createState() => _SelectTimeState();
@@ -16,6 +17,27 @@ class SelectTime extends StatefulWidget {
 
 class _SelectTimeState extends State<SelectTime> {
   EventController controller = EventController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setAppointmentsAtTheTime();
+  }
+
+  setAppointmentsAtTheTime() {
+    for (var arg in widget.args) {
+      controller.add(
+        CalendarEventData(
+          title: arg['fullName'].toString().split(" ")[0],
+          date: DateTime.parse(arg['bookingDate']),
+          startTime: DateTime.parse(arg['bookingDate']),
+          endTime:
+              DateTime.parse(arg['bookingDate']).add(const Duration(hours: 1)),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

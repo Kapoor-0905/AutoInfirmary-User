@@ -1,4 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:quickcare_user/controllers/appointmentBookingController.dart';
+import 'package:quickcare_user/controllers/sharedPreferenceController.dart';
+import 'package:quickcare_user/models/appointmentBooking.dart';
+import 'package:quickcare_user/routeNames.dart';
 import 'package:quickcare_user/utils/styles.dart';
 import 'package:quickcare_user/utils/widgets/customTextField.dart';
 import 'package:quickcare_user/utils/widgets/iconBox.dart';
@@ -12,6 +19,50 @@ class BookAppointment extends StatefulWidget {
 }
 
 class _BookAppointmentState extends State<BookAppointment> {
+  final AppointmentBookingController abController =
+      AppointmentBookingController();
+  List appointmentData = [];
+  String name = "";
+  String phoneNumber = "";
+  String department = "";
+  String location = "";
+  String issueFacing = "";
+  String time = "";
+
+  bookAppointment() async {
+    String? userId = await SF.getUserId();
+    AppointmentBooking appointmentBooking = AppointmentBooking(
+        userId: userId!,
+        fullName: name,
+        email: phoneNumber,
+        department: department,
+        location: location,
+        issueFacing: issueFacing,
+        bookingDate: time);
+    await abController
+        .bookAppointment(appointmentBooking: appointmentBooking)
+        .then((value) {
+      print(value);
+    });
+
+    // print(appointmentBooking.toMap());
+  }
+
+  getAllAppointments() async {
+    await abController.getAppointmentBookings().then((value) {
+      setState(() {
+        appointmentData = jsonDecode(value);
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getAllAppointments();
+  }
+
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -83,7 +134,11 @@ class _BookAppointmentState extends State<BookAppointment> {
                                 children: [
                                   CustomTextField(
                                     hintText: 'Full Name',
-                                    onChanged: (p0) {},
+                                    onChanged: (p0) {
+                                      setState(() {
+                                        name = p0;
+                                      });
+                                    },
                                   ),
                                 ],
                               ),
@@ -99,7 +154,11 @@ class _BookAppointmentState extends State<BookAppointment> {
                             Expanded(
                               child: CustomTextField(
                                 hintText: 'Mobile Number',
-                                onChanged: (p0) {},
+                                onChanged: (p0) {
+                                  setState(() {
+                                    phoneNumber = p0;
+                                  });
+                                },
                               ),
                             ),
                             const SizedBox(width: 15),
@@ -113,7 +172,11 @@ class _BookAppointmentState extends State<BookAppointment> {
                             Expanded(
                               child: CustomTextField(
                                 hintText: 'Department',
-                                onChanged: (p0) {},
+                                onChanged: (p0) {
+                                  setState(() {
+                                    department = p0;
+                                  });
+                                },
                               ),
                             ),
                             const SizedBox(width: 15),
@@ -127,7 +190,11 @@ class _BookAppointmentState extends State<BookAppointment> {
                             Expanded(
                               child: CustomTextField(
                                 hintText: 'Location',
-                                onChanged: (p0) {},
+                                onChanged: (p0) {
+                                  setState(() {
+                                    location = p0;
+                                  });
+                                },
                               ),
                             ),
                             const SizedBox(width: 15),
@@ -141,7 +208,11 @@ class _BookAppointmentState extends State<BookAppointment> {
                             Expanded(
                               child: CustomTextField(
                                 hintText: 'Issue Facing',
-                                onChanged: (p0) {},
+                                onChanged: (p0) {
+                                  setState(() {
+                                    issueFacing = p0;
+                                  });
+                                },
                               ),
                             ),
                             const SizedBox(width: 15),
@@ -155,12 +226,23 @@ class _BookAppointmentState extends State<BookAppointment> {
                             Expanded(
                               child: CustomTextField(
                                 hintText: 'Preferred Time',
-                                onChanged: (p0) {},
+                                onChanged: (p0) {
+                                  setState(() {
+                                    time = p0;
+                                  });
+                                },
                               ),
                             ),
                             const SizedBox(width: 15),
-                            const IconBox(
-                              icon: 'assets/icons/clock.png',
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.pushNamed(
+                                    context, RouteNames.selectTime,
+                                    arguments: appointmentData);
+                              },
+                              child: const IconBox(
+                                icon: 'assets/icons/clock.png',
+                              ),
                             )
                           ],
                         ),
@@ -173,7 +255,9 @@ class _BookAppointmentState extends State<BookAppointment> {
                 padding: const EdgeInsets.only(bottom: 10.0),
                 child: SmallButton(
                   text: 'Book Now',
-                  onPressed: () {},
+                  onPressed: () {
+                    bookAppointment();
+                  },
                   height: 50,
                 ),
               ),

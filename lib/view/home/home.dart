@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:quickcare_user/controllers/appointmentBookingController.dart';
 import 'package:quickcare_user/controllers/sharedPreferenceController.dart';
 import 'package:quickcare_user/controllers/userController.dart';
 import 'package:quickcare_user/routeNames.dart';
@@ -28,6 +29,10 @@ class _HomeState extends State<Home> {
         userData = jsonDecode(value);
       });
     });
+
+    // await AppointmentBookingController().getAppointmentBookings().then((value) {
+    //   print(value);
+    // });
   }
 
   @override
@@ -206,14 +211,6 @@ class _HomeState extends State<Home> {
                     ),
                   ],
                 ),
-                TextButton(
-                    onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return SelectTime();
-                      }));
-                    },
-                    child: Text('Click'))
               ],
             ),
           )
