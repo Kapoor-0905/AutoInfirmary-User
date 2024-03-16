@@ -2,7 +2,7 @@ import express from 'express';
 import prisma from '../utils/db';
 import logger from '../utils/logger';
 
-export const createAppointmentBooking = async (req : express.Request, res: express.Response) => {
+export const createEmergencyBooking = async (req : express.Request, res: express.Response) => {
     try {
         const { fullName, email, department, location, issueFacing, bookingDate } = req.body;
 
