@@ -2,7 +2,7 @@ import express from 'express';
 import prisma from '../utils/db';
 import logger from '../utils/logger';
 
-export const createAppointmentBooking = async (req : express.Request, res: express.Response) => {
+export const createEmergencyBooking = async (req : express.Request, res: express.Response) => {
     try {
         const { fullName, email, department, location, issueFacing, bookingDate } = req.body;
 
@@ -27,10 +27,10 @@ export const createAppointmentBooking = async (req : express.Request, res: expre
             }).end();
         }
         // For Postman testing
-        // const userID = req.user as { id: string }
+        const userID = req.user as { id: string }
 
         // For application: Flutter
-        const userID = req.body.userId
+        // const userID = req.body.userId
         
         const newAppointmentBooking = await prisma.appointmentBooking.create({
             data: {
@@ -41,10 +41,10 @@ export const createAppointmentBooking = async (req : express.Request, res: expre
                 issueFacing: issueFacing,
                 bookingDate: bookingDate,
                 // For Postman testing
-                // userId: userID.id
+                userId: userID.id
 
                 // For flutter application
-                userId: userID
+                // userId: userID
             }
         });
 
