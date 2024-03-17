@@ -16,3 +16,31 @@ Future<void> makePhoneCall(String phoneNumber) async {
     throw 'Could not launch $url';
   }
 }
+
+DateTime convertStringToDateTime(String timeString) {
+  List<String> parts = timeString.split(':');
+  int hour = int.parse(parts[0]);
+
+  String minutePart = parts[1];
+  int minute = int.parse(minutePart.substring(0, 2));
+  String amPm = minutePart.substring(3);
+
+  if (amPm.toLowerCase() == 'pm' && hour != 12) {
+    hour += 12;
+  }
+
+  DateTime now = DateTime.now();
+
+  return DateTime(now.year, now.month, now.day, hour, minute);
+}
+
+String formatDate(DateTime dateTime) {
+  // Format DateTime object as "Month Date, Year : Hour:Minute"
+  String formattedDate = DateFormat('MMMM d, y : HH:mm').format(dateTime);
+  return formattedDate;
+}
+
+String getTime(DateTime dateTime) {
+  String formattedDate = DateFormat('HH:mm').format(dateTime);
+  return formattedDate;
+}

@@ -27,10 +27,10 @@ class AppointmentBookingController {
   Future getAppointmentBookings() async {
     try {
       String? token = await SF.getJwtToken();
-      String? userId = await SF.getUserId();
+      // String? userId = await SF.getUserId();
 
       http.Response response = await http.get(
-        Uri.parse('$uri/appointments/$userId'),
+        Uri.parse('$uri/appointments'),
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
           'Authorization': 'Bearer $token',

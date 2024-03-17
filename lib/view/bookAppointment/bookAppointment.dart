@@ -1,12 +1,15 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:quickcare_user/controllers/appointmentBookingController.dart';
 import 'package:quickcare_user/controllers/sharedPreferenceController.dart';
 import 'package:quickcare_user/models/appointmentBooking.dart';
 import 'package:quickcare_user/routeNames.dart';
+import 'package:quickcare_user/utils/functions.dart';
 import 'package:quickcare_user/utils/styles.dart';
+import 'package:quickcare_user/utils/widgets.dart';
 import 'package:quickcare_user/utils/widgets/customTextField.dart';
 import 'package:quickcare_user/utils/widgets/iconBox.dart';
 import 'package:quickcare_user/utils/widgets/smallButton.dart';
@@ -22,26 +25,38 @@ class _BookAppointmentState extends State<BookAppointment> {
   final AppointmentBookingController abController =
       AppointmentBookingController();
   List appointmentData = [];
-  String name = "";
-  String phoneNumber = "";
-  String department = "";
-  String location = "";
-  String issueFacing = "";
-  String time = "";
+  late TextEditingController nameController;
+  late TextEditingController emailController;
+  late TextEditingController departmentController;
+  late TextEditingController locationController;
+  late TextEditingController issueFacingController;
+  late TextEditingController timeController;
+  DateTime getVal = DateTime.now();
 
   bookAppointment() async {
     String? userId = await SF.getUserId();
     AppointmentBooking appointmentBooking = AppointmentBooking(
         userId: userId!,
-        fullName: name,
-        email: phoneNumber,
-        department: department,
-        location: location,
-        issueFacing: issueFacing,
-        bookingDate: time);
+        fullName: nameController.text,
+        email: emailController.text,
+        department: departmentController.text,
+        location: locationController.text,
+        issueFacing: issueFacingController.text,
+        bookingDate: getVal.toString());
     await abController
         .bookAppointment(appointmentBooking: appointmentBooking)
         .then((value) {
+      if (value.toString().isNotEmpty) {
+        setState(() {
+          nameController.clear();
+          emailController.clear();
+          departmentController.clear();
+          locationController.clear();
+          issueFacingController.clear();
+          timeController.clear();
+        });
+        successToast(message: 'Appointment Booked successfully');
+      }
       print(value);
     });
 
@@ -61,6 +76,23 @@ class _BookAppointmentState extends State<BookAppointment> {
     // TODO: implement initState
     super.initState();
     getAllAppointments();
+    nameController = TextEditingController();
+    emailController = TextEditingController();
+    departmentController = TextEditingController();
+    locationController = TextEditingController();
+    issueFacingController = TextEditingController();
+    timeController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    emailController.dispose();
+    departmentController.dispose();
+    locationController.dispose();
+    issueFacingController.dispose();
+    timeController.dispose();
+    super.dispose();
   }
 
   @override
@@ -136,7 +168,7 @@ class _BookAppointmentState extends State<BookAppointment> {
                                     hintText: 'Full Name',
                                     onChanged: (p0) {
                                       setState(() {
-                                        name = p0;
+                                        nameController.text = p0;
                                       });
                                     },
                                   ),
@@ -153,10 +185,10 @@ class _BookAppointmentState extends State<BookAppointment> {
                           children: [
                             Expanded(
                               child: CustomTextField(
-                                hintText: 'Mobile Number',
+                                hintText: 'Email',
                                 onChanged: (p0) {
                                   setState(() {
-                                    phoneNumber = p0;
+                                    emailController.text = p0;
                                   });
                                 },
                               ),
@@ -174,7 +206,7 @@ class _BookAppointmentState extends State<BookAppointment> {
                                 hintText: 'Department',
                                 onChanged: (p0) {
                                   setState(() {
-                                    department = p0;
+                                    departmentController.text = p0;
                                   });
                                 },
                               ),
@@ -192,7 +224,7 @@ class _BookAppointmentState extends State<BookAppointment> {
                                 hintText: 'Location',
                                 onChanged: (p0) {
                                   setState(() {
-                                    location = p0;
+                                    locationController.text = p0;
                                   });
                                 },
                               ),
@@ -210,7 +242,7 @@ class _BookAppointmentState extends State<BookAppointment> {
                                 hintText: 'Issue Facing',
                                 onChanged: (p0) {
                                   setState(() {
-                                    issueFacing = p0;
+                                    issueFacingController.text = p0;
                                   });
                                 },
                               ),
@@ -221,30 +253,53 @@ class _BookAppointmentState extends State<BookAppointment> {
                             )
                           ],
                         ),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: CustomTextField(
-                                hintText: 'Preferred Time',
-                                onChanged: (p0) {
-                                  setState(() {
-                                    time = p0;
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(context, RouteNames.selectTime,
+                                    arguments: appointmentData)
+                                .then((value) {
+                              setState(() {
+                                timeController.text =
+                                    formatDate(value as DateTime);
+                                getVal = value;
+                              });
+                            });
+                          },
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: CustomTextField(
+                                  readOnly: true,
+                                  controller: timeController,
+                                  hintText: 'Preferred Time',
+                                  onChanged: (p0) {
+                                    setState(() {
+                                      timeController.text = p0;
+                                    });
+                                  },
+                                ),
+                              ),
+                              const SizedBox(width: 15),
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                          context, RouteNames.selectTime,
+                                          arguments: appointmentData)
+                                      .then((value) {
+                                    // print(value.runtimeType);
+                                    setState(() {
+                                      timeController.text =
+                                          formatDate(value as DateTime);
+                                      getVal = value;
+                                    });
                                   });
                                 },
-                              ),
-                            ),
-                            const SizedBox(width: 15),
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.pushNamed(
-                                    context, RouteNames.selectTime,
-                                    arguments: appointmentData);
-                              },
-                              child: const IconBox(
-                                icon: 'assets/icons/clock.png',
-                              ),
-                            )
-                          ],
+                                child: const IconBox(
+                                  icon: 'assets/icons/clock.png',
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                       ],
                     ),

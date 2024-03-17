@@ -1,10 +1,8 @@
-import 'dart:collection';
-import 'dart:ffi';
-
 import 'package:calendar_view/calendar_view.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:quickcare_user/utils/colors.dart';
+import 'package:quickcare_user/utils/functions.dart';
 import 'package:quickcare_user/utils/styles.dart';
 
 class SelectTime extends StatefulWidget {
@@ -16,17 +14,27 @@ class SelectTime extends StatefulWidget {
 }
 
 class _SelectTimeState extends State<SelectTime> {
+  bool added = false;
+  List data = [];
   EventController controller = EventController();
+  DateTime now = DateTime.now();
+  TimeOfDay? timeVal = TimeOfDay.fromDateTime(DateTime.now());
+  DateTime returnVal = DateTime.now();
+  DateTime current = DateTime.now();
 
+  // Set the time to midnight (12:00 AM)
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     setAppointmentsAtTheTime();
   }
 
   setAppointmentsAtTheTime() {
-    for (var arg in widget.args) {
+    setState(() {
+      data = widget.args;
+    });
+    // print(widget.args);
+    for (var arg in data) {
       controller.add(
         CalendarEventData(
           title: arg['fullName'].toString().split(" ")[0],
@@ -41,99 +49,149 @@ class _SelectTimeState extends State<SelectTime> {
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(''),
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(70),
+        child: Container(
+          padding: EdgeInsets.fromLTRB(20, size.height * 0.06, 20, 20),
+          decoration: topBarDecoration,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Select Booking Time',
+                    style: heading.copyWith(color: Colors.white, fontSize: 28),
+                  ),
+                  GestureDetector(
+                    onTap: () => Navigator.pop(context, returnVal),
+                    child: Row(
+                      children: [
+                        Text(
+                          'ESC',
+                          style: smallText.copyWith(
+                              color: Colors.white.withOpacity(0.5)),
+                        ),
+                        const SizedBox(width: 5),
+                        Icon(
+                          Icons.close,
+                          size: 15,
+                          color: Colors.white.withOpacity(0.5),
+                        )
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 15),
+            ],
+          ),
+        ),
       ),
       body: DayView(
         dayTitleBuilder: (date) {
           final formattedDate = DateFormat.yMMMd().format(date);
           return Center(child: Text(formattedDate));
         },
-
         controller: controller,
+        onDateTap: (date) {},
         eventTileBuilder: (date, events, boundry, start, end) {
+          print(controller.allEvents.length);
           // Return your widget to display as event tile.
-          return Row(
-            children: List.generate(
-              events.length,
-              (index) => Container(
-                padding: EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                    color: events.length == 1
-                        ? Colors.green
-                        : events.length > 3
-                            ? Colors.red
-                            : Colors.yellow,
-                    borderRadius: BorderRadius.circular(10)),
-                child: Text(
-                  controller.getEventsOnDay(DateTime.now())[index].title,
-                  style: normalText,
-                ),
-              ),
-            ),
+          return Container(
+            margin: EdgeInsets.all(5),
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+                color: 5 - events.length == 5
+                    ? Colors.green
+                    : 5 - events.length == 4
+                        ? Colors.yellow
+                        : 5 - events.length == 3
+                            ? Colors.orange[400]
+                            : 5 - events.length <= 2
+                                ? Colors.red
+                                : Colors.green),
+            child: Text('${5 - events.length} slots available for ${getTime(start)}'),
           );
-
-          // Container(
-          //   padding: EdgeInsets.all(10),
-          //   decoration: BoxDecoration(
-          //       color: Colors.yellow, borderRadius: BorderRadius.circular(10)),
-          //   child: Text(
-          //     controller.getEventsOnDay(DateTime.now())[0].title,
-          //     style: normalText,
-          //   ),
-          // );
         },
-        // fullDayEventBuilder: (events, date) {
-        //   // Return your widget to display full day event view.
-        //   return Container(
-        //     child: Text(
-        //       controller.getEventsOnDay(DateTime.now())[0].title,
-        //       style: normalText,
-        //     ),
-        //   );
-        // },
-        showVerticalLine: true, // To display live time line in day view.
-        showLiveTimeLineInAllDays:
-            true, // To display live time line in all pages in day view.R
-        minDay: DateTime(1990),
-        maxDay: DateTime(2050),
+        showVerticalLine: true,
+        showLiveTimeLineInAllDays: true,
+        minDay: DateTime(now.year, now.month, now.day),
+        maxDay: DateTime(
+          now.year,
+          now.month,
+          now.day,
+          23, // Hour
+          0, // Minute
+          0, // Second
+          0, // Millisecond
+        ),
         initialDay: DateTime.now(),
-        heightPerMinute: 1, // height occupied by 1 minute time span.
-        eventArranger:
-            MergeEventArranger(), // To define how simultaneous events will be arranged.
-        onEventTap: (events, date) => print(events),
-        onDateLongPress: (date) => print(date),
-        startHour: 0, // To set the first hour displayed (ex: 05:00)
-
-        // To Hide day header
+        heightPerMinute: 1,
+        eventArranger: const MergeEventArranger(),
+        onEventTap: (events, date) {
+          controller.remove(events.last);
+        },
+        startHour: 0,
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () {
-          controller.add(
-            CalendarEventData(
-                title: 'task2',
-                date: DateTime.utc(2024, 3, 15),
-                startTime: DateTime.utc(2024, 3, 15, 15, 0, 0),
-                endTime: DateTime.utc(2024, 3, 15, 16, 0, 0)),
-          );
-          print(controller.getEventsOnDay(DateTime.now()));
+        backgroundColor: primaryColor,
+        child: added
+            ? const Icon(
+                Icons.close,
+                color: Colors.white,
+              )
+            : const Icon(
+                Icons.add,
+                color: Colors.white,
+              ),
+        onPressed: () async {
+          added
+              ? Navigator.pop(context, returnVal)
+              : {
+                  timeVal = await showTimePicker(
+                    context: context,
+                    initialTime: TimeOfDay.now(),
+                    builder: (BuildContext? context, Widget? child) {
+                      return MediaQuery(
+                        data: MediaQuery.of(context!)
+                            .copyWith(alwaysUse24HourFormat: false),
+                        child: child!,
+                      );
+                    },
+                  ).then(
+                    (value) {
+                      setState(() {
+                        added = true;
+                        returnVal =
+                            convertStringToDateTime(value!.format(context));
+                      });
+                      print(convertStringToDateTime(value!.format(context)));
+                      controller.add(
+                        CalendarEventData(
+                          title: 'You',
+                          date: convertStringToDateTime(value.format(context)),
+                          startTime:
+                              convertStringToDateTime(value.format(context)),
+                          endTime:
+                              convertStringToDateTime(value.format(context))
+                                  .add(
+                            const Duration(hours: 1),
+                          ),
+                        ),
+                      );
+                      print(controller.getEventsOnDay(DateTime.now()));
+                      // Navigator.pop(context, returnVal);
+                      return value;
+                    },
+                  )
+                };
         },
       ),
     );
   }
-
-  Widget _tileBuilder() => Container(
-        color: Colors.blue,
-        height: 50,
-        child: Text('Hellp'),
-      );
-}
-
-class Event {
-  final String title;
-  final Color color;
-
-  Event(this.title, this.color);
 }
