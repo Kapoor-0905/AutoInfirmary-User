@@ -311,7 +311,16 @@ class _BookAppointmentState extends State<BookAppointment> {
                 child: SmallButton(
                   text: 'Book Now',
                   onPressed: () {
-                    bookAppointment();
+                    if (nameController.text.isEmpty ||
+                        emailController.text.isEmpty ||
+                        departmentController.text.isEmpty ||
+                        locationController.text.isEmpty ||
+                        issueFacingController.text.isEmpty ||
+                        timeController.text.isEmpty) {
+                      errorToast(message: 'Please fill all details');
+                    } else {
+                      bookAppointment();
+                    }
                   },
                   height: 50,
                 ),

@@ -27,10 +27,10 @@ export const createEmergencyBooking = async (req : express.Request, res: express
             }).end();
         }
         // For Postman testing
-        const userID = req.user as { id: string }
+        // const userID = req.user as { id: string }
 
         // For application: Flutter
-        // const userID = req.body.userId
+        const userID = req.body.userId
         
         const newAppointmentBooking = await prisma.appointmentBooking.create({
             data: {
@@ -41,7 +41,7 @@ export const createEmergencyBooking = async (req : express.Request, res: express
                 issueFacing: issueFacing,
                 bookingDate: bookingDate,
                 // For Postman testing
-                userId: userID.id
+                userId: userID
 
                 // For flutter application
                 // userId: userID

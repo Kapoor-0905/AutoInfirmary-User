@@ -29,7 +29,7 @@ class EmergencyContactController {
       String? token = await SF.getJwtToken();
       String? id = await SF.getUserId();
       http.Response response = await http.get(
-        Uri.parse('$uri/allcontacts/$id'),
+        Uri.parse('$uri/contacts/$id'),
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
           'Authorization': 'Bearer $token',
