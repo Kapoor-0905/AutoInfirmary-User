@@ -1,12 +1,12 @@
-import express from 'express';
+import express, { application } from 'express';
 import prisma from '../utils/db';
 import logger from '../utils/logger';
 
-export const createEmergencyBooking = async (req : express.Request, res: express.Response) => {
+export const createEmergencyBooking = async (req: express.Request, res: express.Response) => {
     try {
-        const { fullName, email, department, location, issueFacing, bookingDate } = req.body;
+        const { fullName, email, department, location, issueFacing, bookingDate, approxTimeOfArrival } = req.body;
 
-        if (!fullName|| !email ||!department || !location || !issueFacing || !bookingDate) {
+        if (!fullName || !email || !department || !location || !issueFacing || !bookingDate || !approxTimeOfArrival) {
             logger.info('Missing required fields');
             res.status(400).json({
                 message: "Please provide all the required fields"
@@ -14,16 +14,16 @@ export const createEmergencyBooking = async (req : express.Request, res: express
             return;
         }
 
-        const existingAppointmentBooking = await prisma.appointmentBooking.findFirst({
+        const existingAppointmentBooking = await prisma.emergencyBooking.findFirst({
             where: {
                 email: email
             }
         })
 
         if (existingAppointmentBooking) {
-            logger.info('Appointment already exists');
+            logger.info('Emergency appointment already exists');
             res.status(400).json({
-                message: "Appointment already exists"
+                message: "Emergency appointment already exists"
             }).end();
         }
         // For Postman testing
@@ -31,8 +31,8 @@ export const createEmergencyBooking = async (req : express.Request, res: express
 
         // For application: Flutter
         const userID = req.body.userId
-        
-        const newAppointmentBooking = await prisma.appointmentBooking.create({
+
+        const newAppointmentBooking = await prisma.emergencyBooking.create({
             data: {
                 fullName: fullName,
                 email: email,
@@ -40,6 +40,7 @@ export const createEmergencyBooking = async (req : express.Request, res: express
                 location: location,
                 issueFacing: issueFacing,
                 bookingDate: bookingDate,
+                approxTimeOfArrival: approxTimeOfArrival,
                 // For Postman testing
                 userId: userID
 
@@ -65,7 +66,7 @@ export const createEmergencyBooking = async (req : express.Request, res: express
     }
 }
 
-export const getUserAppointmentBookings = async (req: express.Request, res: express.Response) => {
+export const getUserEmergencyAppointmentBookings = async (req: express.Request, res: express.Response) => {
     try {
         // For Postman testing
         // const userID = req.user as { id: string }
@@ -77,12 +78,12 @@ export const getUserAppointmentBookings = async (req: express.Request, res: expr
             where: {
                 id: userId
             }, include: {
-                AppointmentBookings: true
+                EmergencyBookings: true
             }
         })
-        if (user.AppointmentBookings) {
+        if (user.EmergencyBookings) {
             logger.info('Appointment bookings found');
-            res.status(200).json(user.AppointmentBookings).end();
+            res.status(200).json(user.EmergencyBookings).end();
         } else {
             logger.info('No appointment bookings found');
             res.send({
@@ -97,12 +98,12 @@ export const getUserAppointmentBookings = async (req: express.Request, res: expr
     }
 }
 
-export const getAppointmentBookings = async (req: express.Request, res: express.Response) => {
+export const getEmergencyAppointmentBookings = async (req: express.Request, res: express.Response) => {
     try {
-        const appointmentBooking = await prisma.appointmentBooking.findMany();
-        if (appointmentBooking) {
+        const emergencyAppointmentBooking = await prisma.emergencyBooking.findMany();
+        if (emergencyAppointmentBooking) {
             logger.info('Appointment bookings found');
-            res.status(200).json(appointmentBooking).end();
+            res.status(200).json(emergencyAppointmentBooking).end();
         } else {
             logger.info('No appointment bookings found');
             res.send({
@@ -117,10 +118,10 @@ export const getAppointmentBookings = async (req: express.Request, res: express.
     }
 }
 
-export const updateAppointmentBooking = async (req: express.Request, res: express.Response) => {
+export const updateEmergencyAppointmentBooking = async (req: express.Request, res: express.Response) => {
     try {
         const { id } = req.params;
-        const { fullName, email, department, location, issueFacing, bookingDate } = req.body;
+        const { fullName, email, department, location, issueFacing, bookingDate, approxTimeOfArrival } = req.body;
 
         // For Postman testing
         // const userID = req.user as { id: string }
@@ -129,7 +130,7 @@ export const updateAppointmentBooking = async (req: express.Request, res: expres
         const userID = req.body.userId
 
 
-        const updatedAppointmentBooking = await prisma.appointmentBooking.update({
+        const updatedEmergencyAppointmentBooking = await prisma.emergencyBooking.update({
             where: {
                 id_userId: {
                     id: id,
@@ -145,12 +146,13 @@ export const updateAppointmentBooking = async (req: express.Request, res: expres
                 department: department,
                 location: location,
                 issueFacing: issueFacing,
-                bookingDate: bookingDate
+                bookingDate: bookingDate,
+                approxTimeOfArrival: approxTimeOfArrival
             }
         });
-        if (updateAppointmentBooking) {
+        if (updateEmergencyAppointmentBooking) {
             logger.info('Appointment booking updated');
-            res.status(200).json(updateAppointmentBooking).end();
+            res.status(200).json(updateEmergencyAppointmentBooking).end();
         } else {
             logger.info('Appointment booking not updated');
             res.send({
@@ -165,7 +167,7 @@ export const updateAppointmentBooking = async (req: express.Request, res: expres
     }
 }
 
-export const deleteAppointmentBooking = async (req: express.Request, res: express.Response) => {
+export const deleteEmergencyAppointmentBooking = async (req: express.Request, res: express.Response) => {
     try {
         const { id } = req.params;
         // For Postman testing
@@ -174,7 +176,7 @@ export const deleteAppointmentBooking = async (req: express.Request, res: expres
         // For application: Flutter
         const userID = req.body.userId
 
-        const deletedAppointmentBooking = await prisma.appointmentBooking.delete({
+        const deletedEmergencyAppointmentBooking = await prisma.emergencyBooking.delete({
             where: {
                 id_userId: {
                     id: id,
@@ -186,9 +188,9 @@ export const deleteAppointmentBooking = async (req: express.Request, res: expres
                 }
             }
         });
-        if (deletedAppointmentBooking) {
+        if (deleteEmergencyAppointmentBooking) {
             logger.info('Appointment booking deleted');
-            res.status(200).json(deletedAppointmentBooking).end();
+            res.status(200).json(deleteEmergencyAppointmentBooking).end();
         } else {
             logger.info('Appointment booking not deleted');
             res.send({
