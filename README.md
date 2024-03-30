@@ -7,12 +7,18 @@
 ```bash
 .
 ├── controllers
+│   ├── appointmentBookingController.dart
 │   ├── authController.dart
+│   ├── emergencyBookingController.dart
+│   ├── emergencyContactController.dart
 │   ├── sharedPreferenceController.dart
 │   └── userController.dart
 ├── demo.json
 ├── main.dart
 ├── models
+│   ├── appointmentBooking.dart
+│   ├── emergencyBooking.dart
+│   ├── emergencyContact.dart
 │   └── user.dart
 ├── routeNames.dart
 ├── routes.dart
@@ -29,7 +35,9 @@
 │   └── widgets.dart
 └── view
     ├── bookAppointment
-    │   └── bookAppointment.dart
+    │   ├── bookAppointment.dart
+    │   └── views
+    │       └── selectTime.dart
     ├── emergencyBooking
     │   └── emergencyBooking.dart
     ├── emergencyContacts
@@ -38,7 +46,8 @@
     │   │   └── phoneContactPanel.dart
     │   ├── emergencyContacts.dart
     │   └── views
-    │       └── addContact.dart
+    │       ├── addContact.dart
+    │       └── contactPage.dart
     ├── home
     │   ├── components
     │   │   └── menuTile.dart
