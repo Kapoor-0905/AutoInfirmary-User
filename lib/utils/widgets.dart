@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:quickcare_user/utils/colors.dart';
 
 errorToast({required String message}) {
   Fluttertoast.showToast(
@@ -15,4 +16,9 @@ successToast({required String message}) {
     textColor: Colors.white,
     msg: message,
   );
+}
+
+normalToast({required String message}) {
+  Fluttertoast.showToast(
+      msg: message, backgroundColor: primaryColor, textColor: Colors.white);
 }

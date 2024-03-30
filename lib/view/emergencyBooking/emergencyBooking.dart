@@ -1,19 +1,104 @@
 import 'package:flutter/material.dart';
+import 'package:quickcare_user/controllers/emergencyBookingController.dart';
+import 'package:quickcare_user/controllers/sharedPreferenceController.dart';
 import 'package:quickcare_user/utils/colors.dart';
 import 'package:quickcare_user/utils/styles.dart';
+import 'package:quickcare_user/utils/widgets.dart';
 import 'package:quickcare_user/utils/widgets/customTextField.dart';
 import 'package:quickcare_user/utils/widgets/iconBox.dart';
 import 'package:quickcare_user/utils/widgets/smallButton.dart';
+import 'package:quickcare_user/models/emergencyBooking.dart';
 
 class EmergencyBooking extends StatefulWidget {
-  const EmergencyBooking({super.key});
+  final Map<String, dynamic> userData;
+  const EmergencyBooking({super.key, required this.userData});
 
   @override
   State<EmergencyBooking> createState() => _EmergencyBookingState();
 }
 
 class _EmergencyBookingState extends State<EmergencyBooking> {
+  late TextEditingController nameController;
+  late TextEditingController emailController;
+  late TextEditingController departmentController;
+  late TextEditingController locationController;
+  late TextEditingController issueFacingController;
+  late TextEditingController approxTimeOfArrivalController;
+  late TextEditingController needAmbulanceController;
   bool needAnAmbulance = false;
+  TimeOfDay? timeVal = TimeOfDay.fromDateTime(DateTime.now());
+  EmergencyBookingController emergencyBookingController =
+      EmergencyBookingController();
+  @override
+  void initState() {
+    super.initState();
+    nameController = TextEditingController(
+        text: '${widget.userData['firstName']} ${widget.userData['lastName']}');
+    emailController = TextEditingController(text: widget.userData['email']);
+    departmentController = TextEditingController();
+    locationController = TextEditingController();
+    issueFacingController = TextEditingController();
+    approxTimeOfArrivalController = TextEditingController();
+    needAmbulanceController = TextEditingController();
+    print(widget.userData['firstName']);
+  }
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    emailController.dispose();
+    departmentController.dispose();
+    locationController.dispose();
+    issueFacingController.dispose();
+    approxTimeOfArrivalController.dispose();
+    super.dispose();
+  }
+
+  bookEmergencyAppointment() async {
+    String? id = await SF.getUserId();
+
+    EmergencyBookingModel emergencyBooking = EmergencyBookingModel(
+      fullName: nameController.text,
+      email: emailController.text,
+      department: departmentController.text,
+      location: locationController.text,
+      issueFacing: issueFacingController.text,
+      approxTimeOfArrival: approxTimeOfArrivalController.text,
+      userId: id!,
+      needAmbulance: needAnAmbulance,
+      bookingDate: DateTime.now().toString(),
+    );
+    validate() == false
+        ? errorToast(message: 'Kindly fill all the fields')
+        : await emergencyBookingController
+            .createEmergencyBooking(emergencyBooking: emergencyBooking)
+            .then((value) {
+            successToast(message: 'Emergency Booked successfully');
+            setState(() {
+              nameController.clear();
+              emailController.clear();
+              locationController.clear();
+              departmentController.clear();
+              issueFacingController.clear();
+              approxTimeOfArrivalController.clear();
+            });
+          });
+    // print(emergencyBooking.toMap());
+  }
+
+  validate() {
+    if (nameController.text.isEmpty ||
+        emailController.text.isEmpty ||
+        departmentController.text.isEmpty ||
+        locationController.text.isEmpty ||
+        issueFacingController.text.isEmpty ||
+        approxTimeOfArrivalController.text.isEmpty) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -78,6 +163,7 @@ class _EmergencyBookingState extends State<EmergencyBooking> {
                           children: [
                             Expanded(
                               child: CustomTextField(
+                                controller: nameController,
                                 keyboardType: TextInputType.name,
                                 textCapitalization: TextCapitalization.words,
                                 hintText: 'Full Name',
@@ -94,8 +180,9 @@ class _EmergencyBookingState extends State<EmergencyBooking> {
                           children: [
                             Expanded(
                               child: CustomTextField(
+                                controller: emailController,
                                 keyboardType: TextInputType.phone,
-                                hintText: 'Mobile Number',
+                                hintText: 'Email',
                                 onChanged: (p0) {},
                               ),
                             ),
@@ -109,6 +196,7 @@ class _EmergencyBookingState extends State<EmergencyBooking> {
                           children: [
                             Expanded(
                               child: CustomTextField(
+                                controller: departmentController,
                                 hintText: 'Department',
                                 onChanged: (p0) {},
                               ),
@@ -123,6 +211,7 @@ class _EmergencyBookingState extends State<EmergencyBooking> {
                           children: [
                             Expanded(
                               child: CustomTextField(
+                                controller: locationController,
                                 hintText: 'Location',
                                 onChanged: (p0) {},
                               ),
@@ -137,6 +226,7 @@ class _EmergencyBookingState extends State<EmergencyBooking> {
                           children: [
                             Expanded(
                               child: CustomTextField(
+                                controller: issueFacingController,
                                 hintText: 'Issue Facing',
                                 onChanged: (p0) {},
                               ),
@@ -147,24 +237,51 @@ class _EmergencyBookingState extends State<EmergencyBooking> {
                             )
                           ],
                         ),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: CustomTextField(
-                                hintText: 'Approx. time of arrival',
-                                onChanged: (p0) {},
+                        GestureDetector(
+                          onTap: () async {
+                            timeVal = await showTimePicker(
+                              context: context,
+                              initialTime: TimeOfDay.now(),
+                              builder: (BuildContext? context, Widget? child) {
+                                return MediaQuery(
+                                  data: MediaQuery.of(context!)
+                                      .copyWith(alwaysUse24HourFormat: false),
+                                  child: child!,
+                                );
+                              },
+                            ).then((value) {
+                              setState(() {
+                                if (value != null) {
+                                  approxTimeOfArrivalController.text =
+                                      value.format(context);
+                                }
+                              });
+                              return value;
+                            });
+                          },
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: CustomTextField(
+                                  controller: approxTimeOfArrivalController,
+                                  readOnly: true,
+                                  hintText: 'Approx. time of arrival',
+                                  onChanged: (p0) {},
+                                ),
                               ),
-                            ),
-                            const SizedBox(width: 15),
-                            const IconBox(
-                              icon: 'assets/icons/clock.png',
-                            )
-                          ],
+                              const SizedBox(width: 15),
+                              const IconBox(
+                                icon: 'assets/icons/clock.png',
+                              )
+                            ],
+                          ),
                         ),
                         Row(
                           children: [
                             Expanded(
                               child: CustomTextField(
+                                readOnly: true,
+                                controller: needAmbulanceController,
                                 hintText: 'Need an ambulance?',
                                 onChanged: (p0) {},
                               ),
@@ -183,6 +300,9 @@ class _EmergencyBookingState extends State<EmergencyBooking> {
                                 onChanged: (p0) {
                                   setState(() {
                                     needAnAmbulance = p0;
+                                    p0
+                                        ? needAmbulanceController.text == 'Yes'
+                                        : 'No';
                                   });
                                 })
                           ],
@@ -196,7 +316,9 @@ class _EmergencyBookingState extends State<EmergencyBooking> {
                 padding: const EdgeInsets.only(bottom: 10.0),
                 child: SmallButton(
                   text: 'Book Now',
-                  onPressed: () {},
+                  onPressed: () {
+                    bookEmergencyAppointment();
+                  },
                   height: 50,
                 ),
               ),

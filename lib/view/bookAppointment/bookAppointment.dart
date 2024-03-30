@@ -15,7 +15,9 @@ import 'package:quickcare_user/utils/widgets/iconBox.dart';
 import 'package:quickcare_user/utils/widgets/smallButton.dart';
 
 class BookAppointment extends StatefulWidget {
-  const BookAppointment({super.key});
+  final Map<String, dynamic> userData;
+
+  const BookAppointment({super.key, required this.userData});
 
   @override
   State<BookAppointment> createState() => _BookAppointmentState();
@@ -76,8 +78,9 @@ class _BookAppointmentState extends State<BookAppointment> {
     // TODO: implement initState
     super.initState();
     getAllAppointments();
-    nameController = TextEditingController();
-    emailController = TextEditingController();
+    nameController = TextEditingController(
+        text: '${widget.userData['firstName']} ${widget.userData['lastName']}');
+    emailController = TextEditingController(text: widget.userData['email']);
     departmentController = TextEditingController();
     locationController = TextEditingController();
     issueFacingController = TextEditingController();
@@ -165,12 +168,9 @@ class _BookAppointmentState extends State<BookAppointment> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   CustomTextField(
+                                    controller: nameController,
                                     hintText: 'Full Name',
-                                    onChanged: (p0) {
-                                      setState(() {
-                                        nameController.text = p0;
-                                      });
-                                    },
+                                    onChanged: (p0) {},
                                   ),
                                 ],
                               ),
@@ -185,6 +185,7 @@ class _BookAppointmentState extends State<BookAppointment> {
                           children: [
                             Expanded(
                               child: CustomTextField(
+                                controller: emailController,
                                 hintText: 'Email',
                                 onChanged: (p0) {
                                   setState(() {
@@ -203,12 +204,9 @@ class _BookAppointmentState extends State<BookAppointment> {
                           children: [
                             Expanded(
                               child: CustomTextField(
+                                controller: departmentController,
                                 hintText: 'Department',
-                                onChanged: (p0) {
-                                  setState(() {
-                                    departmentController.text = p0;
-                                  });
-                                },
+                                onChanged: (p0) {},
                               ),
                             ),
                             const SizedBox(width: 15),
@@ -221,12 +219,9 @@ class _BookAppointmentState extends State<BookAppointment> {
                           children: [
                             Expanded(
                               child: CustomTextField(
+                                controller: locationController,
                                 hintText: 'Location',
-                                onChanged: (p0) {
-                                  setState(() {
-                                    locationController.text = p0;
-                                  });
-                                },
+                                onChanged: (p0) {},
                               ),
                             ),
                             const SizedBox(width: 15),
@@ -239,12 +234,9 @@ class _BookAppointmentState extends State<BookAppointment> {
                           children: [
                             Expanded(
                               child: CustomTextField(
+                                controller: issueFacingController,
                                 hintText: 'Issue Facing',
-                                onChanged: (p0) {
-                                  setState(() {
-                                    issueFacingController.text = p0;
-                                  });
-                                },
+                                onChanged: (p0) {},
                               ),
                             ),
                             const SizedBox(width: 15),

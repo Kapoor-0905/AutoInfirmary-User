@@ -69,7 +69,7 @@ model EmergencyBooking {
   fullName            String
   location            String
   issueFacing         String
-  bookingDate         DateTime  @default(now())
+  bookingDate         String
   approxTimeOfArrival String
   needAmbulance       Boolean?  @default(true)
   doctorAssigned      String?

@@ -6,18 +6,20 @@ class MenuTile extends StatelessWidget {
   final String displayText;
   final double? scale;
   final String route;
+  final Object? arguments;
   const MenuTile(
       {super.key,
       required this.displayImage,
       required this.displayText,
       required this.route,
+      this.arguments,
       this.scale});
 
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     return GestureDetector(
-      onTap: () => Navigator.pushNamed(context, route),
+      onTap: () => Navigator.pushNamed(context, route, arguments: arguments),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12),
         width: size.width * 0.43,

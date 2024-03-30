@@ -27,8 +27,14 @@ final Map<String, WidgetBuilder> routes = {
         args: ModalRoute.of(context)!.settings.arguments as Map<String, String>,
       ),
   RouteNames.home: (context) => const Home(),
-  RouteNames.bookAppointment: (context) => const BookAppointment(),
-  RouteNames.emergencyBooking: (context) => const EmergencyBooking(),
+  RouteNames.bookAppointment: (context) => BookAppointment(
+        userData:
+            ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>,
+      ),
+  RouteNames.emergencyBooking: (context) => EmergencyBooking(
+        userData:
+            ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>,
+      ),
   RouteNames.emergencyContacts: (context) => const EmergencyContacts(),
   RouteNames.addContact: (context) => const AddContact(),
   RouteNames.contactPage: (context) => ContactPage(

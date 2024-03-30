@@ -1,13 +1,11 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:quickcare_user/controllers/appointmentBookingController.dart';
 import 'package:quickcare_user/controllers/sharedPreferenceController.dart';
 import 'package:quickcare_user/controllers/userController.dart';
 import 'package:quickcare_user/routeNames.dart';
 import 'package:quickcare_user/utils/colors.dart';
 import 'package:quickcare_user/utils/styles.dart';
-import 'package:quickcare_user/view/bookAppointment/views/selectTime.dart';
 import 'package:quickcare_user/view/home/components/menuTile.dart';
 
 class Home extends StatefulWidget {
@@ -91,7 +89,8 @@ class _HomeState extends State<Home> {
                     ),
                     GestureDetector(
                       onTap: () => Navigator.pushNamed(
-                          context, RouteNames.bookAppointment),
+                          context, RouteNames.bookAppointment,
+                          arguments: userData),
                       child: Container(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 25, vertical: 15),
@@ -179,15 +178,17 @@ class _HomeState extends State<Home> {
                     ],
                   ),
                 ),
-                const Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     MenuTile(
+                      arguments: userData,
                       route: RouteNames.emergencyBooking,
                       displayImage: 'assets/images/emergency.png',
                       displayText: 'Emergency',
                     ),
                     MenuTile(
+                      arguments: userData,
                       route: RouteNames.bookAppointment,
                       displayImage: 'assets/images/bookingappointment.png',
                       displayText: 'Book Appointment',
