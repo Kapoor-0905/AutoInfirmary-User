@@ -22,7 +22,7 @@ app.use(bodyParser.json());
 app.use('/', router());
 
 const server = http.createServer(app);
-
-server.listen(process.env.PORT || 4000, () => {
-    logger.info('Server running on `http://localhost:3000`')
+var port = process.env.PORT || 4207;
+server.listen(port, () => {
+    logger.info('Server running on http://localhost:'+port)
 });
