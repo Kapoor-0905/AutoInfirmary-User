@@ -21,8 +21,8 @@ app.use(bodyParser.json());
 
 app.use('/', router());
 
-const server = http.createServer(app);
+// const server = http.createServer(app);
 var port = process.env.PORT || 4207;
-server.listen(port, () => {
+app.listen(port, () => {
     logger.info('Server running on http://localhost:'+port)
 });
