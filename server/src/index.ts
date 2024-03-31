@@ -23,6 +23,6 @@ app.use('/', router());
 
 const server = http.createServer(app);
 
-server.listen(3000, () => {
+server.listen(process.env.PORT || 3000, () => {
     logger.info('Server running on `http://localhost:3000`')
 });
