@@ -1,7 +1,7 @@
 import crypto from 'crypto';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import config from '../../config';
+import config from '../config';
 import { User } from '@prisma/client';
 
 const jwtSecret = config.jwtSecret;
