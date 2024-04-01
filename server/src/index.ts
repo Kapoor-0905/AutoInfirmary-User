@@ -1,12 +1,11 @@
 import express from 'express';
-import http from 'http';
 import logger from './utils/logger';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import helmet from 'helmet';
 import compression from 'compression';
-import router from './routers'; 
+import router from './routers';
 
 const app = express();
 
@@ -24,5 +23,5 @@ app.use('/', router());
 // const server = http.createServer(app);
 var port = process.env.PORT || 4207;
 app.listen(port, () => {
-    logger.info('Server running on http://localhost:'+port)
+    logger.info('Server running on http://localhost:' + port)
 });
