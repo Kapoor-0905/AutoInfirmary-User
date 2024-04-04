@@ -4,7 +4,7 @@ import 'package:quickcare_user/models/user.dart';
 import 'package:http/http.dart' as http;
 
 class AuthController {
-  static String uri = 'http://localhost:3000';
+  static String uri = 'https://bored-lime-codfish.cyclic.app';
 
   Future createUser({
     required User user,

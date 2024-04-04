@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:quickcare_user/utils/widgets.dart';
 
 class EmergencyBookingController {
-  static String uri = "http://localhost:3000";
+  static String uri = "https://bored-lime-codfish.cyclic.app";
 
   Future createEmergencyBooking(
       {required EmergencyBookingModel emergencyBooking}) async {

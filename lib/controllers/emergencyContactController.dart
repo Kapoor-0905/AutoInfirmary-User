@@ -4,7 +4,7 @@ import 'package:quickcare_user/models/emergencyContact.dart';
 import 'package:quickcare_user/utils/widgets.dart';
 
 class EmergencyContactController {
-  static String uri = 'http://localhost:3000';
+  static String uri = 'https://bored-lime-codfish.cyclic.app';
 
   Future createEmergencyContact({required EmergencyContact contact}) async {
     try {
