@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:quickcare_user/controllers/sharedPreferenceController.dart';
 import 'package:quickcare_user/controllers/userController.dart';
+import 'package:quickcare_user/routeNames.dart';
 import 'package:quickcare_user/utils/colors.dart';
 import 'package:quickcare_user/utils/functions.dart';
 import 'package:quickcare_user/utils/styles.dart';
@@ -260,6 +261,17 @@ class _ProfileState extends State<Profile> {
                   ],
                 ),
               ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        shape: const CircleBorder(),
+        backgroundColor: primaryColor,
+        onPressed: () {
+          Navigator.pushNamed(context, RouteNames.settings);
+        },
+        child: SizedBox(
+          width: 25,
+          child: Image.asset('assets/icons/settings.png'),
+        ),
       ),
     );
   }

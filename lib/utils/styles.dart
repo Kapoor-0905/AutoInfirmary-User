@@ -64,6 +64,11 @@ BoxDecoration containerDecoration = BoxDecoration(
   borderRadius: BorderRadius.circular(10),
 );
 
+BoxDecoration logOutContainerDecoration = BoxDecoration(
+  color: dangerColor.withOpacity(0.1),
+  borderRadius: BorderRadius.circular(10),
+);
+
 BoxDecoration roundedContainerDecoration = BoxDecoration(
   color: accentColor.withOpacity(0.5),
   borderRadius: BorderRadius.circular(15),

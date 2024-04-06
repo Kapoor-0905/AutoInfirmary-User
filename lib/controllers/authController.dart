@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
+import 'package:quickcare_user/controllers/sharedPreferenceController.dart';
 import 'package:quickcare_user/models/user.dart';
 import 'package:http/http.dart' as http;
 
@@ -56,5 +58,12 @@ class AuthController {
       print('error aaya');
       print(e.toString());
     }
+  }
+
+  Future logout({required VoidCallback action}) async {
+    await SF.saveJwtToken("");
+    await SF.saveSessionToken("");
+    await SF.saveUserId("");
+    action();
   }
 }

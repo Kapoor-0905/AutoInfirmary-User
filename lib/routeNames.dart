@@ -14,4 +14,5 @@ class RouteNames {
   static const String contactPage = '/contactPage';
   static const String selectTime = '/selectTime';
   static const String profile = '/profile';
+  static const String settings = '/settings';
 }
