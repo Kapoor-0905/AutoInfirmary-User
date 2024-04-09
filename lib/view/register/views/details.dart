@@ -26,6 +26,8 @@ class _DetailsState extends State<Details> {
   String phoneNumber = '';
   String uniqueOrgCode = '';
   String address = '';
+  bool isSaving = false;
+
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -101,8 +103,12 @@ class _DetailsState extends State<Details> {
                     ),
                     const SizedBox(height: 20),
                     SmallButton(
+                        isSaving: isSaving,
                         text: 'Create Account',
                         onPressed: () async {
+                          setState(() {
+                            isSaving = true;
+                          });
                           User user = User(
                               password: widget.args['password']!,
                               firstName: firstName,
@@ -125,6 +131,9 @@ class _DetailsState extends State<Details> {
                                 ['sessionToken']);
                             SF.saveUserId(jsonData['sessionToken']['id']);
                             SF.saveJwtToken(jsonData['token']);
+                            setState(() {
+                              isSaving = false;
+                            });
                             successToast(message: jsonData['message']);
                             Navigator.pushReplacementNamed(
                                 context, RouteNames.home);

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:quickcare_user/controllers/emergencyContactController.dart';
 import 'package:quickcare_user/routeNames.dart';
 import 'package:quickcare_user/utils/colors.dart';
+import 'package:quickcare_user/utils/shimmers.dart';
 import 'package:quickcare_user/utils/styles.dart';
 import 'package:quickcare_user/view/emergencyContacts/components/contactTile.dart';
 
@@ -17,11 +18,16 @@ class EmergencyContacts extends StatefulWidget {
 class _EmergencyContactsState extends State<EmergencyContacts> {
   EmergencyContactController ecController = EmergencyContactController();
   List contacts = [];
+  bool isLoading = false;
 
   getContacts() async {
+    setState(() {
+      isLoading = true;
+    });
     await ecController.getAllContacts().then((value) {
       setState(() {
         contacts = jsonDecode(value);
+        isLoading = false;
       });
     });
     // print(contacts);
@@ -91,23 +97,25 @@ class _EmergencyContactsState extends State<EmergencyContacts> {
                   const SizedBox(height: 20),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                    child: Column(
-                      children: List.generate(
-                        contacts.length,
-                        (index) {
-                          return GestureDetector(
-                            onTap: () {
-                              Navigator.pushNamed(
-                                  context, RouteNames.contactPage,
-                                  arguments: contacts[index]);
-                            },
-                            child: ContactTile(
-                                name: contacts[index]['name'],
-                                phoneNumber: contacts[index]['phoneNum']),
-                          );
-                        },
-                      ),
-                    ),
+                    child: isLoading
+                        ? ShimmerList()
+                        : Column(
+                            children: List.generate(
+                              contacts.length,
+                              (index) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    Navigator.pushNamed(
+                                        context, RouteNames.contactPage,
+                                        arguments: contacts[index]);
+                                  },
+                                  child: ContactTile(
+                                      name: contacts[index]['name'],
+                                      phoneNumber: contacts[index]['phoneNum']),
+                                );
+                              },
+                            ),
+                          ),
                   )
                 ],
               ),

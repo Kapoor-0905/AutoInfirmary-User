@@ -44,3 +44,10 @@ String getTime(DateTime dateTime) {
   String formattedDate = DateFormat('HH:mm').format(dateTime);
   return formattedDate;
 }
+
+bool isValidEmail(String email) {
+  final RegExp emailRegex = RegExp(
+    r'^[\w-]+(?:\.[\w-]+)*@(?:[\w-]+\.)+[a-zA-Z]{2,7}$',
+  );
+  return emailRegex.hasMatch(email);
+}

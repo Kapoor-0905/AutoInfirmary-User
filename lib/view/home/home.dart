@@ -5,6 +5,7 @@ import 'package:quickcare_user/controllers/sharedPreferenceController.dart';
 import 'package:quickcare_user/controllers/userController.dart';
 import 'package:quickcare_user/routeNames.dart';
 import 'package:quickcare_user/utils/colors.dart';
+import 'package:quickcare_user/utils/shimmers.dart';
 import 'package:quickcare_user/utils/styles.dart';
 import 'package:quickcare_user/view/home/components/menuTile.dart';
 
@@ -19,15 +20,22 @@ class _HomeState extends State<Home> {
   UserController userController = UserController();
   String? userId = '';
   Map<String, dynamic> userData = {};
+  bool isLoading = false;
+
   fetchUserData() async {
+    setState(() {
+      isLoading = true;
+    });
     userId = await SF.getUserId();
 
     await userController.getUserDetails(userId: userId!).then((value) {
       setState(() {
         userData = jsonDecode(value);
+        isLoading = false;
       });
     });
 
+    // print(userData);
     // await AppointmentBookingController().getAppointmentBookings().then((value) {
     //   print(value);
     // });
@@ -75,10 +83,14 @@ class _HomeState extends State<Home> {
                     ),
                   ],
                 ),
-                Text(
-                  'Hi ${userData['firstName']}',
-                  style: bigTextWhite,
-                ),
+                isLoading
+                    ? const ShimmerText(
+                        width: 200,
+                      )
+                    : Text(
+                        'Hi ${userData['firstName']}',
+                        style: bigTextWhite,
+                      ),
                 const SizedBox(height: 15),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -123,23 +135,31 @@ class _HomeState extends State<Home> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      '${userData['uniqueOrgCode']}',
-                      style: smallTextWhite,
-                    ),
-                    Text.rich(
-                      TextSpan(
-                        text: 'Status: ',
-                        style: smallTextWhite,
-                        children: [
-                          TextSpan(
-                            text: 'Open',
-                            style: smallTextWhite.copyWith(
-                                fontWeight: FontWeight.bold),
+                    isLoading
+                        ? const ShimmerText(
+                            width: 70,
+                          )
+                        : Text(
+                            '${userData['uniqueOrgCode']}',
+                            style: smallTextWhite,
                           ),
-                        ],
-                      ),
-                    )
+                    isLoading
+                        ? const ShimmerText(
+                            width: 100,
+                          )
+                        : Text.rich(
+                            TextSpan(
+                              text: 'Status: ',
+                              style: smallTextWhite,
+                              children: [
+                                TextSpan(
+                                  text: 'Open',
+                                  style: smallTextWhite.copyWith(
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
+                          )
                   ],
                 ),
               ],

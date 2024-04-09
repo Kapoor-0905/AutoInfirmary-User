@@ -26,6 +26,7 @@ class _EmergencyBookingState extends State<EmergencyBooking> {
   late TextEditingController approxTimeOfArrivalController;
   late TextEditingController needAmbulanceController;
   bool needAnAmbulance = false;
+  bool isSaving = false;
   TimeOfDay? timeVal = TimeOfDay.fromDateTime(DateTime.now());
   EmergencyBookingController emergencyBookingController =
       EmergencyBookingController();
@@ -55,6 +56,9 @@ class _EmergencyBookingState extends State<EmergencyBooking> {
   }
 
   bookEmergencyAppointment() async {
+    setState(() {
+      isSaving = true;
+    });
     String? id = await SF.getUserId();
 
     EmergencyBookingModel emergencyBooking = EmergencyBookingModel(
@@ -81,6 +85,7 @@ class _EmergencyBookingState extends State<EmergencyBooking> {
               departmentController.clear();
               issueFacingController.clear();
               approxTimeOfArrivalController.clear();
+              isSaving = false;
             });
           });
     // print(emergencyBooking.toMap());
@@ -315,9 +320,12 @@ class _EmergencyBookingState extends State<EmergencyBooking> {
               Padding(
                 padding: const EdgeInsets.only(bottom: 10.0),
                 child: SmallButton(
+                  isSaving: isSaving,
                   text: 'Book Now',
                   onPressed: () {
-                    bookEmergencyAppointment();
+                    validate()
+                        ? bookEmergencyAppointment()
+                        : errorToast(message: 'Kindly fill all the fields');
                   },
                   height: 50,
                 ),

@@ -35,9 +35,10 @@ dependencies:
   flutter_contacts: ^1.1.7+1
   fluttertoast: ^8.2.4
   http: ^1.2.1
+  image_picker: ^1.0.7
   intl: ^0.19.0
-  lottie: ^3.1.0
   shared_preferences: ^2.2.2
+  shimmer: ^3.0.0
   url_launcher: ^6.2.5
 
 dev_dependencies:

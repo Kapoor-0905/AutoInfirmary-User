@@ -24,6 +24,7 @@ class _AddContactState extends State<AddContact> {
   Map<String, dynamic> importedContact = {};
   List<Contact> phonecontacts = [];
   String userId = "";
+  bool isSaving = false;
   late TextEditingController nameController;
   late TextEditingController phoneController;
   late TextEditingController emailController;
@@ -46,6 +47,9 @@ class _AddContactState extends State<AddContact> {
   }
 
   saveContact() async {
+    setState(() {
+      isSaving = true;
+    });
     EmergencyContact contact = EmergencyContact(
         userId: userId,
         name: nameController.text,
@@ -59,6 +63,9 @@ class _AddContactState extends State<AddContact> {
         emailController.clear();
         relationshipController.clear();
         successToast(message: 'Contact added successfully');
+        setState(() {
+          isSaving = false;
+        });
       } else if (value['statuscode'] == 400) {
         String body = value['body'];
         Map<String, dynamic> de = jsonDecode(body);
@@ -246,6 +253,7 @@ class _AddContactState extends State<AddContact> {
                         ),
                         const SizedBox(height: 50),
                         SmallButton(
+                            isSaving: isSaving,
                             text: 'Save',
                             onPressed: () {
                               nameController.text.isEmpty ||

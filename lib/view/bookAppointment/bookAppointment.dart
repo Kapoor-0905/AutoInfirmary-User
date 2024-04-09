@@ -34,8 +34,12 @@ class _BookAppointmentState extends State<BookAppointment> {
   late TextEditingController issueFacingController;
   late TextEditingController timeController;
   DateTime getVal = DateTime.now();
+  bool isSaving = false;
 
   bookAppointment() async {
+    setState(() {
+      isSaving = true;
+    });
     String? userId = await SF.getUserId();
     AppointmentBooking appointmentBooking = AppointmentBooking(
         userId: userId!,
@@ -56,6 +60,7 @@ class _BookAppointmentState extends State<BookAppointment> {
           locationController.clear();
           issueFacingController.clear();
           timeController.clear();
+          isSaving = false;
         });
         successToast(message: 'Appointment Booked successfully');
       }
@@ -301,6 +306,7 @@ class _BookAppointmentState extends State<BookAppointment> {
               Padding(
                 padding: const EdgeInsets.only(bottom: 10.0),
                 child: SmallButton(
+                  isSaving: isSaving,
                   text: 'Book Now',
                   onPressed: () {
                     if (nameController.text.isEmpty ||

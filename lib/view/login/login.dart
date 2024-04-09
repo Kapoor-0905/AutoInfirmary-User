@@ -4,6 +4,7 @@ import 'package:quickcare_user/controllers/authController.dart';
 import 'package:quickcare_user/controllers/sharedPreferenceController.dart';
 import 'package:quickcare_user/routeNames.dart';
 import 'package:quickcare_user/utils/colors.dart';
+import 'package:quickcare_user/utils/functions.dart';
 import 'package:quickcare_user/utils/styles.dart';
 import 'package:quickcare_user/utils/widgets.dart';
 import 'package:quickcare_user/utils/widgets/customTextField.dart';
@@ -21,6 +22,8 @@ class _LoginState extends State<Login> {
   bool _obscureText = true;
   String email = '';
   String password = "";
+  bool isSaving = false;
+
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -83,23 +86,33 @@ class _LoginState extends State<Login> {
                     ),
                     const SizedBox(height: 20),
                     SmallButton(
+                        isSaving: isSaving,
                         text: 'Login',
                         onPressed: () {
-                          auth
-                              .login(email: email, password: password)
-                              .then((value) {
-                            print(value);
-                            value.length == 1
-                                ? errorToast(message: value['error'])
-                                : {
-                                    SF.saveSessionToken(
-                                        value['user']['auth']['sessionToken']),
-                                    SF.saveUserId(value['user']['id']),
-                                    SF.saveJwtToken(value['token']),
-                                    Navigator.pushReplacementNamed(
-                                        context, RouteNames.home),
-                                  };
+                          setState(() {
+                            isSaving = true;
                           });
+                          isValidEmail(email)
+                              ? auth
+                                  .login(email: email, password: password)
+                                  .then((value) {
+                                  print(value);
+                                  value.length == 1
+                                      ? errorToast(message: value['error'])
+                                      : {
+                                          SF.saveSessionToken(value['user']
+                                              ['auth']['sessionToken']),
+                                          SF.saveUserId(value['user']['id']),
+                                          SF.saveJwtToken(value['token']),
+                                          setState(() {
+                                            isSaving = false;
+                                          }),
+                                          Navigator.pushReplacementNamed(
+                                              context, RouteNames.home),
+                                        };
+                                })
+                              : errorToast(
+                                  message: 'Please enter a valid email');
                         }),
                     const SizedBox(height: 15),
                     const Row(

@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:quickcare_user/routeNames.dart';
 import 'package:quickcare_user/utils/colors.dart';
+import 'package:quickcare_user/utils/functions.dart';
 import 'package:quickcare_user/utils/styles.dart';
 import 'package:quickcare_user/utils/widgets.dart';
 import 'package:quickcare_user/utils/widgets/customTextField.dart';
@@ -107,23 +108,28 @@ class _RegisterState extends State<Register> {
                     ),
                     const SizedBox(height: 10),
                     SmallButton(
+                        isSaving: false,
                         text: 'Next',
                         onPressed: () {
-                          email.isEmpty ||
-                                  password.isEmpty ||
-                                  confirmPassword.isEmpty
-                              ? errorToast(message: 'Please fill all fields')
-                              : password != confirmPassword
+                          isValidEmail(email) == false
+                              ? errorToast(
+                                  message: "Please enter a valid email")
+                              : email.isEmpty ||
+                                      password.isEmpty ||
+                                      confirmPassword.isEmpty
                                   ? errorToast(
-                                      message: 'Passwords do not match')
-                                  : Navigator.pushNamed(
-                                      context,
-                                      RouteNames.details,
-                                      arguments: {
-                                        'email': email,
-                                        'password': password
-                                      },
-                                    );
+                                      message: 'Please fill all fields')
+                                  : password != confirmPassword
+                                      ? errorToast(
+                                          message: 'Passwords do not match')
+                                      : Navigator.pushNamed(
+                                          context,
+                                          RouteNames.details,
+                                          arguments: {
+                                            'email': email,
+                                            'password': password
+                                          },
+                                        );
                         }),
                     const SizedBox(height: 12),
                     const Row(
