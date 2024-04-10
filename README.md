@@ -72,12 +72,12 @@
 
 > Architecture Followed : **NodeJS**
 
-```bash
-config
-└── index.ts
+```zsh
 prisma
 └── schema.prisma
 src
+|-- config
+|   └─- index.ts
 ├── controllers
 │   ├── authentication.ts
 │   ├── emergencyContacts.ts
@@ -89,10 +89,15 @@ src
 │   └── index.ts
 ├── routers
 │   ├── api.ts
+|   |-- appointmentBooking.ts 
 │   ├── authentication.ts
+|   |-- emergencyBooking.ts
+|   |-- emergencyContacts.ts 
 │   ├── index.ts
 │   └── users.ts
-└── utils
-    ├── db.ts
-    └── logger.ts
+|── utils
+|   ├── db.ts
+|   └── logger.ts
+└── index.ts
+
 ```
