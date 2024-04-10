@@ -26,6 +26,7 @@
 │   ├── animations.dart
 │   ├── colors.dart
 │   ├── functions.dart
+│   ├── shimmers.dart
 │   ├── styles.dart
 │   ├── widgets
 │   │   ├── bigButton.dart
@@ -64,6 +65,10 @@
     │   ├── register.dart
     │   └── views
     │       └── details.dart
+    ├── settings
+    │   ├── components
+    │   │   └── settingTile.dart
+    │   └── settings.dart
     └── splash
         └── splashScreen.dart
 ```
@@ -72,14 +77,16 @@
 
 > Architecture Followed : **NodeJS**
 
-```zsh
+```bash
 prisma
 └── schema.prisma
 src
-|-- config
-|   └─- index.ts
+├── config
+│   └── index.ts
 ├── controllers
+│   ├── appointmentBooking.ts
 │   ├── authentication.ts
+│   ├── emergencyBooking.ts
 │   ├── emergencyContacts.ts
 │   └── users.ts
 ├── helpers
@@ -89,15 +96,15 @@ src
 │   └── index.ts
 ├── routers
 │   ├── api.ts
-|   |-- appointmentBooking.ts 
+│   ├── appointmentBooking.ts
 │   ├── authentication.ts
-|   |-- emergencyBooking.ts
-|   |-- emergencyContacts.ts 
+│   ├── emergencyBooking.ts
+│   ├── emergencyContact.ts
 │   ├── index.ts
 │   └── users.ts
-|── utils
-|   ├── db.ts
-|   └── logger.ts
+├── utils
+│   ├── db.ts
+│   └── logger.ts
 └── index.ts
 
 ```
