@@ -59,18 +59,22 @@ class _ProfileState extends State<Profile> {
     setState(() {
       image = File(pickedFile!.path);
     });
-    uploadImage();
+    previewPopUp(image);
   }
 
   uploadImage() async {
+    setState(() {
+      isUploading = true;
+    });
     // dtmdz4hin
-    final uri = Uri.parse('https://api.cloudinary.com/v1_1/dtmdz4hin/upload');
+    final uri =
+        Uri.parse('https://api.cloudinary.com/v1_1/dtmdz4hin/image/upload');
     // q0m8lnce
     final request = http.MultipartRequest('POST', uri)
       ..fields['upload_preset'] = 'q0m8lnce'
       ..files.add(await http.MultipartFile.fromPath('file', image!.path));
     final response = await request.send();
-
+    print(response.statusCode);
     if (response.statusCode == 200) {
       final responseData = await response.stream.toBytes();
       final responseString = String.fromCharCodes(responseData);
@@ -85,6 +89,23 @@ class _ProfileState extends State<Profile> {
         isUploading = false;
       });
     }
+  }
+
+  previewPopUp(File? image) async {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            content: Image.file(image!),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    uploadImage();
+                  },
+                  child: Text(isUploading ? "Uploading" : 'Upload'))
+            ],
+          );
+        });
   }
 
   @override
