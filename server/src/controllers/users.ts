@@ -40,7 +40,7 @@ export const getAllUsers = async (req: express.Request, res: express.Response) =
             }
         });
 
-        console.log(req.user as { id : string});
+        console.log(req.user as { id: string });
 
         if (users) {
             logger.info('Users found');
@@ -59,7 +59,7 @@ export const getAllUsers = async (req: express.Request, res: express.Response) =
     }
 };
 
-export const getSingleUser = async (req : express.Request , res : express.Response) => {
+export const getSingleUser = async (req: express.Request, res: express.Response) => {
     try {
         const { id } = req.params;
         const user = await prisma.user.findUnique({
@@ -131,6 +131,36 @@ export const updateUser = async (req: express.Request, res: express.Response) =>
                 address: address,
                 phoneNum: phoneNum,
                 uniqueOrgCode: req.body.uniqueOrgCode
+            }
+        });
+
+        if (updatedUser) {
+            logger.info('User updated');
+            res.status(200).json(updatedUser).end();
+        } else {
+            logger.info('User not found');
+            res.send({
+                message: "User not found"
+            })
+        }
+    } catch (error) {
+        logger.info(error);
+        return res.json({
+            message: "something went wrong!"
+        }).status(400);
+    }
+}
+
+export const updateProfilePicture = async (req: express.Request, res: express.Response) => {
+    try {
+        const { id } = req.params;
+        const { profilePicture } = req.body;
+        const updatedUser = await prisma.user.update({
+            where: {
+                id: id
+            },
+            data: {
+                profilePicture: profilePicture
             }
         });
 
