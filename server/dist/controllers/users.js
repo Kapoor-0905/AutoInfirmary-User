@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateUser = exports.deleteUser = exports.getSingleUser = exports.getAllUsers = void 0;
+exports.updateProfilePicture = exports.updateUser = exports.deleteUser = exports.getSingleUser = exports.getAllUsers = void 0;
 const logger_1 = __importDefault(require("../utils/logger"));
 const db_1 = __importDefault(require("../utils/db"));
 // export const getSingleUser = async (req: express.Request, res: express.Response) => {
@@ -157,4 +157,35 @@ const updateUser = async (req, res) => {
     }
 };
 exports.updateUser = updateUser;
+const updateProfilePicture = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { profilePicture } = req.body;
+        const updatedUser = await db_1.default.user.update({
+            where: {
+                id: id
+            },
+            data: {
+                profilePicture: profilePicture
+            }
+        });
+        if (updatedUser) {
+            logger_1.default.info('User updated');
+            res.status(200).json(updatedUser).end();
+        }
+        else {
+            logger_1.default.info('User not found');
+            res.send({
+                message: "User not found"
+            });
+        }
+    }
+    catch (error) {
+        logger_1.default.info(error);
+        return res.json({
+            message: "something went wrong!"
+        }).status(400);
+    }
+};
+exports.updateProfilePicture = updateProfilePicture;
 //# sourceMappingURL=users.js.map
