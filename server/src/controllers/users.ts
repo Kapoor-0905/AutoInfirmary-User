@@ -40,7 +40,7 @@ export const getAllUsers = async (req: express.Request, res: express.Response) =
             }
         });
 
-        console.log(req.user as { id: string });
+        // console.log(req.user as { id: string });
 
         if (users) {
             logger.info('Users found');
