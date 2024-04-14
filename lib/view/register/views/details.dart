@@ -110,6 +110,7 @@ class _DetailsState extends State<Details> {
                             isSaving = true;
                           });
                           User user = User(
+                              profilePicture: "",
                               password: widget.args['password']!,
                               firstName: firstName,
                               lastName: lastName,

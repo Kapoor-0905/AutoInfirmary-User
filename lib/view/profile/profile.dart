@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:quickcare_user/controllers/sharedPreferenceController.dart';
@@ -10,6 +11,7 @@ import 'package:quickcare_user/utils/colors.dart';
 import 'package:quickcare_user/utils/functions.dart';
 import 'package:quickcare_user/utils/shimmers.dart';
 import 'package:quickcare_user/utils/styles.dart';
+import 'package:quickcare_user/utils/widgets.dart';
 import 'package:quickcare_user/utils/widgets/iconBox.dart';
 import 'package:http/http.dart' as http;
 
@@ -28,6 +30,8 @@ class _ProfileState extends State<Profile> {
   String profilePic = "";
   UserController userController = UserController();
   String? userId = '';
+  double uploadProgress = 0;
+  String dowloadUrl = '';
   Map<String, dynamic> userData = {};
   fetchUserData() async {
     setState(() {
@@ -66,29 +70,41 @@ class _ProfileState extends State<Profile> {
     setState(() {
       isUploading = true;
     });
-    // dtmdz4hin
-    final uri =
-        Uri.parse('https://api.cloudinary.com/v1_1/dtmdz4hin/image/upload');
-    // q0m8lnce
-    final request = http.MultipartRequest('POST', uri)
-      ..fields['upload_preset'] = 'q0m8lnce'
-      ..files.add(await http.MultipartFile.fromPath('file', image!.path));
-    final response = await request.send();
-    print(response.statusCode);
-    if (response.statusCode == 200) {
-      final responseData = await response.stream.toBytes();
-      final responseString = String.fromCharCodes(responseData);
-      final jsonMap = json.decode(responseString);
+    FirebaseStorage.instance
+        .ref(
+            '${userData["firstName"]}-$userId/profilePic/${image!.path.split('/').last}')
+        .putFile(image!)
+        .snapshotEvents
+        .listen((event) async {
+      // save the progress
       setState(() {
-        final url = jsonMap['url'];
-        profilePic = url;
-        isUploading = false;
+        uploadProgress =
+            (event.bytesTransferred.toDouble() / event.totalBytes.toDouble()) *
+                100;
       });
-    } else {
-      setState(() {
-        isUploading = false;
-      });
-    }
+      if (event.state == TaskState.success) {
+        successToast(message: 'File added to the library');
+        setState(() {
+          isUploading = false;
+          uploadProgress = 0;
+        });
+        dowloadUrl = await FirebaseStorage.instance
+            .ref(
+                '${userData["firstName"]}-$userId/profilePic/${image!.path.split('/').last}')
+            .getDownloadURL()
+            .whenComplete(() {
+          userController
+              .updateProfilePic(profilePhotoLink: dowloadUrl, userId: userId!)
+              .whenComplete(() {
+            setState(() {
+              profilePic = "";
+            });
+          });
+        });
+      }
+      print(uploadProgress);
+      print(dowloadUrl);
+    });
   }
 
   previewPopUp(File? image) async {
@@ -101,6 +117,7 @@ class _ProfileState extends State<Profile> {
               TextButton(
                   onPressed: () {
                     uploadImage();
+                    Navigator.pop(context);
                   },
                   child: Text(isUploading ? "Uploading" : 'Upload'))
             ],
@@ -165,6 +182,16 @@ class _ProfileState extends State<Profile> {
                     ),
                   ),
                   const SizedBox(height: 20),
+                  isUploading
+                      ? Column(
+                          children: [
+                            Text('Uploaded - ${uploadProgress}%'),
+                            LinearProgressIndicator(
+                              value: uploadProgress,
+                            )
+                          ],
+                        )
+                      : SizedBox(),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20.0),
                     child: Column(

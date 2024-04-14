@@ -19,6 +19,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   UserController userController = UserController();
   String? userId = '';
+  String? session = '';
   Map<String, dynamic> userData = {};
   bool isLoading = false;
 
@@ -27,7 +28,7 @@ class _HomeState extends State<Home> {
       isLoading = true;
     });
     userId = await SF.getUserId();
-
+    session = await SF.getSessionToken();
     await userController.getUserDetails(userId: userId!).then((value) {
       setState(() {
         userData = jsonDecode(value);
@@ -35,7 +36,7 @@ class _HomeState extends State<Home> {
       });
     });
 
-    // print(userData);
+    print(session);
     // await AppointmentBookingController().getAppointmentBookings().then((value) {
     //   print(value);
     // });

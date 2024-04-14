@@ -30,6 +30,8 @@ environment:
 dependencies:
   calendar_view: ^1.1.0
   cupertino_icons: ^1.0.2
+  firebase_core: ^2.29.0
+  firebase_storage: ^11.7.1
   flutter:
     sdk: flutter
   flutter_contacts: ^1.1.7+1

@@ -9,8 +9,10 @@ class User {
   String uniqueOrgCode;
   String address;
   String password;
+  String profilePicture;
 
   User({
+    required this.profilePicture,
     required this.firstName,
     required this.lastName,
     required this.email,
@@ -23,6 +25,7 @@ class User {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'firstName': firstName,
+      'profilePicture': profilePicture,
       'lastName': lastName,
       'email': email,
       'phoneNum': phoneNum,
@@ -34,6 +37,7 @@ class User {
 
   factory User.fromMap(Map<String, dynamic> map) {
     return User(
+      profilePicture: map['profilePicture'] as String,
       firstName: map['firstName'] as String,
       lastName: map['lastName'] as String,
       email: map['email'] as String,
