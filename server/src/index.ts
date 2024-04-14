@@ -6,6 +6,7 @@ import cors from 'cors';
 import helmet from 'helmet';
 import compression from 'compression';
 import router from './routers';
+import config from './config';
 
 const app = express();
 
@@ -21,7 +22,7 @@ app.use(bodyParser.json());
 app.use('/', router());
 
 // const server = http.createServer(app);
-var port = process.env.PORT || 4207;
-app.listen(port, () => {
-    logger.info('Server running on http://localhost:' + port)
+const PORT = config.port;
+app.listen(PORT, () => {
+    logger.info('Server running on http://localhost:' + PORT)
 });
