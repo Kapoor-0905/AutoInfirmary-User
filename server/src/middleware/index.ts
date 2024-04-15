@@ -4,6 +4,14 @@ import logger from '../utils/logger';
 import prisma from '../utils/db';
 import jwt from "jsonwebtoken";
 
+declare global {
+    namespace Express {
+        interface Request {
+            user?: { id: string, email: string };
+        }
+    }
+}
+
 const jwtSecret = process.env.JWT_SECRET as string;
 
 export const isOwner = async (
@@ -79,8 +87,8 @@ export const isAuthenticated = async (
             identity: existingUser
         })
 
-        const user = jwt.verify(token, jwtSecret) as { id: string, email: string }; // Add type annotation for 'id'
-        req.user = user as any;
+        const user = jwt.verify(token, jwtSecret) as { id: string, email: string };
+        req.user = user;
         return next();
     } catch (error) {
         logger.info(error);
