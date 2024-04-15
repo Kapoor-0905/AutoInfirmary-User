@@ -71,8 +71,7 @@ class _ProfileState extends State<Profile> {
       isUploading = true;
     });
     FirebaseStorage.instance
-        .ref(
-            '${userData["firstName"]}-$userId/profilePic/${image!.path.split('/').last}')
+        .ref('${userData["firstName"]}-$userId/profilePic/${image!.path}')
         .putFile(image!)
         .snapshotEvents
         .listen((event) async {
@@ -88,22 +87,21 @@ class _ProfileState extends State<Profile> {
           isUploading = false;
           uploadProgress = 0;
         });
+
         dowloadUrl = await FirebaseStorage.instance
-            .ref(
-                '${userData["firstName"]}-$userId/profilePic/${image!.path.split('/').last}')
-            .getDownloadURL()
+            .ref('${userData["firstName"]}-$userId/profilePic/${image!.path}')
+            .getDownloadURL();
+        setState(() {
+          profilePic = dowloadUrl;
+        });
+        userController
+            .updateProfilePic(profilePhotoLink: profilePic, userId: userId!)
             .whenComplete(() {
-          userController
-              .updateProfilePic(profilePhotoLink: dowloadUrl, userId: userId!)
-              .whenComplete(() {
-            setState(() {
-              profilePic = "";
-            });
-          });
+          fetchUserData();
         });
       }
       print(uploadProgress);
-      print(dowloadUrl);
+      print(profilePic);
     });
   }
 
@@ -221,16 +219,34 @@ class _ProfileState extends State<Profile> {
                                     onTap: () {
                                       pickImage();
                                     },
-                                    child: Container(
-                                      padding: const EdgeInsets.all(22),
-                                      decoration: BoxDecoration(
-                                          color: primaryColor.withOpacity(0.2),
-                                          shape: BoxShape.circle),
-                                      child: Image.asset(
-                                          'assets/icons/person.png',
-                                          color: primaryColor,
-                                          scale: 7.5),
-                                    ),
+                                    child: userData["profilePicture"]
+                                            .toString()
+                                            .isNotEmpty
+                                        ? ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(100),
+                                            child: Image.network(
+                                              userData['profilePicture'],
+                                              width: 80,
+                                              height: 80,
+                                              fit: BoxFit.cover,
+                                            ),
+                                          )
+                                        : Container(
+                                            padding: const EdgeInsets.all(22),
+                                            decoration: BoxDecoration(
+                                                image: DecorationImage(
+                                                  image: NetworkImage(userData[
+                                                      'profilePicture']),
+                                                ),
+                                                color: primaryColor
+                                                    .withOpacity(0.2),
+                                                shape: BoxShape.circle),
+                                            child: Image.asset(
+                                                'assets/icons/person.png',
+                                                color: primaryColor,
+                                                scale: 7.5),
+                                          ),
                                   )
                           ],
                         ),

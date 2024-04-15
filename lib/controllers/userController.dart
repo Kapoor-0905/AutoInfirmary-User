@@ -25,17 +25,18 @@ class UserController {
     try {
       String? token = await SF.getJwtToken();
       // String? cookie = await SF.getSessionToken();
+      print('Profile link: $profilePhotoLink');
       String jsonBody = jsonEncode({
         "profilePicture": profilePhotoLink,
       });
       print(token);
-      http.Response response = await http.post(
-          Uri.parse('http://localhost:3000/users/$userId/profile-picture'),
-          headers: {
-            'Authorization': 'Bearer $token',
-            'Content-Type': 'application/json; charset=UTF-8',
-          },
-          body: jsonBody);
+      http.Response response =
+          await http.patch(Uri.parse('$uri/users/$userId/profile-picture'),
+              headers: {
+                'Authorization': 'Bearer $token',
+                'Content-Type': 'application/json; charset=UTF-8',
+              },
+              body: jsonBody);
       print(response.body);
       return response.body;
     } catch (e) {

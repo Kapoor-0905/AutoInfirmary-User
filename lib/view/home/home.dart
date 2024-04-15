@@ -72,15 +72,30 @@ class _HomeState extends State<Home> {
                       onTap: () {
                         Navigator.pushNamed(context, RouteNames.profile);
                       },
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 12),
-                        decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.5),
-                            shape: BoxShape.circle),
-                        child:
-                            Image.asset('assets/icons/person.png', scale: 9.5),
-                      ),
+                      child: isLoading
+                          ? ShimmerCircle()
+                          : userData["profilePicture"].toString().isNotEmpty
+                              ? Padding(
+                                  padding: const EdgeInsets.only(top: 8.0),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(100),
+                                    child: Image.network(
+                                      userData['profilePicture'],
+                                      width: 60,
+                                      height: 60,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                )
+                              : Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16, vertical: 12),
+                                  decoration: BoxDecoration(
+                                      color: Colors.white.withOpacity(0.5),
+                                      shape: BoxShape.circle),
+                                  child: Image.asset('assets/icons/person.png',
+                                      scale: 9.5),
+                                ),
                     ),
                   ],
                 ),
