@@ -80,7 +80,7 @@ export const isAuthenticated = async (
         })
 
         const user = jwt.verify(token, jwtSecret) as { id: string, email: string }; // Add type annotation for 'id'
-        req.user = user;
+        req.user = user as any;
         return next();
     } catch (error) {
         logger.info(error);
