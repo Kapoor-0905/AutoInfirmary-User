@@ -65,5 +65,6 @@ class AuthController {
     await SF.saveSessionToken("");
     await SF.saveUserId("");
     action();
+    print('logged out and value cleared');
   }
 }

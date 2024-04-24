@@ -11,18 +11,37 @@ import 'package:quickcare_user/utils/widgets/customTextField.dart';
 import 'package:quickcare_user/utils/widgets/smallButton.dart';
 
 class Login extends StatefulWidget {
-  const Login({super.key});
+  final String email;
+  const Login({super.key, this.email = ''});
 
   @override
   State<Login> createState() => _LoginState();
 }
 
 class _LoginState extends State<Login> {
+  late TextEditingController emailController;
   AuthController auth = AuthController();
   bool _obscureText = true;
   String email = '';
   String password = "";
   bool isSaving = false;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    emailController = TextEditingController(text: widget.email);
+    getSFData();
+  }
+
+  getSFData() async {
+    String? st = await SF.getSessionToken();
+    String? ut = await SF.getUserId();
+    String? jt = await SF.getJwtToken();
+    print(st);
+    print(ut);
+    print(jt);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +70,7 @@ class _LoginState extends State<Login> {
                 child: Column(
                   children: [
                     CustomTextField(
+                      controller: emailController,
                       hintText: 'Email Address',
                       onChanged: (p0) {
                         setState(() {

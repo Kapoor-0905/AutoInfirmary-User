@@ -118,7 +118,7 @@ class _DetailsState extends State<Details> {
                               phoneNum: phoneNumber,
                               uniqueOrgCode: uniqueOrgCode,
                               address: address);
-                          // print(user.toMap());
+                          print(user.toMap());
                           auth
                               .createUser(
                                   user: user,
@@ -137,7 +137,8 @@ class _DetailsState extends State<Details> {
                             });
                             successToast(message: jsonData['message']);
                             Navigator.pushReplacementNamed(
-                                context, RouteNames.home);
+                                context, RouteNames.login,
+                                arguments: widget.args['email']);
                           });
                         }),
                     const SizedBox(height: 15),

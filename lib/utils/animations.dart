@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:quickcare_user/utils/colors.dart';
-import 'package:quickcare_user/utils/styles.dart';
-import 'package:shimmer/shimmer.dart';
 
 Route createRoute(Widget page) {
   return PageRouteBuilder(

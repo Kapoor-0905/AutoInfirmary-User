@@ -22,6 +22,7 @@ class _HomeState extends State<Home> {
   String? session = '';
   Map<String, dynamic> userData = {};
   bool isLoading = false;
+  bool hasProfilePicture = false;
 
   fetchUserData() async {
     setState(() {
@@ -29,11 +30,19 @@ class _HomeState extends State<Home> {
     });
     userId = await SF.getUserId();
     session = await SF.getSessionToken();
+    print(userId);
+    print(session);
     await userController.getUserDetails(userId: userId!).then((value) {
       setState(() {
         userData = jsonDecode(value);
+
         isLoading = false;
       });
+      userData.containsKey('profilePicture')
+          ? setState(() {
+              hasProfilePicture = true;
+            })
+          : null;
     });
 
     print(session);
@@ -74,7 +83,7 @@ class _HomeState extends State<Home> {
                       },
                       child: isLoading
                           ? ShimmerCircle()
-                          : userData["profilePicture"].toString().isNotEmpty
+                          : userData["profilePicture"] != null
                               ? Padding(
                                   padding: const EdgeInsets.only(top: 8.0),
                                   child: ClipRRect(
@@ -104,16 +113,16 @@ class _HomeState extends State<Home> {
                         width: 200,
                       )
                     : Text(
-                        'Hi ${userData['firstName']}',
+                        'Hi ${userData['firstName']} !',
                         style: bigTextWhite,
                       ),
                 const SizedBox(height: 15),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
-                      'Are you feeling alright?\nNo....!!!',
-                      style: smallTextWhite,
+                    Text(
+                      'Are you feeling well?',
+                      style: smallTextBold.copyWith(color: Colors.white),
                     ),
                     GestureDetector(
                       onTap: () => Navigator.pushNamed(
@@ -236,7 +245,7 @@ class _HomeState extends State<Home> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     MenuTile(
-                      route: "",
+                      route: RouteNames.firstAid,
                       displayImage: 'assets/images/first_aid.png',
                       displayText: 'First Aid',
                       scale: 5,

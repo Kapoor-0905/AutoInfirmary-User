@@ -35,6 +35,8 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_contacts: ^1.1.7+1
+  flutter_gemini: ^2.0.3
+  flutter_markdown: ^0.6.23
   fluttertoast: ^8.2.4
   http: ^1.2.1
   image_picker: ^1.0.7
@@ -61,6 +63,7 @@ flutter:
   assets:
     - assets/images/
     - assets/icons/
+    - assets/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

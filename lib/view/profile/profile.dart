@@ -13,7 +13,6 @@ import 'package:quickcare_user/utils/shimmers.dart';
 import 'package:quickcare_user/utils/styles.dart';
 import 'package:quickcare_user/utils/widgets.dart';
 import 'package:quickcare_user/utils/widgets/iconBox.dart';
-import 'package:http/http.dart' as http;
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -185,7 +184,8 @@ class _ProfileState extends State<Profile> {
                           children: [
                             Text('Uploaded - ${uploadProgress}%'),
                             LinearProgressIndicator(
-                              value: uploadProgress,
+                              value: uploadProgress.clamp(
+                                  0.0, 1.0), // Clamp the value to [0.0, 1.0]
                             )
                           ],
                         )
@@ -219,9 +219,7 @@ class _ProfileState extends State<Profile> {
                                     onTap: () {
                                       pickImage();
                                     },
-                                    child: userData["profilePicture"]
-                                            .toString()
-                                            .isNotEmpty
+                                    child: userData["profilePicture"] != null
                                         ? ClipRRect(
                                             borderRadius:
                                                 BorderRadius.circular(100),
@@ -235,10 +233,6 @@ class _ProfileState extends State<Profile> {
                                         : Container(
                                             padding: const EdgeInsets.all(22),
                                             decoration: BoxDecoration(
-                                                image: DecorationImage(
-                                                  image: NetworkImage(userData[
-                                                      'profilePicture']),
-                                                ),
                                                 color: primaryColor
                                                     .withOpacity(0.2),
                                                 shape: BoxShape.circle),

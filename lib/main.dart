@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:quickcare_user/firebase_options.dart';
 import 'package:quickcare_user/routeNames.dart';
 import 'package:quickcare_user/routes.dart';
@@ -10,6 +11,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  Gemini.init(apiKey: "AIzaSyBjoRV7Yu5qe7G3QAfVvAV-L9E5vKr2Hao");
   runApp(const MyApp());
 }
 

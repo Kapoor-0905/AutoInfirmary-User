@@ -15,4 +15,5 @@ class RouteNames {
   static const String selectTime = '/selectTime';
   static const String profile = '/profile';
   static const String settings = '/settings';
+  static const String firstAid = "/firstAid";
 }

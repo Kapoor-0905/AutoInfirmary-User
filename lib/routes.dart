@@ -6,6 +6,7 @@ import 'package:quickcare_user/view/emergencyBooking/emergencyBooking.dart';
 import 'package:quickcare_user/view/emergencyContacts/emergencyContacts.dart';
 import 'package:quickcare_user/view/emergencyContacts/views/addContact.dart';
 import 'package:quickcare_user/view/emergencyContacts/views/contactPage.dart';
+import 'package:quickcare_user/view/firstAid/firstAid.dart';
 import 'package:quickcare_user/view/home/home.dart';
 import 'package:quickcare_user/view/login/login.dart';
 import 'package:quickcare_user/view/onboarding/onboardingOne.dart';
@@ -22,7 +23,9 @@ final Map<String, WidgetBuilder> routes = {
   RouteNames.onboardingone: (context) => const OnboardingOne(),
   RouteNames.onboardingtwo: (context) => const OnboardingTwo(),
   RouteNames.onboardingthree: (context) => const OnboardingThree(),
-  RouteNames.login: (context) => const Login(),
+  RouteNames.login: (context) => Login(
+        email: ModalRoute.of(context)!.settings.arguments as String,
+      ),
   RouteNames.register: (context) => const Register(),
   RouteNames.details: (context) => Details(
         args: ModalRoute.of(context)!.settings.arguments as Map<String, String>,
@@ -47,4 +50,7 @@ final Map<String, WidgetBuilder> routes = {
       ),
   RouteNames.profile: (context) => const Profile(),
   RouteNames.settings: (context) => const Settings(),
+  RouteNames.firstAid: (context) => const FirstAid(),
 };
+
+// AIzaSyBjoRV7Yu5qe7G3QAfVvAV-L9E5vKr2Hao
