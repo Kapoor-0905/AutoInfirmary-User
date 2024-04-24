@@ -124,7 +124,9 @@ class _EmergencyContactsState extends State<EmergencyContacts> {
       floatingActionButton: FloatingActionButton(
         shape: const CircleBorder(),
         onPressed: () {
-          Navigator.pushNamed(context, RouteNames.addContact);
+          Navigator.pushNamed(context, RouteNames.addContact).then((value) {
+            value == 'refresh' ? getContacts() : null;
+          });
         },
         backgroundColor: primaryColor,
         child: const Icon(

@@ -114,7 +114,7 @@ class _AddContactState extends State<AddContact> {
                                   color: Colors.white, fontSize: 28),
                             ),
                             GestureDetector(
-                              onTap: () => Navigator.pop(context),
+                              onTap: () => Navigator.pop(context, 'refresh'),
                               child: Row(
                                 children: [
                                   Text(
