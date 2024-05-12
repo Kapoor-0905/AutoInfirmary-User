@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quickcare_user/utils/colors.dart';
 import 'package:quickcare_user/utils/styles.dart';
 
 class IconBox extends StatelessWidget {
@@ -18,6 +19,7 @@ class IconBox extends StatelessWidget {
           child: Image.asset(
             icon,
             scale: 5,
+            color: primaryColor,
           ),
         ));
   }

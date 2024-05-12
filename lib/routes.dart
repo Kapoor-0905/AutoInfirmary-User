@@ -16,6 +16,7 @@ import 'package:quickcare_user/view/profile/profile.dart';
 import 'package:quickcare_user/view/register/register.dart';
 import 'package:quickcare_user/view/register/views/details.dart';
 import 'package:quickcare_user/view/settings/settings.dart';
+import 'package:quickcare_user/view/settings/views/manageEmergencyContacts.dart';
 import 'package:quickcare_user/view/splash/splashScreen.dart';
 
 final Map<String, WidgetBuilder> routes = {
@@ -51,6 +52,8 @@ final Map<String, WidgetBuilder> routes = {
   RouteNames.profile: (context) => const Profile(),
   RouteNames.settings: (context) => const Settings(),
   RouteNames.firstAid: (context) => const FirstAid(),
+  RouteNames.manageEmergencyContacts: (context) =>
+      const ManageEmergencyContacts(),
 };
 
 // AIzaSyBjoRV7Yu5qe7G3QAfVvAV-L9E5vKr2Hao

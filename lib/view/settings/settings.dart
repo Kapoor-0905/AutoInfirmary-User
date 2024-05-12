@@ -77,21 +77,27 @@ class _SettingsState extends State<Settings> {
                     child: Column(
                       children: [
                         SettingTile(
+                            route: "",
                             prefixImage: 'assets/icons/edit.png',
                             title: 'Edit Profile'),
                         SettingTile(
+                            route: RouteNames.manageEmergencyContacts,
                             prefixImage: 'assets/icons/call_outline.png',
                             title: 'Manage Emergency Contacts'),
                         SettingTile(
+                            route: "",
                             prefixImage: 'assets/icons/work.png',
                             title: 'Switch Organization'),
                         SettingTile(
+                            route: "",
                             prefixImage: 'assets/icons/bookmark.png',
                             title: 'View appointments'),
                         SettingTile(
+                            route: "",
                             prefixImage: 'assets/icons/appearance.png',
                             title: 'Appearance'),
                         SettingTile(
+                            route: "",
                             prefixImage: 'assets/icons/privacyPolicy.png',
                             title: 'Privacy Policy'),
                       ],
