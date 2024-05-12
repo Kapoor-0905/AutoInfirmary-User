@@ -6,6 +6,6 @@ export default (router: express.Router) => {
     router.get('/appointments/:userId', isAuthenticated, getUserAppointmentBookings)
     router.get('/appointments/', isAuthenticated, getAppointmentBookings)
     router.post('/appointments', isAuthenticated, createAppointmentBooking)
-    router.delete('/appointments/:id', isAuthenticated, isOwner, deleteAppointmentBooking)
-    router.patch('/appointments/:id', isAuthenticated, isOwner, updateAppointmentBooking)
+    router.delete('/appointments/:userID/:id', isAuthenticated, deleteAppointmentBooking)
+    router.patch('/appointments/:userID/:id', isAuthenticated, updateAppointmentBooking)
 }

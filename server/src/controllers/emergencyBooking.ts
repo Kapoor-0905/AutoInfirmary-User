@@ -120,14 +120,14 @@ export const getEmergencyAppointmentBookings = async (req: express.Request, res:
 
 export const updateEmergencyAppointmentBooking = async (req: express.Request, res: express.Response) => {
     try {
-        const { id } = req.params;
+        const { userID, id } = req.params;
         const { fullName, email, department, location, issueFacing, bookingDate, approxTimeOfArrival } = req.body;
 
         // For Postman testing
         // const userID = req.user as { id: string }
 
         // For application: Flutter
-        const userID = req.body.userId
+        // const userID = req.body.userId
 
 
         const updatedEmergencyAppointmentBooking = await prisma.emergencyBooking.update({
@@ -169,12 +169,12 @@ export const updateEmergencyAppointmentBooking = async (req: express.Request, re
 
 export const deleteEmergencyAppointmentBooking = async (req: express.Request, res: express.Response) => {
     try {
-        const { id } = req.params;
+        const { userID, id } = req.params;
         // For Postman testing
         // const userID = req.user as { id: string }
 
         // For application: Flutter
-        const userID = req.body.userId
+        // const userID = req.body.userId
 
         const deletedEmergencyAppointmentBooking = await prisma.emergencyBooking.delete({
             where: {

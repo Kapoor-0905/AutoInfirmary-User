@@ -6,6 +6,6 @@ export default (router: express.Router) => {
     router.get('/emergency/:userId', isAuthenticated, getUserEmergencyAppointmentBookings)
     router.get('/emergency/', isAuthenticated, getEmergencyAppointmentBookings)
     router.post('/emergency', isAuthenticated, createEmergencyBooking)
-    router.delete('/emergency/:id', isAuthenticated, isOwner, deleteEmergencyAppointmentBooking)
-    router.patch('/emergency/:id', isAuthenticated, isOwner, updateEmergencyAppointmentBooking)
+    router.delete('/emergency/:userID/:id', isAuthenticated, deleteEmergencyAppointmentBooking)
+    router.patch('/emergency/:userID/:id', isAuthenticated, updateEmergencyAppointmentBooking)
 }
