@@ -65,10 +65,10 @@ export const createEmergencyContact = async (req: express.Request, res: express.
         }
 
         // For Postman testing
-        // const userID = req.user as { id: string }
+        const userID = req.user as { id: string }
 
         // For application: Flutter
-        const userID = req.body.userId
+        // const userID = req.body.userId
 
         const newEmergencyContact = await prisma.emergencyContact.create({
             data: {
@@ -77,10 +77,10 @@ export const createEmergencyContact = async (req: express.Request, res: express.
                 email: email,
                 relationship: relationship,
                 // For Postman testing
-                // userId: userID.id
+                userId: userID.id
 
                 // For flutter application
-                userId: userID
+                // userId: userID
             }
         });
 
@@ -103,13 +103,13 @@ export const createEmergencyContact = async (req: express.Request, res: express.
 
 export const updateEmergencyContact = async (req: express.Request, res: express.Response) => {
     try {
-        const { id } = req.params;
+        const { userID, id } = req.params;
         const { name, phoneNum, email, relationship } = req.body;
         // For Postman testing
         // const userID = req.user as { id: string }
 
         // For application: Flutter
-        const userID = req.body.userId
+        // const userID = req.body.userId
         const updatedEmergencyContact = await prisma.emergencyContact.update({
             where: {
                 id_userId: {
@@ -147,12 +147,12 @@ export const updateEmergencyContact = async (req: express.Request, res: express.
 
 export const deleteEmergencyContact = async (req: express.Request, res: express.Response) => {
     try {
-        const { id } = req.params;
+        const { userID, id } = req.params;
         // For Postman testing
         // const userID = req.user as { id: string }
 
         // For application: Flutter
-        const userID = req.body.userId
+        // const userID = req.body.userId
 
         const deletedEmergencyContact = await prisma.emergencyContact.delete({
             where: {
