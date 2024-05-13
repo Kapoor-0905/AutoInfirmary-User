@@ -36,7 +36,7 @@ class _EmergencyContactsState extends State<EmergencyContacts> {
   @override
   void initState() {
     super.initState();
-    getContacts();
+    mounted ? getContacts() : null;
   }
 
   @override

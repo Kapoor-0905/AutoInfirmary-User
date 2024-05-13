@@ -46,12 +46,11 @@ class EmergencyContactController {
       String? token = await SF.getJwtToken();
       String? id = await SF.getUserId();
       http.Response response = await http.delete(
-        Uri.parse('$uri/contacts/$contactId'),
+        Uri.parse('$uri/contacts/$id/$contactId'),
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
           'Authorization': 'Bearer $token',
         },
-        body: {'userId': id},
       );
       return response.body;
     } catch (e) {
