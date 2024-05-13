@@ -2,11 +2,11 @@ import express from 'express';
 import prisma from '../utils/db';
 import logger from '../utils/logger';
 
-export const createAppointmentBooking = async (req : express.Request, res: express.Response) => {
+export const createAppointmentBooking = async (req: express.Request, res: express.Response) => {
     try {
         const { fullName, email, department, location, issueFacing, bookingDate } = req.body;
 
-        if (!fullName|| !email ||!department || !location || !issueFacing || !bookingDate) {
+        if (!fullName || !email || !department || !location || !issueFacing || !bookingDate) {
             logger.info('Missing required fields');
             res.status(400).json({
                 message: "Please provide all the required fields"
@@ -31,7 +31,7 @@ export const createAppointmentBooking = async (req : express.Request, res: expre
 
         // For application: Flutter
         const userID = req.body.userId
-        
+
         const newAppointmentBooking = await prisma.appointmentBooking.create({
             data: {
                 fullName: fullName,
@@ -119,14 +119,14 @@ export const getAppointmentBookings = async (req: express.Request, res: express.
 
 export const updateAppointmentBooking = async (req: express.Request, res: express.Response) => {
     try {
-        const { id } = req.params;
+        const { userID, id } = req.params;
         const { fullName, email, department, location, issueFacing, bookingDate } = req.body;
 
         // For Postman testing
         // const userID = req.user as { id: string }
 
         // For application: Flutter
-        const userID = req.body.userId
+        // const userID = req.body.userId
 
 
         const updatedAppointmentBooking = await prisma.appointmentBooking.update({
@@ -167,12 +167,12 @@ export const updateAppointmentBooking = async (req: express.Request, res: expres
 
 export const deleteAppointmentBooking = async (req: express.Request, res: express.Response) => {
     try {
-        const { id } = req.params;
+        const { userID, id } = req.params;
         // For Postman testing
         // const userID = req.user as { id: string }
 
         // For application: Flutter
-        const userID = req.body.userId
+        // const userID = req.body.userId
 
         const deletedAppointmentBooking = await prisma.appointmentBooking.delete({
             where: {
