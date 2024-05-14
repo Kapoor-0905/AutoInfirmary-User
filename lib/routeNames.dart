@@ -12,9 +12,11 @@ class RouteNames {
   static const String emergencyContacts = '/emergencyContacts';
   static const String addContact = '/addContact';
   static const String contactPage = '/contactPage';
+  static const String editContact = '/editContact';
   static const String selectTime = '/selectTime';
   static const String profile = '/profile';
   static const String settings = '/settings';
   static const String firstAid = "/firstAid";
   static const String manageEmergencyContacts = "/manageEmergencyContacts";
+  static const String privacyPolicy = "/privacyPolicy";
 }

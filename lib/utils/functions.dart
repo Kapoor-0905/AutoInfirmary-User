@@ -17,6 +17,19 @@ Future<void> makePhoneCall(String phoneNumber) async {
   }
 }
 
+launchMailto(String mail) async {
+  final Uri _emailLaunchUri = Uri(
+    scheme: 'mailto',
+    path: mail,
+  );
+
+  if (await canLaunchUrl(_emailLaunchUri)) {
+    await launchUrl(_emailLaunchUri);
+  } else {
+    throw 'Could not launch $_emailLaunchUri';
+  }
+}
+
 DateTime convertStringToDateTime(String timeString) {
   List<String> parts = timeString.split(':');
   int hour = int.parse(parts[0]);

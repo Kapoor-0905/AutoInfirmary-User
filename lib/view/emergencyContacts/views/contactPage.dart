@@ -1,5 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:quickcare_user/routeNames.dart';
 import 'package:quickcare_user/utils/colors.dart';
+import 'package:quickcare_user/utils/functions.dart';
 import 'package:quickcare_user/utils/styles.dart';
 
 class ContactPage extends StatefulWidget {
@@ -75,25 +79,30 @@ class _ContactPageState extends State<ContactPage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Container(
-                        padding: const EdgeInsets.all(15),
-                        decoration: BoxDecoration(
-                            color: primaryColor,
-                            borderRadius: BorderRadius.circular(15)),
-                        child: Row(
-                          children: [
-                            SizedBox(
-                                width: 30,
-                                child: Image.asset(
-                                  'assets/icons/call_outline.png',
-                                  color: Colors.white,
-                                )),
-                            const SizedBox(width: 20),
-                            const Text(
-                              'Call',
-                              style: normalTextWhite,
-                            )
-                          ],
+                      GestureDetector(
+                        onTap: () {
+                          makePhoneCall(widget.args['phoneNum']);
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(15),
+                          decoration: BoxDecoration(
+                              color: primaryColor,
+                              borderRadius: BorderRadius.circular(15)),
+                          child: Row(
+                            children: [
+                              SizedBox(
+                                  width: 30,
+                                  child: Image.asset(
+                                    'assets/icons/call_outline.png',
+                                    color: Colors.white,
+                                  )),
+                              const SizedBox(width: 20),
+                              const Text(
+                                'Call',
+                                style: normalTextWhite,
+                              )
+                            ],
+                          ),
                         ),
                       ),
                       Container(
@@ -118,26 +127,32 @@ class _ContactPageState extends State<ContactPage> {
                           ],
                         ),
                       ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 17, horizontal: 15),
-                        decoration: BoxDecoration(
-                            color: primaryColor,
-                            borderRadius: BorderRadius.circular(15)),
-                        child: Row(
-                          children: [
-                            SizedBox(
-                                width: 27,
-                                child: Image.asset(
-                                  'assets/icons/edit.png',
-                                  color: Colors.white,
-                                )),
-                            const SizedBox(width: 20),
-                            const Text(
-                              'Edit',
-                              style: normalTextWhite,
-                            )
-                          ],
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(context, RouteNames.editContact,
+                              arguments: widget.args);
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 17, horizontal: 15),
+                          decoration: BoxDecoration(
+                              color: primaryColor,
+                              borderRadius: BorderRadius.circular(15)),
+                          child: Row(
+                            children: [
+                              SizedBox(
+                                  width: 27,
+                                  child: Image.asset(
+                                    'assets/icons/edit.png',
+                                    color: Colors.white,
+                                  )),
+                              const SizedBox(width: 20),
+                              const Text(
+                                'Edit',
+                                style: normalTextWhite,
+                              )
+                            ],
+                          ),
                         ),
                       )
                     ],

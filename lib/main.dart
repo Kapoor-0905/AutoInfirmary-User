@@ -33,11 +33,13 @@ class MyApp extends StatelessWidget {
       // themeMode: ThemeMode.dark,
       title: 'QuickCare',
       theme: ThemeData(
+        
         primaryColor: primaryColor,
         appBarTheme: const AppBarTheme(
           iconTheme: IconThemeData(color: primaryColor),
           backgroundColor: backgroundColor,
         ),
+        
         useMaterial3: true,
         scaffoldBackgroundColor: backgroundColor,
         fontFamily: 'Nunito',

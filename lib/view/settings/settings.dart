@@ -97,7 +97,7 @@ class _SettingsState extends State<Settings> {
                             prefixImage: 'assets/icons/appearance.png',
                             title: 'Appearance'),
                         SettingTile(
-                            route: "",
+                            route: RouteNames.privacyPolicy,
                             prefixImage: 'assets/icons/privacyPolicy.png',
                             title: 'Privacy Policy'),
                       ],

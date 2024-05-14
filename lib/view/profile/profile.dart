@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -223,8 +224,9 @@ class _ProfileState extends State<Profile> {
                                         ? ClipRRect(
                                             borderRadius:
                                                 BorderRadius.circular(100),
-                                            child: Image.network(
-                                              userData['profilePicture'],
+                                            child: CachedNetworkImage(
+                                              imageUrl:
+                                                  userData['profilePicture'],
                                               width: 80,
                                               height: 80,
                                               fit: BoxFit.cover,

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:quickcare_user/controllers/sharedPreferenceController.dart';
 import 'package:quickcare_user/controllers/userController.dart';
@@ -88,8 +89,8 @@ class _HomeState extends State<Home> {
                                   padding: const EdgeInsets.only(top: 8.0),
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(100),
-                                    child: Image.network(
-                                      userData['profilePicture'],
+                                    child: CachedNetworkImage(
+                                      imageUrl: userData['profilePicture'],
                                       width: 60,
                                       height: 60,
                                       fit: BoxFit.cover,

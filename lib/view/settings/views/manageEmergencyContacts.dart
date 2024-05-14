@@ -1,7 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:quickcare_user/controllers/emergencyContactController.dart';
+import 'package:quickcare_user/utils/colors.dart';
 import 'package:quickcare_user/utils/shimmers.dart';
 import 'package:quickcare_user/utils/styles.dart';
 import 'package:quickcare_user/view/settings/components/manageContactTile.dart';
@@ -102,24 +104,39 @@ class _ManageEmergencyContactsState extends State<ManageEmergencyContacts> {
                     padding: const EdgeInsets.symmetric(horizontal: 20.0),
                     child: isLoading
                         ? ShimmerList()
-                        : Column(
-                            children: List.generate(
-                              contacts.length,
-                              (index) {
-                                return GestureDetector(
-                                  onTap: () {
-                                    // Navigator.pushNamed(
-                                    //     context, RouteNames.contactPage,
-                                    //     arguments: contacts[index]);
+                        : contacts.isEmpty
+                            ? Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Lottie.network(
+                                      height: size.height * 0.3,
+                                      width: size.width,
+                                      'https://lottie.host/9c53cf74-bbde-41c4-8186-5f65f586911e/dwd5s6pVNx.json'),
+                                  Text(
+                                    'No contacts found',
+                                    style: buttonText.copyWith(
+                                        color: primaryColor),
+                                  )
+                                ],
+                              )
+                            : Column(
+                                children: List.generate(
+                                  contacts.length,
+                                  (index) {
+                                    return GestureDetector(
+                                      onTap: () {
+                                        // Navigator.pushNamed(
+                                        //     context, RouteNames.contactPage,
+                                        //     arguments: contacts[index]);
+                                      },
+                                      child: ManageContactTile(
+                                        id: contacts[index]['id'],
+                                        args: contacts[index],
+                                      ),
+                                    );
                                   },
-                                  child: ManageContactTile(
-                                      id: contacts[index]['id'],
-                                      name: contacts[index]['name'],
-                                      phoneNumber: contacts[index]['phoneNum']),
-                                );
-                              },
-                            ),
-                          ),
+                                ),
+                              ),
                   )
                 ],
               ),

@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:quickcare_user/controllers/emergencyContactController.dart';
+import 'package:quickcare_user/routeNames.dart';
 import 'package:quickcare_user/utils/colors.dart';
 import 'package:quickcare_user/utils/styles.dart';
 import 'package:quickcare_user/utils/widgets.dart';
 import 'package:quickcare_user/utils/widgets/iconBox.dart';
 
 class ManageContactTile extends StatefulWidget {
-  final String name;
-  final String phoneNumber;
+  final Map<String, dynamic> args;
   final String id;
   const ManageContactTile({
     super.key,
-    required this.name,
-    required this.phoneNumber,
+    required this.args,
     required this.id,
   });
 
@@ -96,11 +95,11 @@ class _ManageContactTileState extends State<ManageContactTile> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        widget.name,
+                        widget.args['name'],
                         style: smallTextBold,
                         textScaler: TextScaler.noScaling,
                       ),
-                      Text(widget.phoneNumber,
+                      Text(widget.args['phoneNum'],
                           style: smallText, textScaler: TextScaler.noScaling)
                     ],
                   )
@@ -112,14 +111,16 @@ class _ManageContactTileState extends State<ManageContactTile> {
           GestureDetector(
             onTap: () {
               // makePhoneCall(phoneNumber);
+              Navigator.pushNamed(context, RouteNames.editContact,
+                  arguments: widget.args);
             },
             child: const IconBox(icon: 'assets/icons/edit.png'),
           ),
           SizedBox(width: 10),
           GestureDetector(
             onTap: () {
-              // deletePopUp();
-              deleteContact();
+              deletePopUp();
+              // deleteContact();
             },
             child: const IconBox(icon: 'assets/icons/delete.png'),
           )
