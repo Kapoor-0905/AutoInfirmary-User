@@ -108,7 +108,8 @@ class _SettingsState extends State<Settings> {
               GestureDetector(
                 onTap: () {
                   authController.logout(action: () {
-                    Navigator.pushReplacementNamed(context, RouteNames.login);
+                    Navigator.pushReplacementNamed(context, RouteNames.login,
+                        arguments: "");
                   });
                 },
                 child: Container(

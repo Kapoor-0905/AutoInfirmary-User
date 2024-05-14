@@ -14,7 +14,7 @@ class OnboardingThree extends StatelessWidget {
       appBar: AppBar(
         actions: [
           GestureDetector(
-            onTap: () => Navigator.pushNamed(context, RouteNames.login),
+            onTap: () => Navigator.pushNamed(context, RouteNames.login, arguments: ""),
             child: Text(
               'SKIP   ',
               style: normalText.copyWith(color: Colors.grey),
