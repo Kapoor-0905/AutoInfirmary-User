@@ -83,7 +83,7 @@ class _HomeState extends State<Home> {
                         Navigator.pushNamed(context, RouteNames.profile);
                       },
                       child: isLoading
-                          ? ShimmerCircle()
+                          ? const ShimmerCircle()
                           : userData["profilePicture"] != null
                               ? Padding(
                                   padding: const EdgeInsets.only(top: 8.0),

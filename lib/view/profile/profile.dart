@@ -183,14 +183,14 @@ class _ProfileState extends State<Profile> {
                   isUploading
                       ? Column(
                           children: [
-                            Text('Uploaded - ${uploadProgress}%'),
+                            Text('Uploaded - $uploadProgress%'),
                             LinearProgressIndicator(
                               value: uploadProgress.clamp(
                                   0.0, 1.0), // Clamp the value to [0.0, 1.0]
                             )
                           ],
                         )
-                      : SizedBox(),
+                      : const SizedBox(),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20.0),
                     child: Column(

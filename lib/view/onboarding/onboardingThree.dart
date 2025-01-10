@@ -27,7 +27,7 @@ class OnboardingThree extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(
+            const Text(
               'Emergency and First aid',
               style: heading,
             ),
@@ -37,8 +37,8 @@ class OnboardingThree extends StatelessWidget {
                   'assets/images/emergencyandfirstaid.png',
                 )),
             const SizedBox(height: 40),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20.0),
               child: Text.rich(
                 textAlign: TextAlign.center,
                 TextSpan(
@@ -67,7 +67,7 @@ class OnboardingThree extends StatelessWidget {
                   backgroundColor: primaryColor.withOpacity(0.6),
                 ),
                 const SizedBox(width: 2),
-                CircleAvatar(
+                const CircleAvatar(
                   radius: 8,
                   backgroundColor: primaryColor,
                 ),
@@ -79,7 +79,7 @@ class OnboardingThree extends StatelessWidget {
       bottomSheet: BigButton(
           text: 'Finish',
           onPressed: () {
-            Navigator.pushReplacementNamed(context, RouteNames.login);
+            Navigator.pushReplacementNamed(context, RouteNames.login, arguments: "");
           }),
     );
   }

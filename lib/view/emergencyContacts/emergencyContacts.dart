@@ -45,7 +45,7 @@ class _EmergencyContactsState extends State<EmergencyContacts> {
     final Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size(double.infinity, size.height * 0.1),
+        preferredSize: Size(double.infinity, size.height * 0.12),
         child: Container(
           padding: EdgeInsets.fromLTRB(20, size.height * 0.06, 20, 20),
           decoration: topBarDecoration,

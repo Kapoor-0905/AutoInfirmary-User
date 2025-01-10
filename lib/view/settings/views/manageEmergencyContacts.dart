@@ -103,7 +103,7 @@ class _ManageEmergencyContactsState extends State<ManageEmergencyContacts> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20.0),
                     child: isLoading
-                        ? ShimmerList()
+                        ? const ShimmerList()
                         : contacts.isEmpty
                             ? Column(
                                 mainAxisAlignment: MainAxisAlignment.center,

@@ -1,12 +1,13 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:quickcare_user/controllers/sharedPreferenceController.dart';
 import 'package:quickcare_user/models/user.dart';
-import 'package:http/http.dart' as http;
+import 'package:quickcare_user/utils/constants.dart';
 
 class AuthController {
-  static String uri = 'https://bored-lime-codfish.cyclic.app';
+  static String uri = ServerEndpoints.currentServer;
 
   Future createUser({
     required User user,

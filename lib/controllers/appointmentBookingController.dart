@@ -1,10 +1,11 @@
 import 'package:http/http.dart' as http;
 import 'package:quickcare_user/controllers/sharedPreferenceController.dart';
 import 'package:quickcare_user/models/appointmentBooking.dart';
+import 'package:quickcare_user/utils/constants.dart';
 import 'package:quickcare_user/utils/widgets.dart';
 
 class AppointmentBookingController {
-  static String uri = "https://bored-lime-codfish.cyclic.app";
+  static String uri = ServerEndpoints.currentServer;
   Future bookAppointment(
       {required AppointmentBooking appointmentBooking}) async {
     try {

@@ -3,7 +3,6 @@ import 'package:quickcare_user/controllers/emergencyContactController.dart';
 import 'package:quickcare_user/routeNames.dart';
 import 'package:quickcare_user/utils/colors.dart';
 import 'package:quickcare_user/utils/styles.dart';
-import 'package:quickcare_user/utils/widgets.dart';
 import 'package:quickcare_user/utils/widgets/iconBox.dart';
 
 class ManageContactTile extends StatefulWidget {
@@ -116,7 +115,7 @@ class _ManageContactTileState extends State<ManageContactTile> {
             },
             child: const IconBox(icon: 'assets/icons/edit.png'),
           ),
-          SizedBox(width: 10),
+          const SizedBox(width: 10),
           GestureDetector(
             onTap: () {
               deletePopUp();

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:quickcare_user/controllers/authController.dart';
 import 'package:quickcare_user/routeNames.dart';
 import 'package:quickcare_user/utils/colors.dart';
@@ -72,8 +71,8 @@ class _SettingsState extends State<Settings> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20),
                     child: Column(
                       children: [
                         SettingTile(
@@ -136,7 +135,7 @@ class _SettingsState extends State<Settings> {
                               const SizedBox(width: 15),
                               Text('Logout',
                                   style: smallTextBold.copyWith(
-                                      color: Color(0xFF6F1818))),
+                                      color: const Color(0xFF6F1818))),
                             ],
                           ),
                         ),

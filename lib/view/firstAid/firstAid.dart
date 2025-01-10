@@ -1,8 +1,6 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:quickcare_user/utils/colors.dart';
@@ -22,6 +20,9 @@ class _FirstAidState extends State<FirstAid> {
   final Gemini gemini = Gemini.instance;
   bool isGenerating = false;
 
+  askAiHTtp()async{
+    
+  }
   askAi() async {
     gemini.textAndImage(
       text: textController.text,
@@ -48,14 +49,12 @@ class _FirstAidState extends State<FirstAid> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     textController = TextEditingController();
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     textController.dispose();
     super.dispose();
   }
@@ -126,7 +125,7 @@ class _FirstAidState extends State<FirstAid> {
                       )
                     : Column(
                         children: [
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                           InkWell(
                               onTap: () {
                                 setState(() {
@@ -134,7 +133,7 @@ class _FirstAidState extends State<FirstAid> {
                                   textController.clear();
                                 });
                               },
-                              child: Row(
+                              child: const Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
                                   Text(
@@ -152,7 +151,7 @@ class _FirstAidState extends State<FirstAid> {
                                 ],
                               )),
                           Padding(
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                                 horizontal: 20, vertical: 10),
                             child: MarkdownBody(data: aioutput!),
                           ),
@@ -169,7 +168,7 @@ class _FirstAidState extends State<FirstAid> {
       bottomSheet: Container(
         color: Colors.white,
         child: Container(
-          margin: EdgeInsets.fromLTRB(20, 0, 20, 30),
+          margin: const EdgeInsets.fromLTRB(20, 0, 20, 30),
           color: Colors.white,
           child: Row(
             children: [

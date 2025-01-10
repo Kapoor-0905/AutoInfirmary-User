@@ -130,7 +130,7 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
                 );
               },
               mini: true,
-              child: Icon(
+              child: const Icon(
                 Icons.keyboard_arrow_up,
                 color: Colors.white,
               ),

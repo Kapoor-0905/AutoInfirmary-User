@@ -179,7 +179,7 @@ class _RegisterState extends State<Register> {
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () {
                                   Navigator.pushNamed(
-                                      context, RouteNames.login);
+                                      context, RouteNames.login, arguments: "");
                                 },
                               text: 'Login',
                               style: smallText.copyWith(
